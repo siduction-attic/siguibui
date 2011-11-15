@@ -6,12 +6,12 @@ SLEEP=1
 export VERBOSE=
 export TRACE_ON=
 export TRACE_OFF=
-TASK_DIR=/var/lib/sidu-installer/shellserver-tasks
-ETC_CONFIG=/etc/sidu-installer/shellserver.conf
+TASK_DIR=/var/lib/siguibui/shellserver-tasks
+ETC_CONFIG=/etc/siguibui/shellserver.conf
 
 # Customization
 test -e $ETC_CONFIG && source $ETC_CONFIG
-test -e $HOME/.shellserverrc && source $HOME/.shellserverrc
+test -e $HOME/.sidu-shellserverrc && source $HOME/.sidu-shellserverrc
 export DAEMON=
 
 while [ -n "$1" ] ; do 

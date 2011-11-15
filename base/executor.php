@@ -18,7 +18,7 @@
  *
  */
 class Executor{
-	/// the directory containing the task files, e.g. /tmp/inosid-tasks/
+	/// the directory containing the task files, e.g. /tmp/sidu-shellserver-tasks/
 	var $dirTask;
 	/// session info
 	var $session;

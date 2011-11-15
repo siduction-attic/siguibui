@@ -1,0 +1,8 @@
+index.php	usr/share/siguibui/
+base		usr/share/siguibui/
+backend		usr/share/siguibui/
+data		var/cache/siguibui/
+etc/init.d			etc
+etc/siguibui	etc
+etc/sudoers.d		etc
+usr/bin		usr

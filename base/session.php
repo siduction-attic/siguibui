@@ -138,7 +138,7 @@ class Session{
 		$_SERVER['PATH_INFO'] = "";
 		if (! empty($page))
 			$_SERVER['PATH_INFO'] = "";
-		$_SERVER['PHP_SELF'] = "/inosid/index.php";
+		$_SERVER['PHP_SELF'] = "/index.php";
 		$_SERVER['HTTP_HOST'] = 'sidu-installer';
 		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en-US,de-DE,de;q=0.9,en;q=0.8';
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
