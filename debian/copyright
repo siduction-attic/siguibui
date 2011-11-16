@@ -1,9 +1,9 @@
 Format: http://dep.debian.net/deps/dep5
 Upstream-Name: sibuigui
-Source: http://git.siduction.org
+Source: http://git.siduction.org/
 
 Files: *
-Copyright: 2011 Hama Toma <hm@domain.tld>
+Copyright: 2011 Hama Toma <siduction@f-r-e-i.de>
 License: GPL-3.0+
 
 Files: debian/*
@@ -27,5 +27,3 @@ License: GPL-3.0+
  On Debian systems, the complete text of the GNU General
  Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".
 
-# Please also look if there are files or directories which have a
-# different copyright/license attached and list them here.

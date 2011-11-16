@@ -1,3 +1,6 @@
-.buildpath
-.project
-.settings
+debian/files
+debian/sibuigui/                
+debian/sibuigui.postinst.debhelper
+debian/sibuigui.prerm.debhelper
+debian/sibuigui.postinst.debhelper
+debian/sibuigui.prerm.debhelper
