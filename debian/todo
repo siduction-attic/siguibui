@@ -1,0 +1,7 @@
+W: sibuigui: init.d-script-missing-start etc/init.d/sibuigui 2
+E: sibuigui: init.d-script-missing-dependency-on-remote_fs etc/init.d/sibuigui: required-start
+E: sibuigui: init.d-script-missing-dependency-on-remote_fs etc/init.d/sibuigui: required-stop
+E: sibuigui: init.d-script-does-not-implement-required-option etc/init.d/sibuigui force-reload
+W: sibuigui: binary-without-manpage usr/bin/sidu-shellserver-control
+W: sibuigui: executable-not-elf-or-script usr/share/siguibui/index.php
+
