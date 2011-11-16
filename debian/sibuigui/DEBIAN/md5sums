@@ -1,0 +1,12 @@
+105114c149bcd17470aeae474e8727d3  usr/bin/sidu-shellserver-control
+5f16f7fe6fdcbf77b463a87286e3e940  usr/share/doc/sibuigui/changelog.Debian.gz
+7ac9adc048397308f9111ccd3b7260d2  usr/share/doc/sibuigui/copyright
+06c79ca16bdceb2e4c73a9d9f11d2ee9  usr/share/siguibui/backend/reboot.sh
+10ce837095d364f5dce323b776ce8394  usr/share/siguibui/backend/shellserver.sh
+424e4c5a1636196cde21ec300b0c7cf9  usr/share/siguibui/backend/startgui.sh
+10b84a2001d681035c6409947203a0b3  usr/share/siguibui/base/configuration.php
+21facf69b9037fb2a11647e2c148224b  usr/share/siguibui/base/executor.php
+e0ad46644636a2faab4372ceaff2f4c1  usr/share/siguibui/base/page.php
+a75b53c0421b98dc52f05b9f65a6348c  usr/share/siguibui/base/session.php
+dbfb1bc5228369f93109ba770e32a0c2  usr/share/siguibui/base/userdata.php
+b5559faca090917e00e64eeca713e3e3  usr/share/siguibui/index.php

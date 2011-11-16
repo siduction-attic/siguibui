@@ -1,0 +1,14 @@
+Package: sibuigui
+Version: 0.1-1.1
+Architecture: all
+Maintainer: Hama Toma <siduction@hm.f-r-e-i.de>
+Installed-Size: 123
+Section: admin
+Priority: optional
+Homepage: http://siduction.org
+Description: SIduction Graphical User Interface BUIilder
+ The package contains two parts: a toolkit and a shellserver.
+ The toolkit is a set of php modules for building applications with a
+ browser based user interface.
+ The shellserver is a bash based daemon for doing things in the background.
+ The shellserver is runnable. It can extended by modules.

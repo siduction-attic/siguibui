@@ -2,8 +2,12 @@ sibuigui (0.1-1.1) unstable; urgency=low
 
   * Non-maintainer upload.
   * fix default error in changelog
+  * rename sibuigui.install -> install
+  * modify install, delete empty dir
+  * create debian/dirs: var/cache/sibuigui
+  *  
 
- -- Alf Gaida <info@g-com.eu>  Wed, 16 Nov 2011 22:26:16 +0100
+ -- Alf Gaida <info@g-com.eu>  Wed, 16 Nov 2011 22:49:43 +0100
 
 sibuigui (0.1-1) unstable; urgency=low
 
