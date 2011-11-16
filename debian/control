@@ -1,12 +1,12 @@
 Source: sibuigui
 Section: admin
 Priority: optional
-Maintainer: Hamatoma <siduction@hm.f-r-e-i.de>
+Maintainer: Hama Toma <siduction@hm.f-r-e-i.de>
 Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.2
 Homepage: http://siduction.org
-Vcs-Git: git3@git.siduction.org:packages/siduction-repository/siguibui
-Vcs-Browser: http://git.siduction.org/?p=packages/siduction-repository/siguibui.git;a=summary
+Vcs-git: git://git.siduction.org:packages/siduction-repository/siguibui
+Vcs-Browser: http://git.siduction.org/?p=packages/siduction-repository/siguibui.git
 
 Package: sibuigui
 Architecture: all

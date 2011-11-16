@@ -1,5 +1,12 @@
+sibuigui (0.1-1.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * fix default error in changelog
+
+ -- Alf Gaida <info@g-com.eu>  Wed, 16 Nov 2011 22:26:16 +0100
+
 sibuigui (0.1-1) unstable; urgency=low
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release 
 
  -- Hamatoma <siduction@hm.f-r-e-i.de>  Tue, 15 Nov 2011 22:28:18 +0100

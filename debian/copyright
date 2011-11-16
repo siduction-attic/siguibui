@@ -3,8 +3,7 @@ Upstream-Name: sibuigui
 Source: http://git.siduction.org
 
 Files: *
-Copyright: 2011 
-#           <years> <likewise for another author>
+Copyright: 2011 Hama Toma <hm@domain.tld>
 License: GPL-3.0+
 
 Files: debian/*
