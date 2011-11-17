@@ -7,4 +7,7 @@ debian/siguibui.debhelper.log
 debian/siguibui.postrm.debhelper
 debian/siguibui.substvars
 debian/siguibui/
+.project
+.buildpath
+.settings
 
