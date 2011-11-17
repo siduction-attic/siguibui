@@ -5,3 +5,4 @@ E: siguibui: init.d-script-does-not-implement-required-option etc/init.d/siguibu
 W: siguibui: binary-without-manpage usr/bin/sidu-shellserver-control
 W: siguibui: executable-not-elf-or-script usr/share/siguibui/index.php
 
+Ich hab dir noch eine manpage.1.ex und init.d.ex als Beispiel mit zugepackt
