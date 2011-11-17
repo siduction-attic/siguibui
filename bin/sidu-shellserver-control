@@ -1,2 +1,3 @@
 #! /bin/sh
-sudo /etc/init.d/sidu-shellserver $*
+export INTERACTIVE=True
+sudo /etc/init.d/siguibui $*

@@ -1,14 +1,14 @@
-Source: sibuigui
+Source: siguibui
 Section: admin
 Priority: optional
-Maintainer: Hama Toma <siduction@hm.f-r-e-i.de>
+Maintainer: J. Hamatoma <siduction@hm.f-r-e-i.de>
 Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.2
 Homepage: http://siduction.org
 Vcs-git: git://git.siduction.org:packages/siduction-repository/siguibui
 Vcs-Browser: http://git.siduction.org/?p=packages/siduction-repository/siguibui.git
 
-Package: sibuigui
+Package: siguibui
 Architecture: all
 Depends: ${misc:Depends}
 Description: SIduction Graphical User Interface BUIilder
@@ -16,4 +16,4 @@ Description: SIduction Graphical User Interface BUIilder
  The toolkit is a set of php modules for building applications with a
  browser based user interface.
  The shellserver is a bash based daemon for doing things in the background.
- The shellserver is runnable. It can extended by modules.
+ The shellserver is runnable. It can be extended by modules.

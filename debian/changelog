@@ -1,10 +1,18 @@
-sibuigui (0.1+nmu1) unstable; urgency=low
+siguibui (0.2) unstable; urgency=low
+
+  * Replaced sibuigui -> siguibui
+  * shellserver: AUTOSTART controls start at boot time
+  * Fix: init.d/siguibui: localfs -> $localfs
+
+ -- J. Hamatoma <siduction@hm.f-r-e-i.de>  Thu, 17 Nov 2011 21:26:46 +0100
+
+siguibui (0.1+nmu1) unstable; urgency=low
 
   * Non-maintainer upload.
   * fix default error in changelog
-  * rename sibuigui.install -> install
+  * rename siguibui.install -> install
   * modify install, delete empty dir
-  * create debian/dirs: var/cache/sibuigui
+  * create debian/dirs: var/cache/siguibui
   * create debian/init
   * change numbering to non-dash number to prevent lintian
     warnings 
@@ -12,8 +20,8 @@ sibuigui (0.1+nmu1) unstable; urgency=low
 
  -- Alf Gaida <info@g-com.eu>  Wed, 16 Nov 2011 23:38:01 +0100
 
-sibuigui (0.1) unstable; urgency=low
+siguibui (0.1) unstable; urgency=low
 
   * Initial release 
 
- -- Hamatoma <siduction@hm.f-r-e-i.de>  Tue, 15 Nov 2011 22:28:18 +0100
+ -- J. Hamatoma <siduction@hm.f-r-e-i.de>  Tue, 15 Nov 2011 22:28:18 +0100

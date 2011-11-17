@@ -1,13 +1,13 @@
 Format: http://dep.debian.net/deps/dep5
-Upstream-Name: sibuigui
+Upstream-Name: siguibui
 Source: http://git.siduction.org/
 
 Files: *
-Copyright: 2011 Hama Toma <siduction@f-r-e-i.de>
+Copyright: 2011 J. Hamatoma <siduction@f-r-e-i.de>
 License: GPL-3.0+
 
 Files: debian/*
-Copyright: 2011 Hamatoma <siduction@hm.f-r-e-i.de>
+Copyright: 2011 J. Hamatoma <siduction@hm.f-r-e-i.de>
 License: GPL-3.0+
 
 License: GPL-3.0+

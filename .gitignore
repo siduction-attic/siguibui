@@ -1,10 +1,10 @@
 debian/files
-debian/sibuigui.postinst.debhelper
-debian/sibuigui.prerm.debhelper
-debian/sibuigui.postinst.debhelper
-debian/sibuigui.prerm.debhelper
-debian/sibuigui.debhelper.log
-debian/sibuigui.postrm.debhelper
-debian/sibuigui.substvars
-debian/sibuigui/
+debian/siguibui.postinst.debhelper
+debian/siguibui.prerm.debhelper
+debian/siguibui.postinst.debhelper
+debian/siguibui.prerm.debhelper
+debian/siguibui.debhelper.log
+debian/siguibui.postrm.debhelper
+debian/siguibui.substvars
+debian/siguibui/
 

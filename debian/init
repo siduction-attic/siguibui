@@ -2,16 +2,17 @@
 #
 ### BEGIN INIT INFO
 # Provides:       sidu-shellserver 
-# Required-Start: localfs
-# Required-Stop:  localfs
-# Default-Start:  3 4 5
+# Required-Start: $localfs
+# Required-Stop:  $localfs
+# Default-Start:  2 3 4 5
 # Default-Stop:   0 1 6
-# Description:    A server to start shell scripts for the sidu installer.
+# Description:    A server to start shell scripts in the background.
 ### END INIT INFO
 PATH=$PATH:/bin:/sbin:/usr/sbin
 
 VERBOSE=-v
 BIN=/usr/share/siguibui/backend/shellserver.sh
+CONFIG=/etc/siguibui/siguibui.conf
 
 start() {
   pid=$(getPid)
@@ -47,7 +48,8 @@ getPid() {
 
 case "$1" in
 start)
-    start $pid
+	RUN=$(grep "^AUTOSTART=[tT]" $CONFIG)
+	test -n "RUN$INTERACTIVE" && start $pid
     ;;
 stop)
     stop $pid
