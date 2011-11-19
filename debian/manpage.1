@@ -16,19 +16,16 @@
 .\" .sp <n>    insert n+1 empty lines
 .\" for manpage-specific macros, see man(7)
 .SH NAME
-siguibui \- program to do something
+sidu-shellserver-control \- starts and stops the shellserver daemon
 .SH SYNOPSIS
-.B siguibui
-.RI [ options ] " files" ...
+.B sidu-shellserver-control
+.RI [ options ]
 .br
 .B bar
-.RI [ options ] " files" ...
+.RI [ options ] 
 .SH DESCRIPTION
 This manual page documents briefly the
-.B siguibui
-and
-.B bar
-commands.
+.B sidu-shellserver-control
 .PP
 .\" TeX users may be more comfortable with the \fB<whatever>\fP and
 .\" \fI<whatever>\fP escape sequences to invode bold face and italics,
@@ -38,22 +35,23 @@ commands.
 These programs follow the usual GNU command line syntax, with long
 options starting with two dashes (`-').
 A summary of options is included below.
-For a complete description, see the Info files.
 .TP
-.B \-h, \-\-help
+.B \-\-help
 Show summary of options.
 .TP
-.B \-v, \-\-version
-Show version of program.
-.SH SEE ALSO
-.BR bar (1),
-.BR baz (1).
-.br
-The programs are documented fully by
-.IR "The Rise and Fall of a Fooish Bar" ,
-available via the Info system.
+.B \-\-start
+starts the shellserver
+.TP
+.B \-\-stop
+stops the shellserver
+.TP
+.B \-\-restart
+stops and starts the shellserver
+.TP
+.B \-\-status
+issues a message whether the shellserver is running or not
 .SH AUTHOR
 siguibui was written by <upstream author>.
 .PP
-This manual page was written by Alf Gaida <info@g-com.eu>,
+This manual page was written by J. Hamatoma <hamatoma@gmx.de>,
 for the Debian project (and may be used by others).

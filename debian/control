@@ -1,7 +1,7 @@
 Source: siguibui
 Section: admin
 Priority: optional
-Maintainer: J. Hamatoma <siduction@hm.f-r-e-i.de>
+Maintainer: J. Hamatoma <hamatoma@gmx.de>
 Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.2
 Homepage: http://siduction.org
@@ -10,7 +10,8 @@ Vcs-Browser: http://git.siduction.org/?p=packages/siduction-repository/siguibui.
 
 Package: siguibui
 Architecture: all
-Depends: ${misc:Depends}
+Depends: ${misc:Depends}, 
+	bash
 Description: SIduction Graphical User Interface BUIilder
  The package contains two parts: a toolkit and a shellserver.
  The toolkit is a set of php modules for building applications with a

@@ -1,10 +1,17 @@
+siguibui (0.3) unstable; urgency=low
+
+  * added: build/siguibui.conf build/siguibui_de.conf build.standard.html
+  * added: debian/manpage.1
+
+ -- J. Hamatoma <hamatoma@gmx.de>  Sat, 19 Nov 2011 09:27:53 +0100
+
 siguibui (0.2) unstable; urgency=low
 
   * Replaced sibuigui -> siguibui
   * shellserver: AUTOSTART controls start at boot time
   * Fix: init.d/siguibui: localfs -> $localfs
 
- -- J. Hamatoma <siduction@hm.f-r-e-i.de>  Thu, 17 Nov 2011 21:26:46 +0100
+ -- J. Hamatoma <hamatoma@gmx.de>  Thu, 17 Nov 2011 21:26:46 +0100
 
 siguibui (0.1+nmu1) unstable; urgency=low
 
@@ -24,4 +31,4 @@ siguibui (0.1) unstable; urgency=low
 
   * Initial release 
 
- -- J. Hamatoma <siduction@hm.f-r-e-i.de>  Tue, 15 Nov 2011 22:28:18 +0100
+ -- J. Hamatoma <hamatoma@gmx.de>  Tue, 15 Nov 2011 22:28:18 +0100
