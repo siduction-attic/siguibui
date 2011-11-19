@@ -11,7 +11,7 @@ Vcs-Browser: http://git.siduction.org/?p=packages/siduction-repository/siguibui.
 Package: siguibui
 Architecture: all
 Depends: ${misc:Depends}, 
-	bash
+	bash (>= 1.0)
 Description: SIduction Graphical User Interface BUIilder
  The package contains two parts: a toolkit and a shellserver.
  The toolkit is a set of php modules for building applications with a

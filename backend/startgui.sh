@@ -9,11 +9,13 @@ CONFIG=/etc/sidu-installer/shellserver.conf
 
 test -f $CONFIG && source $CONFIG
 test -n "$START_GUI_HOME" && export HOME=$START_GUI_HOME
+test -d $HOME || export HOME=$START_GUI_HOME2
+
 if [ -z "$CONSOLE" ] ; then
 	CONSOLE=konsole
 	CONSOLE_ARGS=-e
 fi
-test -n "$VERBOSE" && echo "startgui: user=$USER appl=$APPL opts=$OPTS console=$CONSOLE"
+test -n "$VERBOSE" && echo "startgui: user=$USER appl=$APPL opts=$OPTS console=$CONSOLE home=$HOME"
 
 if [ -z "$DISPLAY" ] ; then
 	export DISPLAY=:0
