@@ -42,7 +42,7 @@ if (! file_exists($pageDefinition)){
 	}
 	if (empty($button)){
 		$template = $page->getTemplateName();
-		$pageText = $session->readFileFromBase($template, true);
+		$pageText = $session->readFileFromConfig($template, true);
 		$session->trace(TRACE_RARE, 'nach readFileFromBase');
 		$pageText = replaceTextMarkers($session, $pageText, $pagename);
 		$session->trace(TRACE_RARE, 'nach replaceTextMarkers');

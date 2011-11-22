@@ -216,11 +216,21 @@ class Session{
 			}
 		}
 		$this->domain = $_SERVER['HTTP_HOST'];
+		$ix = strpos($this->domain, ':');
+		if ($ix > 0)
+			$this->domain = substr($this->domain, 0, $ix);
+		$baseAddress = 'http://' . $this->domain;
+		$port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : '';
+		if (! empty($port) && strcmp($port, 80) != 0)
+			$baseAddress .= ":$port";
+		$absScriptUrl = $baseAddress . $this->scriptUrl;
+		
 		$parts = $this->splitFile($this->scriptUrl);
-		$this->urlStatic = 'http://' . $this->domain . $parts['dir'];
-		$absScriptUrl = 'http://' . $this->domain . $this->scriptUrl;
+		$this->urlStatic = $baseAddress . $parts['dir'];
+		
 		$this->absScriptUrl = $absScriptUrl;
 		$this->urlForm = $absScriptUrl . '/' . $this->page;
+		
 		$this->clientAddress = $_SERVER['REMOTE_ADDR'];
 		$agent = $_SERVER['HTTP_USER_AGENT'];
 		$agent = preg_replace('/\D/', '', $agent);
@@ -409,6 +419,22 @@ class Session{
 		else{
 			// We look for a filename containing the language code:
 			$filename = $this->findFileByLanguage($name, 'base/');
+		}
+		return $this->readFile($filename);
+	}
+	/** Reads a file laying in the base directory.
+	 * 
+	 * @param $name 		the filename without a path
+	 * @param $useLanguage	true: the filename can contain the language code.
+	 * @return the content of the file
+	 */
+	function readFileFromConfig($name, $useLanguage){
+		$this->trace(TRACE_CONFIG, 'readFileFromBase: ' . $name);
+		if (! $useLanguage)
+			$filename = $this->homeDir . 'config/' . $name;
+		else{
+			// We look for a filename containing the language code:
+			$filename = $this->findFileByLanguage($name, 'config/');
 		}
 		return $this->readFile($filename);
 	}

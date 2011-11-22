@@ -6,7 +6,7 @@ SLEEP=1
 export VERBOSE=
 export TRACE_ON=
 export TRACE_OFF=
-TASK_DIR=/var/lib/siguibui/shellserver-tasks
+TASK_DIR=/var/cache/siguibui/shellserver-tasks
 ETC_CONFIG=/etc/siguibui/shellserver.conf
 
 # Customization

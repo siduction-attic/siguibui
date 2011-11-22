@@ -1,3 +1,9 @@
+siguibui (0.4) unstable; urgency=low
+
+  * Removes some lintian errors and warnings
+
+ -- J. Hamatoma <hamatoma@gmx.de>  Tue, 22 Nov 2011 22:33:38 +0100
+
 siguibui (0.3) unstable; urgency=low
 
   * added: build/siguibui.conf build/siguibui_de.conf build.standard.html
