@@ -7,11 +7,12 @@ if [ ! -d $SUBDIR ] ; then
 	mkdir -p $SUBDIR
 fi
 chmod uog+rwx $DIR $SUBDIR
-# lintian need this dummy:
-set +e
 F1=/etc/init.d/siguibui.dpkg-dist
 F2=/etc/init.d/siguibui
 if [ -f $F1 -a ! -f $F2 ] ; then
 	mv $F1 $F2
 fi
-insserv -n siguibui
+if [ -x "/etc/init.d/siguibui" ]; then
+        update-rc.d siguibui defaults >/dev/null
+        invoke-rc.d siguibui start || exit $?
+fi
