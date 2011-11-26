@@ -16,3 +16,21 @@ if [ -x "/etc/init.d/siguibui" ]; then
         update-rc.d siguibui defaults >/dev/null
         invoke-rc.d siguibui start || exit $?
 fi
+F3=/etc/siguibui/sidu-shellserver.conf
+if ! grep -q "^CONSOLE=" $F3 ; then
+	CONSOLE=
+	if which konsole ; then
+		CONSOLE=konsole
+	elif which lxterminal ; then
+		CONSOLE=lxterminal
+	elif which xfce-terminal ; then
+		CONSOLE=xfce-terminal
+	elif which xterm ; then
+		CONSOLE=xterm
+	fi
+	test -n "$CONSOLE" && sed -i -e "s/^#CONSOLE=.*/CONSOLE=$CONSOLE/;" $F3
+fi
+if grep -q ":1000:" /etc/passwd ; then
+	home=$(grep ":1000:" /etc/passwd | head -n 1 | cut -d: -f6)
+	sed -i -e "s%^START_GUI_HOME2=.*%START_GUI_HOME2=$home%;" /etc/siguibui/sidu-shellserver.conf
+fi
