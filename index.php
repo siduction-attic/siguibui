@@ -87,6 +87,8 @@ function replaceInTemplate(&$session, $pagename, $pageText){
 	$pageText = str_replace('###BUTTON_NEXT###', $button, $pageText);
 	$msg = $session->getMessage();
 	$pageText = str_replace("###INFO###", $msg, $pageText);
+	$value = $session->configuration->getValue('.TXT_TITLE');
+	$pageText = str_replace('###TXT_TITLE###', $value, $pageText);
 	return $pageText;
 }
 /** Replaces the markers in the page template.

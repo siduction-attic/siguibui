@@ -1,3 +1,11 @@
+siguibui (0.6-3) unstable; urgency=low
+
+  * Fix: The title of the html page.
+  * Docu: Describes the toolkit
+  * Shellserver: Removing test data from config
+
+ -- J. Hamatoma <hamatoma@gmx.de>  Fri, 02 Dec 2011 22:52:12 +0100
+
 siguibui (0.6-2) unstable; urgency=low
 
   * Standard user is siducer now

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="doc.css">
+<title>How to Make a Project with <strong>siguibui</strong></title>
+</head>
+<body>
+
+<!---===TOC===-->
+<div class="toc">
+<ul>
+<li> <a href="#C1_">1. Introduction</a></li>
+<li> <a href="#C2_">2. Directory/File Structure</a></li>
+<li> <a href="#C2_1_">2.1. File Modifications</a></li>
+<li> <a href="#C2_2_">2.2. New Files</a></li>
+<li> <a href="#C2_2_1_">2.2.1. homepage.php</a></li>
+</ul>
+</div>
+<!---===TOC===-->
+<h1><a name="C1_">1.</a> Introduction</h1>
+<div class="textblock">
+<p>This howto document describes the development of an application using the sigui toolkit.</p>
+<p>The example is a simple application which allowes the user to do something with network tools.</p>
+</div>
+
+<h1><a name="C2_">2.</a> Directory/File Structure</h1>
+<div class="textblock">
+<p>The project use some files from the toolkit. 
+This files/directories will be inserted by symbolic links.</p>
+<pre>
+sidu-net-center
+	index.php (link to siguibui/index.php)
+	backend
+		sidu-net-center.sh
+	base (link to siguibui/base)
+	config
+		sidu-net-center.conf
+		sidu-net-center_de.conf
+		sidu-net-center.css
+		standard.html
+	images
+		favicon.ico
+		logo.png
+	plugin
+		homepage.php
+</pre>
+<p>
+The 4 files in config will be copies of the configuration files from siguibui/build.
+This files will be extended while the development.
+</p>
+<p>sidu-net-center.sh, favicon.ico, logo.png and homepage.php are new files.</p>
+</div>
+<h2><a name="C2_1_">2.1.</a>File Modifications</h2>
+<div class="textblock">
+<ul>
+<li>standard.html: the name of the css file has changed to "sidu-net-center.css"</li> 
+<li>sidu-net-center.conf: All texts and configuration data will be put into this files. The language is english.</li>
+<li>sidu-net-center_de.conf: This is a copy of sidu-net-server.conf with translated texts (german)</li>
+<li>sidu-net-center.css: the cascaded style sheets forms the design of the page.</li>
+</ul>
+</div>
+<h2><a name="C2_2_">2.2.</a>New Files</h2>
+<div class="textblock">
+<ul>
+<li>favicon.ico: This icon is shown in the address line of the browser.</li> 
+<li>logo.png ist the logo of the application.</li>
+<li>sidu-net-center_de.conf: This is a copy of sidu-net-server.conf with translated texts (german)</li>
+</ul>
+</div>
+<h3><a name="C2_2_1_">2.2.1.</a>homepage.php</h3>
+<div class="textblock">
+<p>This file is a plugin. Therefore it must contain a class which is derived from Page.</p>
+<p>The following methods must be implemented:</p>
+<ul>
+<li>__construct(): contains the initializations.</li>
+<li>build(): Loads the content template.</li>
+<li>onButtonClick(): handles the button clicks.</li>
+</ul>
+</div>
+
+</body>
+</html>
