@@ -1,3 +1,10 @@
+siguibui (0.7-2) unstable; urgency=low
+
+  * Fix: start of external shell scripts, e.g. usb-installer
+  * Improved package compression
+
+ -- J. Hamatoma <hamatoma@gmx.de>  Sat, 03 Dec 2011 20:25:39 +0100
+
 siguibui (0.7-1) unstable; urgency=low
 
   * New service: exchange input fields by a button
