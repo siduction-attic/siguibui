@@ -1,3 +1,9 @@
+siguibui (0.7-1) unstable; urgency=low
+
+  * New service: exchange input fields by a button
+
+ -- J. Hamatoma <hamatoma@gmx.de>  Sat, 03 Dec 2011 18:19:14 +0100
+
 siguibui (0.6-3) unstable; urgency=low
 
   * Fix: The title of the html page.
