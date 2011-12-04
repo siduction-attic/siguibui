@@ -15,6 +15,9 @@ abstract class Page{
 	var $replacements;
 	/// name of the plugin
 	var $name;
+	/// parts of the html which are optional. It's an array: key: name value: html text  
+	var $parts;
+	
 	/** Constructor.
 	 * 
 	 * @param $session		the session info
@@ -550,4 +553,90 @@ abstract class Page{
 		}
 		return $rc;
 	}
+	/** Reads the template file and puts the templates into an array.
+	 * 
+	 * Format: Sequence of templates. Template: template name (uppercase) ':' template body 
+	 * Example:
+	 * <pre>
+	 * SELECTOR:
+	 *    <input type="submit" name="selector">
+	 * COMBO:
+	 *    <select name="mountonboot" size="1">###OPT_MOUNTONBOOT###</select>
+	 * </pre>
+	 */
+	function readHtmlTemplates(){
+		$all = $this->session->readFileFromPlugin($this->name . ".parts.content.txt", false);
+		if (strpos($all, "\r") > 0)
+			$all = str_replace("\r", "", $all);
+		$this->parts = array();
+		$start = 0;
+		$lastName = "";
+		while(preg_match('/^([-A-Z_]+):$/m', $all, $hit, 0, $start)){
+			$name = $hit[1];
+			$pos = strpos($all, $name, $start); 
+			if ($start > 0){
+				$this->parts[$lastName] = substr($all, $start, $pos - 1 - $start);
+			}
+			$start = $pos + strlen($name) + 2;
+			$lastName = $name;
+		}
+		$this->parts[$lastName] = substr($all, $start, $pos - 1 - $start);
+	}
+	/** Replace a giver marker by a given template.
+	 * 
+	 * @param $namePart		the name part to replace
+	 * @param $nameTemplate the name of the replacement. 
+	 * 						Allowed characters: uppercase, '_' and '-'
+	 */
+	function replacePartWithTemplate($namePart, $nameTemplate){
+		$template = $this->parts[$nameTemplate];
+		$this->content = str_replace("###PART_${namePart}###", $template, $this->content);	
+	}
+	/** Handles a part of the html page which can switched between 2 states with a button.
+	 * 
+	 * Conventions:
+	 * The button's name must be button_$namePart
+	 * The button's text must be a configuration variable named
+	 * 'txt_button_$nameTemplate1' or 'txt_button_$nameTemplate2'
+	 * The marker of the button's text must be ###txt_button_$namePart###.
+	 * 
+	 * @param $namePart			the name of the part. 
+	 * 							Allowed characters: uppercase, '-', '_'
+	 * @param $nameTemplate1	the name of the first replacement
+	 * @param $nameTemplate2	the name of the second replacement
+	 */
+	function setButtonSelectedPart($namePart, $nameTemplate1, $nameTemplate2){
+		$nameTemplate = $this->getUserData($namePart);
+		if (empty($nameTemplate))
+			$nameTemplate = $nameTemplate1;
+		$this->setUserData($namePart, $nameTemplate);
+		$this->replacePartWithTemplate($namePart, $nameTemplate);
+		if (strcmp($nameTemplate, $nameTemplate1) == 0)
+			$key = "txt_button_${nameTemplate2}";
+		else
+			$key = "txt_button_${nameTemplate1}";
+		$value = $this->getConfiguration($key);
+		$this->content = str_replace("###txt_button_${namePart}###", $value, $this->content);
+	}
+	/** Handles a button push event of a part selector button.
+	 * 
+	 * Conventions:
+	 * The button's name must be button_$namePart
+	 * The button's text must be a configuration variable named
+	 * 'txt_button_$nameTemplate1' or 'txt_button_$nameTemplate2'
+	 * The marker of the button's text must be ###txt_button_$namePart###.
+	 * 
+	 * @param $namePart			the name of the part. 
+	 * 							Allowed characters: uppercase, '-', '_'
+	 * @param $nameTemplate1	the name of the first replacement
+	 * @param $nameTemplate2	the name of the second replacement
+	 */
+	function switchPartByButton($namePart, $nameTemplate1, $nameTemplate2){
+		$value = $this->getUserData($namePart);
+		if (empty($value) || strcmp($value, $nameTemplate1) == 0)
+			$value = $nameTemplate2;
+		else
+			$value = $nameTemplate1;
+		$this->setUserData($namePart, $value);
+	}	
 }
