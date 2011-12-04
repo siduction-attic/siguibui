@@ -2,6 +2,7 @@ Source: siguibui
 Section: admin
 Priority: optional
 Maintainer: J. Hamatoma <hamatoma@gmx.de>
+Uploaders: Alf Gaida <agaida@siduction.org>
 Build-Depends: debhelper (>= 8.0.0)
 Standards-Version: 3.9.2
 Homepage: http://siduction.org
