@@ -30,21 +30,34 @@
 <p>The project use some files from the toolkit. 
 This files/directories will be inserted by symbolic links.</p>
 <pre>
-sidu-net-center
+progensibu
 	index.php (link to siguibui/index.php)
 	backend
-		sidu-net-center.sh
+		progensibu.sh
 	base (link to siguibui/base)
 	config
-		sidu-net-center.conf
-		sidu-net-center_de.conf
-		sidu-net-center.css
-		standard.html
+		progensibu.conf
+		progensibu_de.conf
+		progensibu.css
+		progensibu.html
+	debian
+		install
+	etc
+		progensibu
+			progensibu.conf
+		pywwetha
+			progensibu.conf
+			virtualhosts.d
+				progensibu
 	images
 		favicon.ico
 		logo.png
-	plugin
+	plugins
 		homepage.php
+		home.content.txt
+	usr
+		bin
+			progensibu
 </pre>
 <p>
 The 4 files in config will be copies of the configuration files from siguibui/build.
@@ -73,6 +86,15 @@ This files will be extended while the development.
 <div class="textblock">
 <p>This file is a plugin. Therefore it must contain a class which is derived from Page.</p>
 <p>The following methods must be implemented:</p>
+<ul>
+<li>__construct(): contains the initializations.</li>
+<li>build(): Loads the content template.</li>
+<li>onButtonClick(): handles the button clicks.</li>
+</ul>
+</div>
+<h3><a name="C2_2_1_">2.2.1.</a>home.content.html</h3>
+<div class="textblock">
+<p>This file contains the html code of the content area.</p>
 <ul>
 <li>__construct(): contains the initializations.</li>
 <li>build(): Loads the content template.</li>

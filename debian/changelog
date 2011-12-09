@@ -4,6 +4,8 @@ siguibui (0.7.4) unstable; urgency=low
 
  -- J. Hamatoma <hamatoma@gmx.de>  Fri, 09 Dec 2011 23:55:54 +0100
 
+siguibui (0.7.3) unstable; urgency=low
+
   * Fix Numbering according to Issue #369 
 
  -- Alf Gaida <agaida@siduction.org>  Wed, 07 Dec 2011 11:56:24 +0100
