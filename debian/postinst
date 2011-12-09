@@ -23,8 +23,8 @@ if ! grep -q "^CONSOLE=" $F3 ; then
 		CONSOLE=konsole
 	elif which lxterminal ; then
 		CONSOLE=lxterminal
-	elif which xfce-terminal ; then
-		CONSOLE=xfce-terminal
+	elif which xfce4-terminal ; then
+		CONSOLE=xfce4-terminal
 	elif which xterm ; then
 		CONSOLE=xterm
 	fi
