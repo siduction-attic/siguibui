@@ -418,8 +418,7 @@ abstract class Page{
 	function setRow($table, $cols, $index = -1){
 		if ($index < 0){
 			$index = $this->getRowCount($table);
-			$key = $table . '.rowcount';
-			$this->setUserData($key, strval($index + 1));
+			$this->setRowCount($table, $index + 1);
 		}
 		if (is_array($cols))
 			$cols = implode('|', $cols);

@@ -110,7 +110,10 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'ready';
+		$page = 'mountpoint';
+		#$_POST['button_next'] = 'x';
+		#$_POST['button_install'] = 'x';
+		
 		$_SERVER = array();
 
 		$_SERVER['PATH_TRANSLATED'] = '/usr/share/sidu-installer/home';
@@ -145,10 +148,7 @@ class Session{
 		$_SERVER['HTTP_USER_AGENT'] = 'Opera/9.80 (X11; Linux x86_64; U; de) Presto/2.9.168 Version/11.50';
 		$_SERVER["REQUEST_METHOD"] = 'get';
 		}
-		
-		$_POST['button_next'] = 'x';
-		#$_POST['button_install'] = 'x';
-		
+			
 		$_POST['root_pass'] = '123456';
 		$_POST['root_pass2'] = '123456';
 		$_POST['real_name'] = 'a';
@@ -658,6 +658,21 @@ class Session{
 			}
 			$this->forceReload(3);
 		}
+		return $rc;
+	}
+	/** Finds the index of an array item.
+	 * 
+	 * @param $array	here we will search
+	 * @param $value	the value to find
+	 * @return -1: not found Otherwise: the index
+	 */
+	function findIndex($array, $value){
+		$rc = -1;
+		foreach ($array as $ix => $current)
+			if (strcmp($current, $value) == 0){
+				$rc = $ix;
+				break;
+			}
 		return $rc;
 	}
 }

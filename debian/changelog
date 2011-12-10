@@ -1,8 +1,10 @@
 siguibui (0.7.4) unstable; urgency=low
 
   * Fix: Automatic choice of the terminal program in xfce
+  * New auxiliary method
+  * Code review: single point of assignment
 
- -- J. Hamatoma <hamatoma@gmx.de>  Fri, 09 Dec 2011 23:55:54 +0100
+ -- J. Hamatoma <hamatoma@gmx.de>  Sat, 10 Dec 2011 10:42:23 +0100
 
 siguibui (0.7.3) unstable; urgency=low
 
