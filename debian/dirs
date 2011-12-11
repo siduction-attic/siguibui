@@ -1,2 +1,3 @@
 var/cache/siguibui
 var/cache/siguibui/shellserver-tasks
+var/cache/siguibui/public

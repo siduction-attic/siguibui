@@ -16,6 +16,8 @@ if [ -z "$CONSOLE" ] ; then
 	CONSOLE=konsole
 	CONSOLE_ARGS=-e
 fi
+which $CONSOLE || CONSOLE=x-terminal-emulator
+
 test -n "$VERBOSE" && echo "startgui: user=$USER appl=$APPL opts=$OPTS console=$CONSOLE home=$HOME"
 
 if [ -z "$DISPLAY" ] ; then

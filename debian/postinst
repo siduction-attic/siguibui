@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 set -e
 DIR=/var/cache/siguibui
@@ -27,9 +27,19 @@ if ! grep -q "^CONSOLE=" $F3 ; then
 		CONSOLE=xfce4-terminal
 	elif which xterm ; then
 		CONSOLE=xterm
+	else
+		CONSOLE=x-terminal-emulator
 	fi
 	test -n "$CONSOLE" && sed -i -e "s/^#CONSOLE=.*/CONSOLE=$CONSOLE/;" $F3
 fi
+function MkLink2(){
+	if [ ! -L $2 ] ; then
+		ln -s $1 $2
+	fi
+}
+MkLink2 /var/cache/siguibui/public /usr/share/siguibui
+chmod uog+rw /var/cache/siguibui/public
+
 if grep -q ":1000:" /etc/passwd ; then
 	home=$(grep ":1000:" /etc/passwd | head -n 1 | cut -d: -f6)
 	sed -i -e "s%^START_GUI_HOME2=.*%START_GUI_HOME2=$home%;" /etc/siguibui/sidu-shellserver.conf

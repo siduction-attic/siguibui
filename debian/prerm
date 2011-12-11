@@ -3,3 +3,6 @@ set -e
 if [ -x "/etc/init.d/siguibui" ]; then
         invoke-rc.d siguibui stop || exit $?
 fi
+if [ -L /usr/share/siguibui/public ] ; then
+	rm /usr/share/siguibui/public
+fi

@@ -1,3 +1,11 @@
+siguibui (0.7.5) unstable; urgency=low
+
+  * x-terminal-emulator is the backup for the terminal program
+  * extended services: replaceInContent() replaceMarker() clearPart()
+  * new service: external log files
+
+ -- J. Hamatoma <hamatoma@gmx.de>  Sun, 11 Dec 2011 22:05:09 +0100
+
 siguibui (0.7.4) unstable; urgency=low
 
   * Fix: Automatic choice of the terminal program in xfce

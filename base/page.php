@@ -388,6 +388,22 @@ abstract class Page{
 	function readContentTemplate(){
 		$this->content = $this->session->readFileFromPlugin($this->name . '.content.txt', true);
 	}
+	/** Replaces a marker with a text from the configuration
+	 * 
+	 * @param $key	the key of the text in the configuration
+	 */
+	function replaceInContent($key){
+		$text = $this->getConfiguration($key);
+		$this->content = str_replace("###${key}###", $text, $this->content);
+	}
+	/** Replaces a marker with a given text.
+	 * 
+	 * @param $marker	the marker to replace (without ###)
+	 * @param $text		the replacement
+	 */
+	function replaceMarker($marker, $text){
+		$this->content = str_replace("###${marker}###", $text, $this->content);
+	}
 	/** Gets the count of rows of a given table.
 	 * 
 	 * @param $table	the name of the table
@@ -463,9 +479,14 @@ abstract class Page{
 			$cols = explode('|', $value);
 			foreach ($cols as $no => $col){
 				$block .= '<td>';
-				if (strncmp($col, 'BUTTON_', 7) != 0){
-					$block .= htmlentities($col, ENT_NOQUOTES, $this->session->charset);
-				} else {
+				if (strncmp($col, 'CHECKBOX_', 9) == 0){
+					$name2 = $name = strtolower($col) . '_' . strval($ix);
+					$pos = strrpos($name, '_');
+					if ($pos > 0)
+						$name2 = substr($name, 0, $pos);
+					$value = $this->getConfiguration("txt_$name2");
+					$block .= "<input type=\"checkbox\" name=\"$name2\" value=\"$name2\" />$value";
+				} elseif (strncmp($col, 'BUTTON_', 7) == 0){
 					$name2 = $name = strtolower($col);
 					$pos = strrpos($name, '_');
 					if ($pos > 0)
@@ -474,6 +495,8 @@ abstract class Page{
 					$block .= '<input type="submit" name="' . $name . '" value="'
 						. htmlentities($value, ENT_NOQUOTES, $this->session->charset)
 						. '" />';
+				} else {
+					$block .= htmlentities($col, ENT_NOQUOTES, $this->session->charset);
 				}
 				$block .= "</td>\n";
 			}
@@ -572,7 +595,7 @@ abstract class Page{
 		$lastName = "";
 		while(preg_match('/^([-A-Z_]+):$/m', $all, $hit, 0, $start)){
 			$name = $hit[1];
-			$pos = strpos($all, $name, $start); 
+			$pos = strpos($all, $name . ':', $start); 
 			if ($start > 0){
 				$this->parts[$lastName] = substr($all, $start, $pos - 1 - $start);
 			}
@@ -581,7 +604,14 @@ abstract class Page{
 		}
 		$this->parts[$lastName] = substr($all, $start, $pos - 1 - $start);
 	}
-	/** Replace a giver marker by a given template.
+	/** Removes a given marker.
+	 * 
+	 * @param $namePart		the name part to replace
+	 */
+	function clearPart($namePart){
+		$this->content = str_replace("###PART_${namePart}###", '', $this->content);	
+	}
+	/** Replaces a given marker by a given template.
 	 * 
 	 * @param $namePart		the name part to replace
 	 * @param $nameTemplate the name of the replacement. 

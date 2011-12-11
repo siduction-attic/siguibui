@@ -56,10 +56,15 @@ class Session{
 	var $userData;
 	/// the global configuration data. Instance of Configuration
 	var $configuration;
-	/// the prefix of a static resource, e.g. http://sidu-installer:8086/images
+	/// the prefix of a static resource, e.g. http://sidu-installer:8086/
 	var $urlStatic;
 	/// the url of the form, e.g. http://sidu-installer:8086/index.php
 	var $urlForm;
+	/// directory for logfile links, e.g. http://sidu-installer:8086/log/
+	var $urlPublicDir;
+	/// directory for logfile links, e.g. /usr/share/sidu-installer/log/
+	/// Note: this directory is a link into a writable directory, e.g. /var/cache/siguibui/public
+	var $publicDir;
 	/// an array of the input field values
 	var $fields;
 	/// true: the POST method is used for forms
@@ -72,7 +77,7 @@ class Session{
 	var $sessionId;
 	/// this value replaces the marker META_DYNAMIC. Used for automatic refresh 
 	var $metaDynamic;
-	/// temporary directory, needs write right for the php-program
+	/// temporary directory, needs write right for the php-program, e.g. /var/cache/siguibui
 	var $tempDir;
 	
 	/** Constructor.
@@ -101,6 +106,7 @@ class Session{
 		$this->parseEnvironment();
 		$this->configuration = new Configuration($this);
 		$this->tempDir = $this->configuration->getValue('.tempdir');
+		$this->publicDir = $this->tempDir . 'public/';
 		$this->userData = new UserData($this);
 	}
 	/** Simulates a webserver: for development only.
@@ -110,8 +116,8 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'mountpoint';
-		#$_POST['button_next'] = 'x';
+		$page = 'network';
+		$_POST['button_install_2'] = 'x';
 		#$_POST['button_install'] = 'x';
 		
 		$_SERVER = array();
@@ -227,6 +233,7 @@ class Session{
 		
 		$parts = $this->splitFile($this->scriptUrl);
 		$this->urlStatic = $baseAddress . $parts['dir'];
+		$this->urlPublicDir = $this->urlStatic . "public/";
 		
 		$this->absScriptUrl = $absScriptUrl;
 		$this->urlForm = $absScriptUrl . '/' . $this->page;
