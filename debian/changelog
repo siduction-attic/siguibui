@@ -1,3 +1,10 @@
+siguibui (0.7.6) unstable; urgency=low
+
+  * The field values will be transfered earlier to the user data.
+  * Fix: special handling of xfce4-terminal (combining prog and args)
+
+ -- J. Hamatoma <hamatoma@gmx.de>  Fri, 16 Dec 2011 20:42:53 +0100
+
 siguibui (0.7.5) unstable; urgency=low
 
   * x-terminal-emulator is the backup for the terminal program

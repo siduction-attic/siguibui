@@ -28,6 +28,10 @@ abstract class Page{
 		$this->session = $session;
 		$this->content = "";
 		$this->replacements = array();
+		if ($session->hasButton())
+			$this->setFieldsFromHeader();
+		else
+			$this->setFieldsFromUserData();
 	}
 	/** Returns the name of the html template.
 	 *
@@ -274,6 +278,7 @@ abstract class Page{
 		if (empty($value)){
 			$value = $this->session->configuration->getValue($key);
 			$this->setUserData($field, $value);
+			$this->setField($field, $value);
 		}
 	}
 	/** Tests whether a field value contains valid character only.

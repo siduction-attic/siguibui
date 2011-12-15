@@ -33,28 +33,19 @@ if (! file_exists($pageDefinition)){
 	$page->clearAllFieldErrors();
 	
 	$button = $session->hasButton();
-	if (empty($button))
-		$page->setFieldsFromUserData();
-	else{
-		$page->setFieldsFromHeader();
+	if (! empty($button)){
 		if ($page->onButtonClick($button))
 			$button = "";
 	}
 	if (empty($button)){
 		$template = $page->getTemplateName();
 		$pageText = $session->readFileFromConfig($template, true);
-		$session->trace(TRACE_RARE, 'nach readFileFromBase');
 		$pageText = replaceTextMarkers($session, $pageText, $pagename);
-		$session->trace(TRACE_RARE, 'nach replaceTextMarkers');
 		$pageText = replaceInTemplate($session, $pagename, $pageText);
-		$session->trace(TRACE_RARE, 'nach replaceInTemplate');
 		
 		$page->build();
-		$session->trace(TRACE_RARE, 'nach build');
 		$page->replaceTextMarkers();
-		$session->trace(TRACE_RARE, 'nach replaceTextMarkers');
 		$page->replaceMarkers();
-		$session->trace(TRACE_RARE, 'nach replaceMarkers');
 		$core = $page->getContent();
 		$pageText = str_replace('###CONTENT###', $core, $pageText);
 		

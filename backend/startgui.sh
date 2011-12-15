@@ -24,8 +24,13 @@ if [ -z "$DISPLAY" ] ; then
 	export DISPLAY=:0
 fi
 FOUND=$(echo $OPTS | grep -i console)
+APPL2="$APPL"
+if [ $CONSOLE = "xfce4-terminal" ] ; then
+	APPL2="$APPL $ARGS"
+	ARGS=
+fi
 if [ -n "$FOUND" ] ; then
-	sux $USER $CONSOLE $CONSOLE_ARGS $APPL $ARGS
+	sux $USER $CONSOLE $CONSOLE_ARGS "$APPL2" $ARGS
 	AGAIN=1
 	while [ -n "$AGAIN" ] ; do
 		set -x
@@ -34,7 +39,7 @@ if [ -n "$FOUND" ] ; then
 		sleep 1
 	done
 else
-	sux $USER $APPL $ARGS
+	sux $USER "$APPL2" $ARGS
 fi
 echo $? >$ANSWER
 chmod uog+w $ANSWER

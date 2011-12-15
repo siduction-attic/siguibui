@@ -117,7 +117,7 @@ class Session{
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
 		$page = 'network';
-		$_POST['button_install_2'] = 'x';
+		#$_POST['button_exec'] = 'x';
 		#$_POST['button_install'] = 'x';
 		
 		$_SERVER = array();
@@ -166,7 +166,7 @@ class Session{
 		$_POST['add_mount'] = '';
 		$_POST['add_label'] = 'sweden';
 		$_POST['add_mount2'] = '';
-		$_POST['disk'] = 'Alle';
+		$_POST['disk'] = 'sda';
 		$_POST['partman'] = 'fdisk';
 		foreach ($_POST as $key => $value)
 			$_GET[$key] = $value;
@@ -182,8 +182,8 @@ class Session{
 		$this->trace(TRACE_CONFIG, '_SERVER:');
 		#foreach ($_SERVER as $key => $value)
 		#	$this->trace(TRACE_CONFIG, $key . '=' . $value);
-		if (! empty($_SERVER['TRACE_FLAGS']))
-			$this->traceFlag = $_SERVER['TRACE_FLAGS']; 
+		#if (! empty($_SERVER['TRACE_FLAGS']))
+		#	$this->traceFlag = $_SERVER['TRACE_FLAGS']; 
 		$mode = $_SERVER['REQUEST_METHOD'];
 		$this->usePost = strcasecmp($mode, 'post') == 0;
 		$this->scriptFile = $_SERVER['SCRIPT_FILENAME'];
@@ -578,6 +578,7 @@ class Session{
 	 * @return true: answer file exists. false: timeout reached
 	 */
 	function exec($answer, $options, $command, $params, $timeout){
+		$this->trace(TRACE_RARE, "exec: $command");
 		if ($this->executor == NULL){
 			include_once 'executor.php';
 			$this->executor = new Executor($this);
