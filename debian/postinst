@@ -37,8 +37,12 @@ function MkLink2(){
 		ln -s $1 $2
 	fi
 }
-MkLink2 /var/cache/siguibui/public /usr/share/siguibui
-chmod uog+rw /var/cache/siguibui/public
+PUBLIC=/var/cache/siguibui/public
+if [ ! -d $PUBLIC ] ; then
+	mkdir $PUBLIC
+fi
+MkLink2 $PUBLIC /usr/share/siguibui
+chmod uog+rw $PUBLIC
 
 if grep -q ":1000:" /etc/passwd ; then
 	home=$(grep ":1000:" /etc/passwd | head -n 1 | cut -d: -f6)

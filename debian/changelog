@@ -1,3 +1,10 @@
+siguibui (0.7.7) unstable; urgency=low
+
+  * Fix: postinst: Handling, if the /var/cache/siguibui/public does not exist.
+  * Only necessary for updates from versions < 0.7.5 (Closes: #425)
+
+ -- J. Hamatoma <hamatoma@gmx.de>  Sun, 18 Dec 2011 08:33:31 +0100
+
 siguibui (0.7.6) unstable; urgency=low
 
   * The field values will be transfered earlier to the user data.
