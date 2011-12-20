@@ -26,8 +26,10 @@ fi
 FOUND=$(echo $OPTS | grep -i console)
 APPL2="$APPL"
 if [ $CONSOLE = "xfce4-terminal" ] ; then
-	APPL2="$APPL $ARGS"
-	ARGS=
+	if [ -n "$ARGS" ] ; then
+		APPL2="$APPL $ARGS"
+		ARGS=
+	fi
 fi
 if [ -n "$FOUND" ] ; then
 	sux $USER $CONSOLE $CONSOLE_ARGS "$APPL2" $ARGS

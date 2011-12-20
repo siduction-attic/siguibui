@@ -116,8 +116,8 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'network';
-		#$_POST['button_exec'] = 'x';
+		$page = 'partition';
+		$_POST['button_exec'] = 'x';
 		#$_POST['button_install'] = 'x';
 		
 		$_SERVER = array();
@@ -166,8 +166,8 @@ class Session{
 		$_POST['add_mount'] = '';
 		$_POST['add_label'] = 'sweden';
 		$_POST['add_mount2'] = '';
-		$_POST['disk'] = 'sda';
-		$_POST['partman'] = 'fdisk';
+		$_POST['disk'] = 'all';
+		$_POST['partman'] = 'gparted';
 		foreach ($_POST as $key => $value)
 			$_GET[$key] = $value;
 	}

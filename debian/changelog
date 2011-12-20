@@ -1,3 +1,10 @@
+siguibui (0.7.8) unstable; urgency=low
+
+  * Fix: start of gparted with "all disks" under XFCE
+  * Update: refs: #454
+
+ -- J. Hamatoma <hamatoma@gmx.de>  Tue, 20 Dec 2011 22:03:57 +0100
+
 siguibui (0.7.7) unstable; urgency=low
 
   * Fix: postinst: Handling, if the /var/cache/siguibui/public does not exist.
