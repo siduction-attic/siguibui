@@ -391,7 +391,8 @@ abstract class Page{
 	/** Reads the template for the content area of the current plugin.
 	 */
 	function readContentTemplate(){
-		$this->content = $this->session->readFileFromPlugin($this->name . '.content.txt', true);
+		$this->content = $this->session->readFile(
+			$this->session->pageDir . $this->name . '.content.txt');
 	}
 	/** Replaces a marker with a text from the configuration
 	 * 
@@ -592,7 +593,7 @@ abstract class Page{
 	 * </pre>
 	 */
 	function readHtmlTemplates(){
-		$all = $this->session->readFileFromPlugin($this->name . ".parts.content.txt", false);
+		$all = $this->session->readFile($this->session->pageDir . $this->name . '.parts.content.txt');
 		if (strpos($all, "\r") > 0)
 			$all = str_replace("\r", "", $all);
 		$this->parts = array();
@@ -620,9 +621,12 @@ abstract class Page{
 	 * 
 	 * @param $namePart		the name part to replace
 	 * @param $nameTemplate the name of the replacement. 
-	 * 						Allowed characters: uppercase, '_' and '-'
+	 * 						Allowed characters: uppercase, '_' and '-'.
+	 * 						If NULL $namePart will be taken
 	 */
-	function replacePartWithTemplate($namePart, $nameTemplate){
+	function replacePartWithTemplate($namePart, $nameTemplate = NULL){
+		if ($nameTemplate == NULL)
+			$nameTemplate = $namePart;
 		$template = $this->parts[$nameTemplate];
 		$this->content = str_replace("###PART_${namePart}###", $template, $this->content);	
 	}

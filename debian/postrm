@@ -1,9 +1,11 @@
 #! /bin/sh
 
 set -e
-if [ "$1" = "purge" ] ; then
-        update-rc.d siguibui remove >/dev/null
-fi
+
+#DEBHELPER#
+
 if [ -d /var/cache/siguibui ] ; then
 	rm -Rf /var/cache/siguibui
 fi
+
+exit 0

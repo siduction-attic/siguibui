@@ -12,10 +12,7 @@ F2=/etc/init.d/siguibui
 if [ -f $F1 -a ! -f $F2 ] ; then
 	mv $F1 $F2
 fi
-if [ -x "/etc/init.d/siguibui" ]; then
-        update-rc.d siguibui defaults >/dev/null
-        invoke-rc.d siguibui start || exit $?
-fi
+
 F3=/etc/siguibui/sidu-shellserver.conf
 if ! grep -q "^CONSOLE=" $F3 ; then
 	CONSOLE=
@@ -48,3 +45,6 @@ if grep -q ":1000:" /etc/passwd ; then
 	home=$(grep ":1000:" /etc/passwd | head -n 1 | cut -d: -f6)
 	sed -i -e "s%^START_GUI_HOME2=.*%START_GUI_HOME2=$home%;" /etc/siguibui/sidu-shellserver.conf
 fi
+
+#DEBHELPER#
+exit 0

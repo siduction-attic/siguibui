@@ -20,7 +20,9 @@ if (empty($pagename)){
 	$pagename = 'home';
 	$session->trace(TRACE_RARE, 'No page found');
 }
-$pageDefinition =  $session->homeDir . 'plugins/' . $pagename . 'page.php';
+$subdir = strcmp($pagename, 'wait') == 0 ? 'base/' : 'plugins/';
+$session->pageDir = $session->homeDir . $subdir;
+$pageDefinition = $session->pageDir . $pagename . 'page.php';
 if (! file_exists($pageDefinition)){
 	$session->trace(TRACE_RARE, "Not found: $pageDefinition");
 	$session->gotoPage('home', 'install.no_page_def');

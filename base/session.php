@@ -79,6 +79,8 @@ class Session{
 	var $metaDynamic;
 	/// temporary directory, needs write right for the php-program, e.g. /var/cache/siguibui
 	var $tempDir;
+	/// directory containing the class definition and the content template, e.g. /usr/share/sidu-installer/plugins/
+	var $pageDir;
 	
 	/** Constructor.
 	 */
@@ -116,8 +118,8 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'partition';
-		$_POST['button_exec'] = 'x';
+		$page = 'wait';
+		#$_POST['button_exec'] = 'x';
 		#$_POST['button_install'] = 'x';
 		
 		$_SERVER = array();
