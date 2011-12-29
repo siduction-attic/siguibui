@@ -7,6 +7,9 @@
  * @author hm
  */
 class WaitPage extends Page{
+	/// Translation texts. Key: english text Value: local texts.
+	var $translations;
+	
 	/** Constructor.
 	 * 
 	 * @param $session
@@ -15,6 +18,58 @@ class WaitPage extends Page{
 		parent::__construct($session, 'wait');
 		$sleep = (int) $this->getConfiguration('refresh');
 		$session->forceReload($sleep);
+		$this->translations = null;
+	}
+	/** Reads a table containing englisch texts and translations.
+	 * 
+	 * This is used for translation external texts in progress messages.
+	 * Convention (format of the configuration file):
+	 * <name>.count=<count>
+	 * <name.1=<english>|<translation>
+	 * 
+	 * @param $name The name of the translation part in the configuration file
+	 */
+	function readTranslationTable($name){
+		$this->translations = array();
+		$count = $this->session->configuration->getValue("$name.count");
+		for ($ii = 1; $ii <= $count; $ii++){
+			$line = $this->session->configuration->getValue("$name.$ii");
+			$cols = explode('|', $line);
+			$key = $cols[0];
+			$value = $cols[1];
+			$this->session->trace(TRACE_FINE, "trans: $line Key: $key Val: $value");
+			$this->translations[$key] = $value;
+		}		
+	}
+	/** Search for a key into the translation array which is a prefix of $text.
+	 * 
+	 * @param $text the text to inspect
+	 * @return 	null: no prefix found. 
+	 * 			Otherwise: the key in the translation table which is a prefix of $text
+	 */
+	function findTranslationPrefix($text){
+		$rc = null;
+		$this->session->trace(TRACE_FINE, "findTranslationPrefix: $text");
+		foreach ($this->translations as $key => $value){
+			if (strncmp($text, $key, strlen($key)) == 0){
+				$rc = $key;
+				$this->session->trace(TRACE_FINE, "findTranslationPrefix: rc: $rc");
+				break;
+			}
+		}
+		return $rc;
+	}
+	/** Translate an English text if it is in the translation table. 
+	 * 
+	 * @param $key the key to translate
+	 * @return $key: no translation found. Otherwise: translation
+	 */
+	function translate($key){
+		if ($this->translations != NULL && isset($this->translations[$key])){
+			$key = $this->translations[$key];
+			$this->session->trace(TRACE_FINE, "translate(): $key");
+		}
+		return $key;
 	}
 	/** Reads one entry of the progress file.
 	 * 
@@ -41,7 +96,15 @@ class WaitPage extends Page{
 						$procent = strval(intval(floatval($procent) * 100));
 					$this->setUserData('progress.procent', $procent);
 				} elseif (strcasecmp($cols[0], 'CURRENT') == 0){
-					$this->setUserData('progress.description', $cols[1]);
+					$text = $cols[1];
+					$search = str_replace('<b>', '', $text);
+					$search = str_replace('</b>', '', $search);
+					$prefix = $this->findTranslationPrefix($search);
+					if ($prefix != NULL){
+						$trans = $this->translate($prefix);
+						$text = str_replace($prefix, $trans, $text);
+					}
+					$this->setUserData('progress.description', $text);
 				} elseif (strcasecmp($cols[0], 'COMPLETE') == 0){
 					$cols = explode(' ', $cols[1]);
 					$this->setUserData('progress.ix', $cols[1]);
@@ -71,18 +134,19 @@ class WaitPage extends Page{
 			$this->setUserData('file.answer', $file);
 			$this->stop('wait.ready');
 		} else{
+			$translationName = $this->getUserData('translations');
+			if (! empty($translationName))
+				$this->readTranslationTable($translationName);
+				
 			$this->readContentTemplate();
-			$intro = $this->getConfiguration('txt_intro'); 
+			$intro = $this->getUserData('intro');
+			$description = $this->getUserData('description');
 			$this->replaceMarker('txt_intro', $intro);
-			$value = $this->getUserData('program');
-			$this->replaceMarker('PROGRAM', $value);
-
-			$value = $this->getUserData('description');
-			if (empty($value))
+			if (empty($description))
 				$this->clearPart('DESCRIPTION');
 			else{
 				$this->replacePartWithTemplate('DESCRIPTION');
-				$this->replaceMarker('txt_description', $value);
+				$this->replaceMarker('txt_description', $description);
 			}
 			$procent = -1;
 			$state = "";

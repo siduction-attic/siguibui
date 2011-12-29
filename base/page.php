@@ -541,16 +541,26 @@ abstract class Page{
 	 * @param program		name of the program
 	 * @param description	the description, what the user should do
 	 * @param progress		NULL or the name of a file with the progress value (in %)
+	 * @param translations	null or name of the translation table in the configuration
 	 * @return false
 	 */
-	function startWait($answer, $program, $description, $progress){
-		$this->session->trace(TRACE_RARE, 'startWait');
+	function startWait($answer, $program, $description, $progress, $translations = null){
+		$this->session->trace(TRACE_RARE, "startWait: prog: $program desc: $description");
 		$this->session->userData->setValue('wait', 'answer', $answer);
+		if (strpos($program, ' ') > 0){
+			$intro =  $program;
+			$program = '';
+		} else {
+			$intro = $this->session->configuration->getValue('wait.txt_intro');
+			$intro = str_replace('###PROGRAM###', $program, $intro);
+		}
+		$this->session->userData->setValue('wait', 'intro', $intro);
 		$this->session->userData->setValue('wait', 'program', $program);
 		$this->session->userData->setValue('wait', 'caller', $this->name);
 		$this->session->userData->setValue('wait', 'description', $description);
 		$this->session->userData->setValue('wait', 'progress', $progress == NULL ? '' : $progress);
 		$this->session->userData->setValue('wait', 'demo.progress', $progress == NULL ? '' : $progress);
+		$this->session->userData->setValue('wait', 'translations', $translations == NULL ? '' : $translations);
 		$this->session->gotoPage('wait', 'startwait');
 		return false;
 	}
@@ -676,5 +686,5 @@ abstract class Page{
 		else
 			$value = $nameTemplate1;
 		$this->setUserData($namePart, $value);
-	}	
+	}
 }
