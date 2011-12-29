@@ -36,9 +36,10 @@ class WaitPage extends Page{
 			$line = $this->session->configuration->getValue("$name.$ii");
 			$cols = explode('|', $line);
 			$key = $cols[0];
-			$value = $cols[1];
+			$value = isset($cols[1]) ? $cols[1] : '';
 			$this->session->trace(TRACE_FINE, "trans: $line Key: $key Val: $value");
-			$this->translations[$key] = $value;
+			if (! empty($value))
+				$this->translations[$key] = $value;
 		}		
 	}
 	/** Search for a key into the translation array which is a prefix of $text.

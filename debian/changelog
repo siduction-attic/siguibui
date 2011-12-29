@@ -1,3 +1,9 @@
+siguibui (0.7.12) unstable; urgency=low
+
+  * Fix: Ignores format errors in configuration of translation tables
+
+ -- J. Hamatoma <hamatoma@gmx.de>  Fri, 30 Dec 2011 00:14:16 +0100
+
 siguibui (0.7.11) unstable; urgency=low
 
   * wait: Correct texts in intro and description. (Closes: #506)
