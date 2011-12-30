@@ -1,3 +1,9 @@
+siguibui (1.0.0) unstable; urgency=low
+
+  * email address changed
+
+ -- J. Hamatoma <hama@siduction.net>  Fri, 30 Dec 2011 22:11:22 +0100
+
 siguibui (0.7.12) unstable; urgency=low
 
   * Fix: Ignores format errors in configuration of translation tables
