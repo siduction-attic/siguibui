@@ -87,10 +87,11 @@ class Session{
 	function __construct(){
 		global $_SERVER;
 		
-		$doTrace = false;
+		$doTrace = true;
 		$server = $_SERVER;
 		$this->charset = 'UTF-8';
 		$this->tempDir = NULL;
+		$this->usePost = false;
 		// Prefix 'x': we use strpos() and we want to get an index > 0.
 		$this->traceFlag = 'x' . TRACE_ALL;
 		//$this->traceFile = '/tmp/trace.txt';
@@ -119,7 +120,7 @@ class Session{
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
 		$page = 'wait';
-		#$_POST['button_exec'] = 'x';
+				#$_POST['button_exec'] = 'x';
 		#$_POST['button_install'] = 'x';
 		
 		$_SERVER = array();
@@ -173,6 +174,22 @@ class Session{
 		foreach ($_POST as $key => $value)
 			$_GET[$key] = $value;
 	}
+	/** Writes an array to the tracefile.
+	 * 
+	 * The output will be be sorted by keys.
+	 * @param $flags the trace control flags
+	 * @param $header the headline describing the array
+	 * @param $array the array to trace
+	 */
+	function traceArray($flags, $header, $array){
+		$this->trace(TRACE_CONFIG, $header);
+		$keys = array();
+		foreach ($array as $key => $value)
+			$keys[] = $key;
+		sort($keys);
+		foreach ($keys as $ix => $key)
+			$this->trace(TRACE_CONFIG, $key . '=' . $array[$key]);
+	}
 	/** Gets the needed data from the webserver environment.
 	 */
 	function parseEnvironment(){
@@ -181,11 +198,12 @@ class Session{
 			$this->fields = $_POST;
 		else 
 			$this->fields = $_GET;
-		$this->trace(TRACE_CONFIG, '_SERVER:');
-		#foreach ($_SERVER as $key => $value)
-		#	$this->trace(TRACE_CONFIG, $key . '=' . $value);
-		#if (! empty($_SERVER['TRACE_FLAGS']))
-		#	$this->traceFlag = $_SERVER['TRACE_FLAGS']; 
+		if (false)
+			$this->traceArray(TRACE_CONFIG, 'Fields:', $this->fields);
+		if (false)
+			$this->traceArray(TRACE_CONFIG, '_SERVER', $_SERVER);
+		if (false && ! empty($_SERVER['TRACE_FLAGS']))
+			$this->traceFlag = $_SERVER['TRACE_FLAGS'];
 		$mode = $_SERVER['REQUEST_METHOD'];
 		$this->usePost = strcasecmp($mode, 'post') == 0;
 		$this->scriptFile = $_SERVER['SCRIPT_FILENAME'];
@@ -340,8 +358,11 @@ class Session{
 	 */
 	function readFile($filename){
 		$this->trace(TRACE_CONFIG, "readFile: " . $filename);
-			
-		$content = file_get_contents($filename);
+		
+		if (! file_exists($filename))
+			$content = '';
+		else
+			$content = file_get_contents($filename);
 		return $content;
 	}
 	/** Returns an array containing variables from a config file. 
