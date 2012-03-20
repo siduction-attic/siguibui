@@ -36,6 +36,7 @@ if (! file_exists($pageDefinition)){
 	
 	$button = $session->hasButton();
 	if (! empty($button)){
+		$session->trace(TRACE_RARE, "button: $button");
 		if ($page->onButtonClick($button))
 			$button = "";
 	}
