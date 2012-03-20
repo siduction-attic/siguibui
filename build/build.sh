@@ -1,5 +1,5 @@
-
-# build.sh sidu-usb-installer /home/wsl6/php hm .. git
+#! /bin/bash
+# build.sh sidu-usb-installer /home/wsl6/php hm /home/wsl6/php git
 
 PROJ=$1
 BASEDIR=$2
@@ -9,8 +9,12 @@ GIT=$5
 
 if [ -z "$BASEBUI" ] ; then
   echo "Usage: build.sh PROJ BASEDIR USER BASEBUI [GIT]"
-  echo "Example: build.sh sidu-usb-installer ~/src .. jonny git"
+  echo "Example: build.sh sidu-disk-center ~/src jonny ~/src git"
   exit 1
+fi
+if [ -z "$(which dh_make)" ] ; then
+	echo "not installed: dh-make"
+	exit 1
 fi
 test -z "$BASEBUI" && BASEBUI=/usr/share
 DIRBUI=$BASEBUI/siguibui
