@@ -1,3 +1,11 @@
+siguibui (1.0.2) unstable; urgency=low
+
+  * add a siguibui override fo prevent lintian complaining about
+    siguibui: binary-without-manpage usr/bin/sidu-shellserver-control 
+  * fixes #655 
+
+ -- Alf Gaida <agaida@siduction.org>  Fri, 23 Mar 2012 10:41:40 +0100
+
 siguibui (1.0.1) unstable; urgency=low
 
   * bump standards to 3.9.3
