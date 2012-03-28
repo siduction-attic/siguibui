@@ -119,39 +119,46 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'wait';
-				#$_POST['button_exec'] = 'x';
-		#$_POST['button_install'] = 'x';
+		$page = 'overview';
+		$button = 'button_exec';
+		#$button = '';
+		if (! empty($button))
+			$_POST[$button] = 'x';
+		#$_POST[$button] = 'x';
 		
 		$_SERVER = array();
 
-		$_SERVER['PATH_TRANSLATED'] = '/usr/share/sidu-installer/home';
+		$rootDir = '/home/wsl6/php/sidu-disk-center';
+		$virtualHost = 'sidu-disk-center';
+		
+		$_SERVER['PATH_TRANSLATED'] = $rootDir . '/home';
 		$_SERVER['HTTP_USER_AGENT'] = 'Opera/9.80 (x11; Linux86_64; U; de) Presto/2.9.168 Version/11.51';
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de-DE,en;q=0.9,fr-CA;q=0.8,ay;q=0.7,de;q=0.6';
 		$_SERVER['REMOTE_PORT'] = '50262';
-		$_SERVER['SCRIPT_FILENAME'] = '/usr/share/sidu-installer/install.php';
-		$_SERVER['SCRIPT_NAME'] = '/install.php';
+		$_SERVER['SCRIPT_FILENAME'] = $rootDir . '/index.php';
+		$_SERVER['SCRIPT_NAME'] = '/index.php';
 		$_SERVER['REQUEST_METHOD'] = 'GET';
-		$_SERVER['HTTP_HOST'] = 'sidu-installer:8086';
+		$_SERVER['HTTP_HOST'] = $virtualHost . ':8086';
 		$_SERVER['PATH_INFO'] = '';
 		$_SERVER['SERVER_PORT'] = '8086';
-		$_SERVER['QUERY_STRING'] = 'button_next=Weiter';
-		$_SERVER['DOCUMENT_ROOT'] = '/usr/share/sidu-installer';
+		if (isset($_POST[$button]))
+			$_SERVER['QUERY_STRING'] = $_POST[$button] . '=x';
+		$_SERVER['DOCUMENT_ROOT'] =$rootDir;
 		$_SERVER['SERVER_ADDR'] = '127.0.0.1';
-		$_SERVER['REQUEST_URI'] = '/install.php/home?button_next=Weiter';
+		$_SERVER['REQUEST_URI'] = '/index.php/home?button_next=Weiter';
 		
 		if (True){
-		$_SERVER['HTTP_HOST'] = 'sidu-installer';
-		$_SERVER['DOCUMENT_ROOT'] = '/usr/share/sidu-installer';
-		$_SERVER['SCRIPT_FILENAME'] = '/home/wsl6/php/inosid/index.php';
+		$_SERVER['HTTP_HOST'] = $virtualHost;
+		$_SERVER['DOCUMENT_ROOT'] = $rootDir;
+		$_SERVER['SCRIPT_FILENAME'] = $rootDir . '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 		$_SERVER['REQUEST_URI'] = "/index.php/$page?param2=abc";
 		$_SERVER['PATH_INFO'] = "";
 		if (! empty($page))
 			$_SERVER['PATH_INFO'] = "";
 		$_SERVER['PHP_SELF'] = "/index.php";
-		$_SERVER['HTTP_HOST'] = 'sidu-installer';
+		$_SERVER['HTTP_HOST'] = $virtualHost;
 		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en-US,de-DE,de;q=0.9,en;q=0.8';
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$_SERVER['HTTP_USER_AGENT'] = 'Opera/9.80 (X11; Linux x86_64; U; de) Presto/2.9.168 Version/11.50';
@@ -270,8 +277,9 @@ class Session{
 			$this->paramString = substr($this->requestUri, $ix + 1);
 			$this->params = explode('&', $this->paramString);
 		}
-		$this->lang = "en";
-		$lang = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
+		$lang = $this->lang = "en";
+		if (isset($_SERVER["HTTP_ACCEPT_LANGUAGE"]))
+			$lang = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
 		// de-DE,de;q=0.9,en;q=0.8
 		$ix = strpos($lang, ",");
 		if ($ix > 0)
@@ -662,6 +670,8 @@ class Session{
 	 * @param $wait	The time in seconds of the reload
 	 */
 	function forceReload($wait){
+		if (empty($wait))
+			$wait = 3;
 		$this->metaDynamic = "<meta http-equiv=\"refresh\" content=\"$wait; URL=" . $this->urlForm . '" />';
 	}
 	/** Tests wheter the given file exists.
