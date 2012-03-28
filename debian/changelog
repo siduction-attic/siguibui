@@ -1,3 +1,15 @@
+siguibui (1.0.1) unstable; urgency=low
+
+  * Application builder improvements
+  * Design: like sidu-installer v1.0.0
+  * Fix: html templage: project macro instead of a fix name  
+  * More files in the created .gitignore
+  * git commit after generation of the project
+  * creation of install, postinst, prerm, $PROJ-control
+  * result of the build script is a working debian project which can install, run and deinstall
+
+ -- J. Hamatoma <hama@siduction.net>  Sat, 24 Mar 2012 08:00:17 +0100
+
 siguibui (1.0.0) unstable; urgency=low
 
   * email address changed
