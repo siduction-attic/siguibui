@@ -86,6 +86,10 @@ abstract class Page{
 	 * @param $encode	true: html characters will be encoded. false: No encoding
 	 */
 	function setReplacement($marker, $value, $encode = false){
+		if ($encode && strncmp($value, '<xml>', 5) == 0){
+			$encode = false;
+			$value = substr($value, 5);
+		}
 		if ($encode)
 			$value = htmlentities($value, ENT_NOQUOTES, $this->session->charset);
 		$this->replacements[$marker] = $value;
