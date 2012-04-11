@@ -1,5 +1,5 @@
-
-# build.sh sidu-usb-installer /home/wsl6/php hm .. git
+#! /bin/bash
+# build.sh sidu-usb-installer /home/wsl6/php hm /home/wsl6/php git
 
 PROJ=$1
 BASEDIR=$2
@@ -9,8 +9,12 @@ GIT=$5
 
 if [ -z "$BASEBUI" ] ; then
   echo "Usage: build.sh PROJ BASEDIR USER BASEBUI [GIT]"
-  echo "Example: build.sh sidu-usb-installer ~/src .. jonny git"
+  echo "Example: build.sh sidu-disk-center ~/src jonny ~/src git"
   exit 1
+fi
+if [ -z "$(which dh_make)" ] ; then
+	echo "not installed: dh-make"
+	exit 1
 fi
 test -z "$BASEBUI" && BASEBUI=/usr/share
 DIRBUI=$BASEBUI/siguibui
@@ -97,12 +101,11 @@ cat >$FN <<EOS
 #! /bin/sh
 
 # Restart forces the check of virtual hosts:
-sudo /etc/init.d/pywwetha stop
-sudo /etc/init.d/pywwetha start
-sudo /etc/init.d/$PROJ start
+sudo /etc/init.d/pywwetha restart
+sidu-shellserver-control start
 x-www-browser http://$PROJ:8086
 EOS
-Copy $FN usr/bin/$PROJ.sh
+Copy $FN usr/bin/$PROJ-control
 
 test -z $USER && chown -R $USER ../$PROJ
 
@@ -112,14 +115,92 @@ if [ ! -d debian ] ; then
   else
     dh_make -s -p ${PROJ}_0.1 -c gpl --createorig
     rm debian/*.ex debian/*.EX debian/README.Debian debian/README.source
+    # Replace the "quilt" entry: too complicated
+    echo "3.0 (native)" >debian/source/format
+    sed -i -e 's/Architecture: any/Architecture: all/;s/Depends: ${shlibs:Depends}, ${misc:Depends}/Depends: ${misc:Depends},\n   siguibui (>= 1.0.0)/;' debian/control
+    echo >>$TODO "* Edit debian/control"
+    echo >>$TODO "* Edit debian/copyright"
+    #mkdir tarball
+    #cp ../$PROJ*.gz tarball
   fi
-  echo <<EOS >debian/install
+  cat <<EOS >$FN
 index.php	usr/share/$PROJ
 base		usr/share/$PROJ
 backend		usr/share/$PROJ
-etc		etc
-usr		usr
+etc/$PROJ	etc
+etc/pywwetha	etc
+usr/bin		usr
 EOS
+	Copy $FN debian/install
+	cat <<EOS >$FN
+#! /bin/bash
+set -e
+PROJECT=$PROJ
+if ! grep -q "\$PROJECT" /etc/hosts ; then
+	# if the last newline is missing:
+	echo "" >>/etc/hosts
+	ADDR=86
+	while grep -q "127.0.0.\$ADDR" /etc/hosts ; do
+		ADDR=\$(expr \$ADDR + 1)
+	done
+	echo "127.0.0.\$ADDR \$PROJECT" >>/etc/hosts
+	echo "virtual host installed: \$PROJECT (\$ADDR)"
+fi
+
+# Create the links from the toolkit:
+pushd /usr/share/\$PROJECT >/dev/null
+SRC=../siguibui
+function MkLink(){
+	if [ ! -L \$1 ] ; then
+		ln -s \$2/\$1 \$1
+	fi
+}
+function MkLink2(){
+	if [ ! -L \$2 ] ; then
+		ln -s \$1 \$2
+	fi
+}
+MkLink index.php \$SRC
+MkLink base \$SRC
+
+# Create the links to the shellserver:
+cd /usr/share/siguibui/backend
+SRC=../../\$PROJECT/backend
+MkLink example.sh \$SRC
+MkLink2 /var/cache/siguibui/public /usr/share/\$PROJECT
+popd >/dev/null
+#DEBHELPER#
+exit 0
+EOS
+	Copy $FN debian/postinst
+	cat <<EOS >$FN
+#! /bin/bash
+set -e
+PROJECT=$PROJ
+if grep -q \$PROJECT /etc/hosts ; then
+	sed -i -e "/127\.0\.0\.[0-9]*[ \t]*\$PROJECT/d" /etc/hosts
+	echo "virtual host removed: \$PROJECT"
+fi
+
+# delete the links from the toolkit:
+function RmLink(){
+	if [ -L \$1 ] ; then
+		rm -f \$1
+	fi
+}
+pushd /usr/share/\$PROJECT >/dev/null
+RmLink index.php
+RmLink base
+RmLink public
+
+# Remove the links to the shellserver:
+cd /usr/share/siguibui/backend
+RmLink example.sh
+popd >/dev/null
+#DEBHELPER#
+exit 0
+EOS
+	Copy $FN debian/prerm	
 fi
 if [ "$GIT" = "git" -a ! -d .git ] ; then
   git init
@@ -127,10 +208,16 @@ if [ "$GIT" = "git" -a ! -d .git ] ; then
 index.php
 base
 base/*
+.settings/*
+.classpath
+.project
+*~
 EOS
   git add backend/* config/* debian/* 
   git add etc/$PROJ/* etc/pywwetha/* etc/pywwetha/virtualhosts.d/*
   git add images/* plugins/* usr/bin/* .gitignore
+  #git add tarball/*
+  git commit -m "Freshly built"
 fi
 popd >/dev/null
 test -f $TODO && cat $TODO

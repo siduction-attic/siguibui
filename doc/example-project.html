@@ -22,33 +22,41 @@
 <h1><a name="C1_">1.</a> Introduction</h1>
 <div class="textblock">
 <p>This howto document describes the development of an application using the sigui toolkit.</p>
-<p>The example is a simple application which allowes the user to do something with network tools.</p>
+<p>The example is a simple application which allowes the user to do something with disk tools.</p>
 </div>
 
 <h1><a name="C2_">2.</a> Directory/File Structure</h1>
 <div class="textblock">
+Execute the following command and you will get the following skeletons:
+<pre>
+# Customize the following two assignments!
+BASE_SIGUIBUI=~/src
+USER=hm
+$BASE_SIGUIBUI/siguibui/build/build.sh sidu-disk-center $BASE_SIGUIBUI $USER $BASE_SIGUIBUI git
+</pre>
+
 <p>The project use some files from the toolkit. 
 This files/directories will be inserted by symbolic links.</p>
 <pre>
-progensibu
+sidu-disk-center
 	index.php (link to siguibui/index.php)
 	backend
-		progensibu.sh
+		sidu-disk-center.sh
 	base (link to siguibui/base)
 	config
-		progensibu.conf
-		progensibu_de.conf
-		progensibu.css
-		progensibu.html
+		sidu-disk-center.conf
+		sidu-disk-center_de.conf
+		sidu-disk-center.css
+		sidu-disk-center.html
 	debian
 		install
 	etc
-		progensibu
-			progensibu.conf
+		sidu-disk-center
+			sidu-disk-center.conf
 		pywwetha
-			progensibu.conf
+			sidu-disk-center.conf
 			virtualhosts.d
-				progensibu
+				sidu-disk-center
 	images
 		favicon.ico
 		logo.png
@@ -57,21 +65,21 @@ progensibu
 		home.content.txt
 	usr
 		bin
-			progensibu
+			sidu-disk-center
 </pre>
 <p>
 The 4 files in config will be copies of the configuration files from siguibui/build.
 This files will be extended while the development.
 </p>
-<p>sidu-net-center.sh, favicon.ico, logo.png and homepage.php are new files.</p>
+<p>sidu-disk-center.sh, favicon.ico, logo.png and homepage.php are new files.</p>
 </div>
 <h2><a name="C2_1_">2.1.</a>File Modifications</h2>
 <div class="textblock">
 <ul>
-<li>standard.html: the name of the css file has changed to "sidu-net-center.css"</li> 
-<li>sidu-net-center.conf: All texts and configuration data will be put into this files. The language is english.</li>
-<li>sidu-net-center_de.conf: This is a copy of sidu-net-server.conf with translated texts (german)</li>
-<li>sidu-net-center.css: the cascaded style sheets forms the design of the page.</li>
+<li>standard.html: the name of the css file has changed to "sidu-disk-center.css"</li> 
+<li>sidu-disk-center.conf: All texts and configuration data will be put into this files. The language is english.</li>
+<li>sidu-disk-center_de.conf: This is a copy of sidu-disk-center.conf with translated texts (german)</li>
+<li>sidu-disk-center.css: the cascaded style sheets forms the design of the page.</li>
 </ul>
 </div>
 <h2><a name="C2_2_">2.2.</a>New Files</h2>
@@ -79,7 +87,7 @@ This files will be extended while the development.
 <ul>
 <li>favicon.ico: This icon is shown in the address line of the browser.</li> 
 <li>logo.png ist the logo of the application.</li>
-<li>sidu-net-center_de.conf: This is a copy of sidu-net-server.conf with translated texts (german)</li>
+<li>sidu-disk-center_de.conf: This is a copy of sidu-disk-center.conf with translated texts (german)</li>
 </ul>
 </div>
 <h3><a name="C2_2_1_">2.2.1.</a>homepage.php</h3>

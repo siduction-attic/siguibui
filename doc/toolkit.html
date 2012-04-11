@@ -32,6 +32,12 @@
 <li> <a href="#C6_2_">6.2. Field Validation</a></li>
 <li> <a href="#C7_">7. I18n</a></li>
 <li> <a href="#C8_">8. Conventions</a></li>
+<li> <a href="#C9_">9. Cookbook</a></li>
+<li> <a href="#C9_1_">9.1. Building a Debian Package</a></li>
+<li> <a href="#C9_2_">9.2. Adding a Text Input Field</a></li>
+<li> <a href="#C9_3_">9.3. Adding a Combobox with Fixed Alternatives</a></li>
+<li> <a href="#C9_4_">9.4. Adding a Combobox with Dynamic Alternatives</a></li>
+<li> <a href="#C9_5_">9.5. Field Validation and Error Messages</a></li>
 </ul>
 </div>
 <!---===TOC===-->
@@ -130,11 +136,11 @@ Page. See page.php.</p>
 	message.</li>
 	<li>getField(): Returns the field value.</li>
 	<li>readFileFromBase(): Loads a template.</li>
-	<li>$session->userData->getValue(): Gets a value from the user
+	<li>$session-&gt;userData-&gt;getValue(): Gets a value from the user
 	data.</li>
-	<li>$session->userData->setValue(): Puts a value into the user
+	<li>$session-&gt;userData-&gt;setValue(): Puts a value into the user
 	data.</li>
-	<li>$session->configuration->getValue(): Gets a value from the
+	<li>$session-&gt;configuration-&gt;getValue(): Gets a value from the
 	configuration.</li>
 </ul>
 </div>
@@ -267,5 +273,169 @@ explanation, an example: user (a page asking for username and password)</p>
 	<li>Name of the content template: "user.content.txt"</li>
 </ul>
 </div>
+
+<h1><a name="C9_">9.</a> Cookbook</h1>
+<div class="textblock">
+<p>This chapter offers solutions for tasks belonging to development with the toolkit.</p>
+<p>The example project is named <strong>net-center</strong>.
+</div>
+<h2><a name="C9_1_">9.1.</a> Building a Debian Package</h2>
+<div class="textblock">
+There is a script build/build.sh which creates an installable Debian package. 
+This is a good base for starting a new project.
+</div>
+
+<h2><a name="C9_2_">9.2.</a> Adding a Text Input Field</h2>
+<div class="textblock">
+<p><strong>Task</strong>:<br/>
+A input field for a <strong>ipaddress</strong> should be added to the page <strong>wlan</strong>.</p>
+<strong>Solution:</strong>
+<ul>
+<li>plugin/<strong>wlan</strong>.content.txt (insert the html code):<br>
+	<code>###txt_ipaddress###: &lt;input type="text" name="<strong>ipaddress</strong>" value="###VAL_<strong>IPADDRESS</strong>###"&gt;</code> 
+</li>
+<li>config/net-center.conf (insert the texts which should be translated):<br/>
+	<code><strong>wlan</strong>.txt_ipaddress%=IP Address</code> 
+</li>
+<li>config/net-center_de.conf (insert the german translations):<br/>
+	<code><strong>wlan</strong>.txt_ipaddress%=IP-Adresse</code> 
+</li>
+<li>plugin/<strong>wlan</strong>page.php:
+	<ul>
+	<li>Register the inputfield:<br>
+	<code>function getInputFields()</code>:<br/>
+	<code>$rc = array('mode', <strong>'ipaddress'</strong>, 'device');</code>
+	</li>
+	<li>Possible, but not meaningful for ipaddress: Set a default value from the configuration if the field is not set.<br/>
+	    In the function _construct():<br/>
+	    <code>$this-&gt;setEmptyToDefault(<strong>'ipaddress'</strong>, 'wlan.DEFAULT_IP'); </code>
+	</li>
+	</ul>
+<li>plugin/*.php (fetch the current value of the field:)<br>
+   <code>$curValue = $this-&gt;session-&gt;userData-&gt;getValue(<strong>'wlan'</strong>, <strong>'ipaddress'</strong>);</code>
+</li>
+</ul>
+</div>
+
+<h2><a name="C9_3_">9.3.</a> Adding a Combobox with Fixed Alternatives</h2>
+<div class="textblock">
+<p><strong>Task</strong>:<br/>
+A combobox for a <strong>mode</strong> should be added to the page <strong>wlan</strong>.
+There are two alternatives (dhcp and static address) which do not change. But the values depend on the current language.
+Therefore they must be stored in the configuration file.
+</p>
+<strong>Solution:</strong>
+<ul>
+<li>plugin/<strong>wlan</strong>.content.txt (insert the html code):<br>
+	<code>&lt;select name="<strong>mode</strong>" size="2"&gt;<br/>
+	###OPT_<strong>MODE</strong>###
+	&lt;/select&gt;
+	</code> 
+</li>
+<li>config/net-center.conf (insert the alternatives which should be translated):<br/>
+	<code><strong>wlan</strong>.opt_<strong>mode</strong>%=DHCP;Static IP</code> 
+</li>
+<li>config/net-center_de.conf (insert the german translations):<br/>
+	<code><strong>wlan</strong>.opt_<strong>mode</strong>%=DHCP;Statische IP</code> 
+</li>
+<li>plugin/wlanpage.php:
+	<ul>
+	  <li>Register the inputfield:<br>
+	  <code>function getInputFields()</code>:<br/>
+	  <code>$rc = array(<strong>'mode'</strong>, 'ipaddress', 'device');</code>
+	  </li>
+	  </ul>
+</li>
+<li>plugin/*.php (fetch the current value of the field:)<br>
+   <code>$curValue = $this-&gt;session-&gt;userData-&gt;getValue(<strong>'wlan'</strong>, <strong>'mode'</strong>);</code>
+</li>
+</ul>
+</div>
+
+<h2><a name="C9_4_">9.4.</a> Adding a Combobox with Dynamic Alternatives</h2>
+<div class="textblock">
+<p><strong>Task</strong>:<br/>
+A combobox for a <strong>device</strong> should be added to the page <strong>wlan</strong>.
+The values (e.g. wlan0 and wlan1) are dynamic: they must be calculated by the program.
+</p>
+<strong>Solution:</strong>
+<ul>
+<li>plugin/<strong>wlan</strong>.content.txt (insert the html code):<br>
+	<code>&lt;select name="<strong>device</strong>" size="1"&gt;<br/>
+	###OPT_<strong>DEVICE</strong>###
+	&lt;/select&gt;
+	</code> 
+</li>
+<li>plugin/<strong>wlan</strong>page.php:
+	<ul>
+	  <li>Register the inputfield:<br>
+	  <code>function getInputFields()</code>:<br/>
+	  <code>$rc = array('mode', 'ipaddress', <strong>'device'</strong>);</code>
+	  </li>
+	  <li>Set a default value (if no value is set). More exactly: set the default index.<br/>
+	    <code>function _construct()</code>:<br/>
+	    <code>$this-&gt;setDefaultOption('device', 0, true);</code>
+	  </li>
+	  <li>Store the calculated values into the user configuration:<br/>
+	    Anywhere but before the call of <code>build()</code>:<br/>
+	    <code>$this-&gt;session-&gt;userData-&gt;setValue(<code>'wlan'</code>, 'opt_<code>device</code>', '-');</code>
+	  </li>
+	  <li>Write the alternatives into the html:<br/>
+	    <code>function build()</code>:<br/>
+	    <code>$this-&gt;fillOptions(<strong>'device'</strong>, true);</code><br/>
+	    <strong>Note</strong> for conditional HTML code: the field must be available in <code>$this-&gt;content</code>
+	  </li>
+	</ul>
+<li>plugin/*.php (fetch the current value of the field:)<br>
+   <code>$curValue = $this-&gt;session-&gt;userData-&gt;getValue(<strong>'wlan'</strong>, <strong>'device'</strong>);</code>
+</li>
+</ul>
+</div>
+
+<h2><a name="C9_5_">9.5.</a> Field Validation and Error Messages</h2>
+<div class="textblock">
+<p><strong>Task</strong>:<br/>
+The value of the field <strong>ipaddress</strong> on the page <strong>wlan</strong> 
+must be checked for a correct syntax. In the case of an error a message must be displayed.
+</p>
+<strong>Solution:</strong>
+<ul>
+<li>plugin/<strong>wlan</strong>.content.txt (insert the field code and an field specific error makro):<br>
+	<code>&lt;field name="<strong>ipaddress</strong>" value="<strong>###VAL_IPADDRESS###</strong>"&gt;<br/>
+	###ERROR_<strong>IPADDRESS</strong>###
+	</code> 
+</li>
+<li>plugin/<strong>wlan</strong>page.php:
+	<ul>
+	  <li>Register the inputfield:<br>
+	  <code>function getInputFields()</code>:<br/>
+	  <code>$rc = array('mode', <strong>'ipaddress'</strong>, 'mode');</code>
+	  </li>
+	  <li>Implement the validation:<br/>
+	    <code>function onButtonClick()</code>:<br/>
+	    <code>if (strcmp($button, 'button_next') == 0){<br/>
+			&nbsp;$value = $this-&gt;getFieldValue(<strong>'ipaddress'</strong>);<br/>
+			&nbsp;if (! preg_match('^(\d{1,3}\.){3}\d{1,3}', $value))<br/>
+			&nbsp;&nbsp;$this-&gt;setFieldError($this-&gt;i18n(<strong>'err_ipaddr'</strong>));<br/>
+			}
+		</code><br/>
+	  </li>
+	  <li><strong>Note</strong>:
+	    The call of onButtonClick() is done before the creation of the page (WlanPage._construct())!
+	  </li>
+	</ul>
+<li>config/net-center.conf (insert the error message):<br/>
+	<code><strong>wlan</strong>.<strong>err_ipaddress</strong>%=No valid IP address, e.g. 192.168.7.1</code> 
+</li>
+<li>config/net-center_de.conf (insert the german translations):<br/>
+	<code><strong>wlan</strong>.<strong>err_ipaddress</strong>%=Keine gültige IP-Adresse, z.B. 192.168.7.1</code> 
+</li>
+<li>Instead of a field specific error message location a <strong>central location</strong> can be used. 
+	In this case the makro must be <strong>'###ERROR_MESSAGE###'</strong> and the 
+	method <strong>setErrorMessage()</strong> must be called for displaying.
+</li>
+</ul>
+</div>
+
 </body>
 </html>

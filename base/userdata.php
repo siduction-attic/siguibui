@@ -18,7 +18,8 @@ class UserData{
 	 * @param $session	the session info
 	 */
 	function __construct(&$session){
-		$this->filename = $session->tempDir . $session->clientAddress . '.data';
+		$this->filename = $session->tempDir . $session->domain . '-' . $session->clientAddress . '.data';
+		$session->trace(TRACE_RARE, 'datafile: ' . $this->filename);
 		$this->session = $session;
 		$this->data = NULL;
 		$this->read();

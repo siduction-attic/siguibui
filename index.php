@@ -2,7 +2,7 @@
 /**
  * The main module. Initializes the session, chooses and starts the needed plugin. 
  */
-set_magic_quotes_runtime(0);
+#set_magic_quotes_runtime(0);
 error_reporting(E_ALL);
 include "base/session.php";
 include "base/page.php";
@@ -11,7 +11,7 @@ include "base/configuration.php";
 
 $session = new Session();
 $wait = $session->userData->getValue('wait', 'answer');
-if (! empty ($wait)){
+if (! empty ($wait) && file_exists($wait)){
 	if (strcmp($session->page, 'wait') != 0)
 		$session->gotoPage('wait', 'install.wait');
 }
@@ -40,6 +40,7 @@ if (! file_exists($pageDefinition)){
 		if ($page->onButtonClick($button))
 			$button = "";
 	}
+	$session->trace(TRACE_RARE, "button: $button");
 	if (empty($button)){
 		$template = $page->getTemplateName();
 		$pageText = $session->readFileFromConfig($template, true);
@@ -104,6 +105,7 @@ function replaceTextMarkers(&$session, $pageText, $plugin){
 	$start = 0;
 	$end = 0;
 	$rc = '';
+	$session->trace(TRACE_RARE, 'replaceTextMarkers:');
 	while ( ($start = strpos($pageText, '###txt_', $start)) > 0){
 		$rc .= substr($pageText, $end, $start - $end);
 		$end = $start + 7 + strspn($pageText, '_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZ01234567890', $start + 7);
@@ -113,7 +115,11 @@ function replaceTextMarkers(&$session, $pageText, $plugin){
 		$value = $session->i18n($plugin, $key, '?%!');
 		if (strcmp($value, '?%!') == 0)
 			$value = $session->i18n('', $key, $key);
-		$rc .= htmlentities($value, ENT_NOQUOTES, $session->charset);
+		$session->trace(TRACE_FINE, "Makro $key=$value");
+		if (strncmp($value, '<xml>', 5) == 0)
+			$rc .= substr($value, 5);
+		else 
+			$rc .= htmlentities($value, ENT_NOQUOTES, $session->charset);
 		$start = $end;
 	}
 	$rc .= substr($pageText, $end);
