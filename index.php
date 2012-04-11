@@ -11,7 +11,7 @@ include "base/configuration.php";
 
 $session = new Session();
 $wait = $session->userData->getValue('wait', 'answer');
-if (! empty ($wait)){
+if (! empty ($wait) && file_exists($wait)){
 	if (strcmp($session->page, 'wait') != 0)
 		$session->gotoPage('wait', 'install.wait');
 }

@@ -9,6 +9,13 @@ siguibui (1.0.1) unstable; urgency=low
   * result of the build script is a working debian project which can install, run and deinstall
   * feature "xml formatted text" (in configuration files): Texts preceeding <xml> will be treated as XML texts.
   * Fix: Assertion for a valid refresh rate
+  * Fix: page.php: null checking
+  * New: page.php: Central error location: ###ERROR_MESSAGE###
+  * New: page.php: Finding an index of a language dependent option list
+  * New: page.php: Creation of a HTML table: buildTable()
+  * New: page.php: Descriptions in the wait page may have html tags
+  * session.php+page.php: i18n(): no default text is needed
+  * index.php: call of wait page needs the existence of the wait message file too
 
  -- J. Hamatoma <hama@siduction.net>  Sat, 24 Mar 2012 08:00:17 +0100
 

@@ -30,7 +30,7 @@ class Session{
 	var $traceFlag;
 	/// Debugging: the name of the trace file
 	var $traceFile;
-	/// Debugging: the file resource 
+	/// Debugging: the file resource
 	var $traceFp;
 	/// with local path, e.g. /home/www/abc/index.php
 	var $scriptFile;
@@ -38,18 +38,18 @@ class Session{
 	var $domain;
 	/// e.g. 127.0.0.1
 	var $clientAddress;
-	/// e.g /index.php 
-	var $scriptUrl; 
+	/// e.g /index.php
+	var $scriptUrl;
 	/// e.g. http://example.com/index.php
-	var $absScriptUrl; 
+	var $absScriptUrl;
 	/// e.g. "/index.php/help?info=1&edit=False"
-	var $requestUri; 
+	var $requestUri;
 	/// e.g. help
-	var $page; 
+	var $page;
 	/// e.g. info=1&edit=False
-	var $paramString; 
+	var $paramString;
 	/// e.g. [ "info=1", "edit=False" ]
-	var $params; 
+	var $params;
 	/// Debugging: a string with messages.
 	var $message;
 	/// the data from all pages (user specific). Instance of UserData
@@ -75,18 +75,18 @@ class Session{
 	var $executor;
 	/// an unique id for the session
 	var $sessionId;
-	/// this value replaces the marker META_DYNAMIC. Used for automatic refresh 
+	/// this value replaces the marker META_DYNAMIC. Used for automatic refresh
 	var $metaDynamic;
 	/// temporary directory, needs write right for the php-program, e.g. /var/cache/siguibui
 	var $tempDir;
 	/// directory containing the class definition and the content template, e.g. /usr/share/sidu-installer/plugins/
 	var $pageDir;
-	
+
 	/** Constructor.
 	 */
 	function __construct(){
 		global $_SERVER;
-		
+
 		$doTrace = true;
 		$server = $_SERVER;
 		$this->charset = 'UTF-8';
@@ -113,24 +113,24 @@ class Session{
 		$this->userData = new UserData($this);
 	}
 	/** Simulates a webserver: for development only.
-	 * 
+	 *
 	 * Stores needed data in $_SERVER and $_POST.
 	 */
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'overview';
-		$button = 'button_exec';
+		$page = 'logicalview';
+		$button = 'button_create_lv';
 		#$button = '';
 		if (! empty($button))
 			$_POST[$button] = 'x';
 		#$_POST[$button] = 'x';
-		
+
 		$_SERVER = array();
 
 		$rootDir = '/home/wsl6/php/sidu-disk-center';
 		$virtualHost = 'sidu-disk-center';
-		
+
 		$_SERVER['PATH_TRANSLATED'] = $rootDir . '/home';
 		$_SERVER['HTTP_USER_AGENT'] = 'Opera/9.80 (x11; Linux86_64; U; de) Presto/2.9.168 Version/11.51';
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
@@ -147,7 +147,7 @@ class Session{
 		$_SERVER['DOCUMENT_ROOT'] =$rootDir;
 		$_SERVER['SERVER_ADDR'] = '127.0.0.1';
 		$_SERVER['REQUEST_URI'] = '/index.php/home?button_next=Weiter';
-		
+
 		if (True){
 		$_SERVER['HTTP_HOST'] = $virtualHost;
 		$_SERVER['DOCUMENT_ROOT'] = $rootDir;
@@ -159,13 +159,17 @@ class Session{
 			$_SERVER['PATH_INFO'] = "";
 		$_SERVER['PHP_SELF'] = "/index.php";
 		$_SERVER['HTTP_HOST'] = $virtualHost;
-		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en-US,de-DE,de;q=0.9,en;q=0.8';
+		#$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en-US,de-DE,de;q=0.9,en;q=0.8';
+		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de-DE,de;q=0.9,en;q=0.8';
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$_SERVER['HTTP_USER_AGENT'] = 'Opera/9.80 (X11; Linux x86_64; U; de) Presto/2.9.168 Version/11.50';
 		$_SERVER["REQUEST_METHOD"] = 'get';
 		}
-			
-		$_POST['root_pass'] = '123456';
+
+		$_POST['volume_group'] = 'tescht';
+		$_POST['create_lv_lv'] = 'test';
+		$_POST['create_lv_size'] = '10';
+		$_POST['create_lv_unit'] = 'MiByte';
 		$_POST['root_pass2'] = '123456';
 		$_POST['real_name'] = 'a';
 		$_POST['name'] = 'b';
@@ -182,7 +186,7 @@ class Session{
 			$_GET[$key] = $value;
 	}
 	/** Writes an array to the tracefile.
-	 * 
+	 *
 	 * The output will be be sorted by keys.
 	 * @param $flags the trace control flags
 	 * @param $header the headline describing the array
@@ -203,7 +207,7 @@ class Session{
 		global $_SERVER, $_POST, $_GET;
 		if ($this->usePost)
 			$this->fields = $_POST;
-		else 
+		else
 			$this->fields = $_GET;
 		if (false)
 			$this->traceArray(TRACE_CONFIG, 'Fields:', $this->fields);
@@ -228,7 +232,7 @@ class Session{
 				$_SERVER['PATH_INFO'] = $pathInfo;
 			}
 		}
-		
+
 		if (isset($_SERVER['PATH_INFO']) && ! empty($_SERVER['PATH_INFO']))
 			$this->page = substr($_SERVER['PATH_INFO'], 1);
 		elseif (isset($_GET['page']) && ! empty($_GET['page']))
@@ -236,9 +240,9 @@ class Session{
 		else {
 			$uri = $this->requestUri;
 			$ix = strpos($uri, 'page=');
-			if ($ix === False)			
+			if ($ix === False)
 				$this->page = 'home';
-			else 
+			else
 			{
 				$ix += 5;
 				$length = strlen($uri);
@@ -257,14 +261,14 @@ class Session{
 		if (! empty($port) && strcmp($port, 80) != 0)
 			$baseAddress .= ":$port";
 		$absScriptUrl = $baseAddress . $this->scriptUrl;
-		
+
 		$parts = $this->splitFile($this->scriptUrl);
 		$this->urlStatic = $baseAddress . $parts['dir'];
 		$this->urlPublicDir = $this->urlStatic . "public/";
-		
+
 		$this->absScriptUrl = $absScriptUrl;
 		$this->urlForm = $absScriptUrl . '/' . $this->page;
-		
+
 		$this->clientAddress = $_SERVER['REMOTE_ADDR'];
 		$agent = $_SERVER['HTTP_USER_AGENT'];
 		$agent = preg_replace('/\D/', '', $agent);
@@ -292,24 +296,28 @@ class Session{
 		$this->trace(TRACE_RARE, 'Origin page: ' . $this->page);
 	}
 	/** Translate a text.
-	 * 
+	 *
 	 * Searches the key in the configuration.
 	 * If not found the default text is returned.
-	 * 
+	 *
 	 * @param $plugin		name of the plugin. Will be part of the full key
 	 * @param $key			the key of the text in the configuration file
 	 * @param $defaultText	this text will be returned if the key is not found
-	 * @return the translated text or the default text 
+	 * @return the translated text or the default text
 	 */
 	function i18n($plugin, $key, $defaultText){
 		$key = "$plugin.$key";
 		$rc = $this->configuration->getValue($key);
-		if (empty($rc))
-			$rc = $defaultText;
+		if (empty($rc)){
+			if ($defaultText != null)
+				$rc = $defaultText;
+			else
+				$rc = $key;
+		}
 		return $rc;
 	}
 	/** Checks whether a trace is wanted.
-	 * 
+	 *
 	 * @param $flag Trace class, e.g. TRACE_URL
 	 */
 	function isTrace($flag){
@@ -317,7 +325,7 @@ class Session{
 		return $rc;
 	}
 	/** Puts a message into the trace file.
-	 * 
+	 *
 	 * @param $flag		trace class containing the condition
 	 * @param $message	the message to write
 	 */
@@ -329,11 +337,11 @@ class Session{
 		}
 	}
 	/** Splits a full path into its parts.
-	 * 
+	 *
 	 * To get the origin name from the result of this method
 	 * the parts must be concatenated without conditions:
 	 * $full = $rc["dir"] . $rc["name"] . $rc["ext"];
-	 * 
+	 *
 	 * Note: pathinfo() does the same with an ugly interface:
 	 * Its complicated to join the full filename from the result.
 	 *
@@ -357,27 +365,27 @@ class Session{
 		} else {
 			$rc["ext"] = substr($name, $ix);
 			$rc ["name"] = substr($name, 0, $ix);
-		}		
+		}
 		return $rc;
 	}
 	/** Reads a file.
-	 * 
+	 *
 	 * @param $filename the full filename
 	 */
 	function readFile($filename){
 		$this->trace(TRACE_CONFIG, "readFile: " . $filename);
-		
+
 		if (! file_exists($filename))
 			$content = '';
 		else
 			$content = file_get_contents($filename);
 		return $content;
 	}
-	/** Returns an array containing variables from a config file. 
-	 * 
+	/** Returns an array containing variables from a config file.
+	 *
 	 * The format of the file is like java configuration files:
 	 * Each line contains a definition key=value
-	 * 
+	 *
 	 * @param $filename		the name of the file
 	 * @param $ignoredChar	This character will be ignored if it is found before the '='
 	 */
@@ -403,7 +411,7 @@ class Session{
 		return $rc;
 	}
 	/** Tests whether a given file exists in the base directory.
-	 * 
+	 *
 	 * @param $name the filename relative to the base directory
 	 * @return true: the file exists. false: otherwise
 	 */
@@ -413,7 +421,7 @@ class Session{
 		return $rc;
 	}
 	/** Builds an absolute filename with a given language code.
-	 * 
+	 *
 	 * @param $name 	the filename with path
 	 * @param $subDir	the subdirectory of the file
 	 * @param $lang		the language code
@@ -422,11 +430,11 @@ class Session{
 	function buildNameWithLanguage($name, $subDir, $lang){
 		$parts = $this->splitFile($name);
 		$dir = $parts['dir'];
-		$filename = $this->homeDir . $subDir . $parts['dir'] 
+		$filename = $this->homeDir . $subDir . $parts['dir']
 			. $parts['name'] . "_" . $lang
 			. $parts['ext'];
 		$this->trace(TRACE_FINE, 'buildNameWithLanguage: ' . $filename);
-		return $filename;	
+		return $filename;
 	}
 	/** Returns a filename for the given language.
 	 *
@@ -442,10 +450,10 @@ class Session{
 		if (! file_exists($filename))
 			$filename = $this->homeDir . $subDir . $name;
 		return $filename;
-		
+
 	}
 	/** Reads a file laying in the base directory.
-	 * 
+	 *
 	 * @param $name 		the filename without a path
 	 * @param $useLanguage	true: the filename can contain the language code.
 	 * @return the content of the file
@@ -461,7 +469,7 @@ class Session{
 		return $this->readFile($filename);
 	}
 	/** Reads a file laying in the base directory.
-	 * 
+	 *
 	 * @param $name 		the filename without a path
 	 * @param $useLanguage	true: the filename can contain the language code.
 	 * @return the content of the file
@@ -477,7 +485,7 @@ class Session{
 		return $this->readFile($filename);
 	}
 	/** Reads a file laying in the base directory.
-	 * 
+	 *
 	 * @param $name 		the filename without a path
 	 * @param $useLanguage	true: the filename can contain the language code.
 	 * @return the content of the file
@@ -493,7 +501,7 @@ class Session{
 		return $this->readFile($filename);
 	}
 	/** Redirects to another URL.
-	 * 
+	 *
 	 * @param $url	the new url (relative)
 	 * @param $from	for debugging: caller id
 	 */
@@ -505,21 +513,21 @@ class Session{
 		exit;
 	}
 	/** Assembles debugging output.
-	 * 
+	 *
 	 * @param $msg	a debugging message
-	 */	
+	 */
 	function log($msg){
 		$this->message .= "<p>" . $msg . "</p>\n";
 	}
 	/** Returns the assembled debugging messages.
-	 * 
+	 *
 	 * @return the debugging messages
 	 */
 	function getMessage(){
 		return $this->message;
 	}
 	/** Tests whether a button has been clicked.
-	 * 
+	 *
 	 * @return "": No button. Otherwise the name of the button.
 	 */
 	function hasButton(){
@@ -532,10 +540,10 @@ class Session{
 			}
 		}
 		$this->trace(TRACE_RARE, "hasButton: $rc");
-		return $rc;	
+		return $rc;
 	}
 	/** Tests whether a given field exists.
-	 * 
+	 *
 	 * @param $field	the name of the field to test
 	 * @return false: the field does't exist. Otherwise: the value of the field as string
 	 */
@@ -544,10 +552,10 @@ class Session{
 		if (array_key_exists($field, $this->fields))
 			$rc = $this->fields;
 		$this->trace(TRACE_FINE, "hasField: $rc");
-		return $rc;	
+		return $rc;
 	}
 	/** Returns the value of a given field.
-	 * 
+	 *
 	 * @param $name	The name of the field.
 	 * @return "": $field not found. Otherwise: the value of $_fields[$name]
 	 */
@@ -558,7 +566,7 @@ class Session{
 		return $rc;
 	}
 	/** Returns the previous page (name of the plugin).
-	 * 
+	 *
 	 * @param $current	the name of the current plugin.
 	 * @return NULL: there is no previous page. Otherwise: the name of the previous plugin
 	 */
@@ -578,7 +586,7 @@ class Session{
 		return $rc;
 	}
 	/** Returns the next page (name of the plugin).
-	 * 
+	 *
 	 * @param $current	the name of the current plugin.
 	 * @return NULL: there is no next page. Otherwise: the name of the next plugin
 	 */
@@ -589,18 +597,18 @@ class Session{
 		foreach ($plugins as $key => $name){
 			if (strcmp(trim($name), $current) == 0){
 				if ($key < count($plugins) - 1)
-					$rc = trim($plugins[$key + 1]); 
-				break;	
+					$rc = trim($plugins[$key + 1]);
+				break;
 			}
 		}
 		$this->trace(TRACE_FINE, "getNextPage(): $rc");
 		return $rc;
 	}
 	/** Executes an external command.
-	 * 
+	 *
 	 * Calls the shell server and wait for the answer.
 	 * The answer is a file.
-	 * 
+	 *
 	 * @param $answer 	the name of the answer file
 	 * @param $options	the options for the shell server, e.g. SVOPT_DEFAULT
 	 * @param $command	the command to execute
@@ -618,17 +626,17 @@ class Session{
 		return $rc;
 	}
 	/** Returns an unique filename for an answer of the external program.
-	 * 
+	 *
 	 * @param $prefix	the prefix of the name returned
 	 * @param $suffix	the suffix of the name returned
 	 * @return an unique filename in the temp directory
 	 */
 	function getAnswerFileName($prefix, $suffix){
 		$rc = $this->tempDir . $prefix . $this->sessionId . $suffix;
-		return $rc;	
+		return $rc;
 	}
 	/** Generates a password hash like mkpassword command in linux.
-	 * 
+	 *
 	 * @param $clearText	the password to encode
 	 * @return a string which can be used as argument for the usermod command
 	 */
@@ -652,11 +660,11 @@ class Session{
 			}
 		}
 		if ($this->configuration->getValue('.fixPassword'))
-			$output = '$5$aChnRTTCXTG7$h6z1eVHhVrnBzb6gYjDJrT7q/BARtkDTckTaQyDWyF3';	
+			$output = '$5$aChnRTTCXTG7$h6z1eVHhVrnBzb6gYjDJrT7q/BARtkDTckTaQyDWyF3';
 		return $output;
 	}
 	/** Appends escape sequences for a shell.
-	 * 
+	 *
 	 * $ will be replaced by '\$'
 	 * @param $text the text to work
 	 * @return the text with escape characters
@@ -666,7 +674,7 @@ class Session{
 		return $rc;
 	}
 	/** Forces the reload of the current page.
-	 * 
+	 *
 	 * @param $wait	The time in seconds of the reload
 	 */
 	function forceReload($wait){
@@ -675,7 +683,7 @@ class Session{
 		$this->metaDynamic = "<meta http-equiv=\"refresh\" content=\"$wait; URL=" . $this->urlForm . '" />';
 	}
 	/** Tests wheter the given file exists.
-	 * 
+	 *
 	 * The file cretion will be forced:
 	 * The file doesnt exist and:
 	 *   This is the first time
@@ -684,8 +692,8 @@ class Session{
 	 * @param $id				the key in the user data
 	 * @param $wait				the number of seconds until the next reload
 	 * @param $timeForCreation	the number of seconds needed to create the file
-	 * 							
-	 * @return true: the file must be created. false: otherwise 
+	 *
+	 * @return true: the file must be created. false: otherwise
 	 */
 	function testFile($file, $id, $timeForCreation){
 		$rc = false;
@@ -702,7 +710,7 @@ class Session{
 		return $rc;
 	}
 	/** Finds the index of an array item.
-	 * 
+	 *
 	 * @param $array	here we will search
 	 * @param $value	the value to find
 	 * @return -1: not found Otherwise: the index
