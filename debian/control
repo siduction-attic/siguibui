@@ -13,7 +13,8 @@ Package: siguibui
 Architecture: all
 Depends: ${misc:Depends}, 
 	sudo (>=1.0),
-	sux (>=0.1)
+	sux (>=0.1),
+	php5-cgi (>=5.0)
 Description: SIduction Graphical User Interface BUIilder
  The package contains two parts: a toolkit and a shellserver.
  The toolkit is a set of php modules for building applications with a

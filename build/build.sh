@@ -124,9 +124,9 @@ if [ ! -d debian ] ; then
     #cp ../$PROJ*.gz tarball
   fi
   cat <<EOS >$FN
-index.php	usr/share/$PROJ
-base		usr/share/$PROJ
 backend		usr/share/$PROJ
+config		usr/share/$PROJ
+plugins		usr/share/$PROJ
 etc/$PROJ	etc
 etc/pywwetha	etc
 usr/bin		usr

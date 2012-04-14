@@ -1,6 +1,6 @@
 <?php
 /**
- * The main module. Initializes the session, chooses and starts the needed plugin. 
+ * The main module. Initializes the session, chooses and starts the needed plugin.
  */
 #set_magic_quotes_runtime(0);
 error_reporting(E_ALL);
@@ -31,9 +31,9 @@ if (! file_exists($pageDefinition)){
 	$classname = strtoupper(substr($pagename, 0, 1)) . substr($pagename, 1) . 'Page';
 	$session->trace(TRACE_RARE, 'main: ' . $classname);
 	$page = new $classname($session);
-	
+
 	$page->clearAllFieldErrors();
-	
+
 	$button = $session->hasButton();
 	if (! empty($button)){
 		$session->trace(TRACE_RARE, "button: $button");
@@ -46,22 +46,22 @@ if (! file_exists($pageDefinition)){
 		$pageText = $session->readFileFromConfig($template, true);
 		$pageText = replaceTextMarkers($session, $pageText, $pagename);
 		$pageText = replaceInTemplate($session, $pagename, $pageText);
-		
+
 		$page->build();
 		$page->replaceTextMarkers();
 		$page->replaceMarkers();
 		$core = $page->getContent();
 		$pageText = str_replace('###CONTENT###', $core, $pageText);
-		
-		$pageText = replaceGlobalMarkers($session, $pageText);	
+
+		$pageText = replaceGlobalMarkers($session, $pageText);
 		echo $pageText;
 		$session->userData->write();
 	}
 }
 /** Replaces the markers in the page template.
- * 
+ *
  * @param $session 	the session info
- * @param $pagename	the current page name 
+ * @param $pagename	the current page name
  * @param $pageText	the template text
  * @return the template with expanded markers
  */
@@ -69,15 +69,15 @@ function replaceInTemplate(&$session, $pagename, $pageText){
 	$prevPage = $session->getPrevPage($pagename);
 	if ($prevPage == NULL)
 		$button = '&nbsp;';
-	else 
+	else
 		$button = $session->configuration->getValue('.gui.button.prev');
 	$pageText = str_replace('###BUTTON_PREV###', $button, $pageText);
-				
+
 	// Is this the last page?
 	$nextPage = $session->getNextPage($pagename);
 	if ($nextPage == NULL)
 		$button = '&nbsp;';
-	else 
+	else
 		$button = $session->configuration->getValue('.gui.button.next');
 	$pageText = str_replace('###BUTTON_NEXT###', $button, $pageText);
 	$msg = $session->getMessage();
@@ -87,16 +87,17 @@ function replaceInTemplate(&$session, $pagename, $pageText){
 	return $pageText;
 }
 /** Replaces the markers in the page template.
- * 
+ *
  * @param $session 	the session info
- * @param $pagename	the current page name 
+ * @param $pagename	the current page name
  * @return the template with expanded markers
  */
 function replaceGlobalMarkers(&$session, $pageText){
 	$pageText = str_replace('###URL_STATIC###', $session->urlStatic, $pageText);
+	$pageText = str_replace('###URL_DYNAMIC###', $session->absScriptUrl, $pageText);
 	$pageText = str_replace('###URL_FORM###', $session->urlForm, $pageText);
 	$pageText = str_replace('###META_DYNAMIC###', $session->metaDynamic, $pageText);
-	
+
 	return $pageText;
 }
 	/** Replaces the text markers in the content with the translated text from the configuration.
@@ -118,12 +119,12 @@ function replaceTextMarkers(&$session, $pageText, $plugin){
 		$session->trace(TRACE_FINE, "Makro $key=$value");
 		if (strncmp($value, '<xml>', 5) == 0)
 			$rc .= substr($value, 5);
-		else 
+		else
 			$rc .= htmlentities($value, ENT_NOQUOTES, $session->charset);
 		$start = $end;
 	}
 	$rc .= substr($pageText, $end);
-	return $rc;	
+	return $rc;
 }
 
 ?>

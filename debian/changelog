@@ -1,3 +1,12 @@
+siguibui (1.0.4) unstable; urgency=low
+
+  * Application builder improvements
+  * Fix: creation of debian/inst
+  * New dependency: php5-cgi
+  * New Makro: ###URL_DYNAMIC###
+
+ -- J. Hamatoma <hama@siduction.net>  Thu, 12 Apr 2012 23:14:08 +0200
+
 siguibui (1.0.3) unstable; urgency=low
 
   * Application builder improvements
