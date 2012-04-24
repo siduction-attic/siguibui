@@ -118,8 +118,8 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'logicalview';
-		$button = 'button_create_lv';
+		$page = 'snapshot';
+		$button = 'button_create_snap';
 		#$button = '';
 		if (! empty($button))
 			$_POST[$button] = 'x';
@@ -165,10 +165,10 @@ class Session{
 		$_SERVER["REQUEST_METHOD"] = 'get';
 		}
 
-		$_POST['volume_group'] = 'tescht';
-		$_POST['create_lv_lv'] = 'test';
-		$_POST['create_lv_size'] = '10';
-		$_POST['create_lv_unit'] = 'MiByte';
+		$_POST['volume_groups'] = 'tescht2';
+		$_POST['create_vg_pv'] = '/dev/sdc2';
+		$_POST['create_lv_size'] = '512';
+		$_POST['create_lv_unit'] = 'KiByte';
 		$_POST['root_pass2'] = '123456';
 		$_POST['real_name'] = 'a';
 		$_POST['name'] = 'b';
@@ -304,7 +304,7 @@ class Session{
 	 * @param $defaultText	this text will be returned if the key is not found
 	 * @return the translated text or the default text
 	 */
-	function i18n($plugin, $key, $defaultText){
+	function i18n($plugin, $key, $defaultText = null){
 		$key = "$plugin.$key";
 		$rc = $this->configuration->getValue($key);
 		if (empty($rc)){
@@ -721,6 +721,26 @@ class Session{
 				break;
 			}
 		return $rc;
+	}
+	/**
+	 * Returns the greatest x where x = 2**n and x <= $value.
+	 *
+	 * @param $value the value to round down
+	 */
+	function roundDownToPowerOf2($value){
+		if ($value <= 0)
+			$value = 0;
+		else{
+			$n = 0;
+			while($value > 0){
+				$n++;
+				$value >>= 1;
+			}
+			$value = 1;
+			while(--$n > 0)
+				$value *= 2;
+		}
+		return $value;
 	}
 }
 ?>

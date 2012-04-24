@@ -1,3 +1,11 @@
+siguibui (1.0.5) unstable; urgency=low
+
+  * page.php: indexOfSelection(): Try to read the field. If it does not exist the userdata will be used.
+  * session.php i18n(): No default text is needed
+  * session.php: new: roundDownToPowerOf2()
+
+ -- J. Hamatoma <hama@siduction.net>  Tue, 24 Apr 2012 23:18:28 +0200
+
 siguibui (1.0.4) unstable; urgency=low
 
   * Application builder improvements

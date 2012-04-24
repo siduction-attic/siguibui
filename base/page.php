@@ -620,6 +620,8 @@ function startWait($answer, $program, $description, $progress, $translations = n
 function indexOfSelectionField($page, $field, $keyOfListUserData, $keyOfListConfig){
 	$value = $this->session->getField($field);
 	if (empty($value))
+		$value = $this->getUserData($field);
+	if (empty($value))
 		$rc = 0;
 	else {
 		if ($keyOfListUserData != NULL)
