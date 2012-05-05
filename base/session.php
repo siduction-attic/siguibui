@@ -118,8 +118,8 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'snapshot';
-		$button = 'button_create_snap';
+		$page = 'logicalview';
+		$button = 'button_del_lv';
 		#$button = '';
 		if (! empty($button))
 			$_POST[$button] = 'x';
@@ -165,9 +165,8 @@ class Session{
 		$_SERVER["REQUEST_METHOD"] = 'get';
 		}
 
-		$_POST['volume_groups'] = 'tescht2';
-		$_POST['create_vg_pv'] = '/dev/sdc2';
-		$_POST['create_lv_size'] = '512';
+		$_POST['volume_group'] = 'tescht2';
+		$_POST['del_lv_lv'] = 'data';
 		$_POST['create_lv_unit'] = 'KiByte';
 		$_POST['root_pass2'] = '123456';
 		$_POST['real_name'] = 'a';
@@ -378,6 +377,18 @@ class Session{
 		else
 			$content = file_get_contents($filename);
 		return $content;
+	}
+	/** Writes a string into a file.
+	 *
+	 * @param $filename	name of the file
+	 * @param $content 	the content to write
+	 */
+	function writeFile($filename, $content){
+		$file = fopen($filename, "w");
+		if ($file){
+			fwrite($file, $content);
+			fclose($file);
+		}
 	}
 	/** Returns an array containing variables from a config file.
 	 *
@@ -741,6 +752,15 @@ class Session{
 				$value *= 2;
 		}
 		return $value;
+	}
+	/**
+	 * Sets the value of an input field.
+	 *
+	 * @param $field	an input field
+	 * @param $value	the new value
+	 */
+	function setField($field, $value){
+		$_POST[$field] = $_GET[$field] = $value;
 	}
 }
 ?>
