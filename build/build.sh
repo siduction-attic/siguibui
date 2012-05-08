@@ -127,6 +127,7 @@ if [ ! -d debian ] ; then
 backend		usr/share/$PROJ
 config		usr/share/$PROJ
 plugins		usr/share/$PROJ
+images		usr/share/$PROJ
 etc/$PROJ	etc
 etc/pywwetha	etc
 usr/bin		usr

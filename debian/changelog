@@ -1,3 +1,11 @@
+siguibui (1.1.0) unstable; urgency=low
+
+  * Fix: undefined variable in readHtmlTemplates()
+  * toolkit.html extended
+  * build.sh: installing subdirectory images
+
+ -- J. Hamatoma <hama@siduction.net>  Mon, 07 May 2012 21:31:46 +0200
+
 siguibui (1.0.6) unstable; urgency=low
 
   * New: writeFile() and setField()

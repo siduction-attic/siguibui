@@ -679,12 +679,15 @@ function indexOfList($page, $keyOfCurrent, $keyOfListUserData, $keyOfListConfig)
  * </pre>
  */
 function readHtmlTemplates(){
-	$all = $this->session->readFile($this->session->pageDir . $this->name . '.parts.content.txt');
+	$fn = $this->session->pageDir . $this->name . '.parts.content.txt';
+	$this->session->trace(TRACE_RARE, "readHtmlTemplate: $fn");
+	$all = $this->session->readFile($fn);
 	if (strpos($all, "\r") > 0)
 		$all = str_replace("\r", "", $all);
 	$this->parts = array();
 	$start = 0;
 	$lastName = "";
+	$pos = 0;
 	while(preg_match('/^([-A-Z_]+):$/m', $all, $hit, 0, $start)){
 		$name = $hit[1];
 		$pos = strpos($all, $name . ':', $start);
@@ -807,4 +810,5 @@ function buildTable($headers, $rows, $prefixMakro, $firstRow = 1){
 	$rc = str_replace('###' . $prefixMakro . '_ROWS###', $rowBody, $rc);
 	return $rc;
 }
+
 }

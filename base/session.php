@@ -118,17 +118,17 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'logicalview';
+		$page = 'partition';
 		$button = 'button_del_lv';
-		#$button = '';
+		$button = '';
 		if (! empty($button))
 			$_POST[$button] = 'x';
 		#$_POST[$button] = 'x';
 
 		$_SERVER = array();
 
-		$rootDir = '/home/wsl6/php/sidu-disk-center';
-		$virtualHost = 'sidu-disk-center';
+		$rootDir = '/home/wsl6/php/sidu-installer';
+		$virtualHost = 'sidu-installer';
 
 		$_SERVER['PATH_TRANSLATED'] = $rootDir . '/home';
 		$_SERVER['HTTP_USER_AGENT'] = 'Opera/9.80 (x11; Linux86_64; U; de) Presto/2.9.168 Version/11.51';
@@ -761,6 +761,20 @@ class Session{
 	 */
 	function setField($field, $value){
 		$_POST[$field] = $_GET[$field] = $value;
+	}
+	/**
+	 * Builds a list from the (fix) configuration with (dynamic) elements.
+	 * @param $keyConfig	key in the configuration (with prefix (plugin))
+	 * @param $plugin		prefix in user data
+	 * @param $keyUser		the extended list will be stored with this key (in user data)
+	 * @param $listExtended	the elements to add
+	 * @param $separator	separator of the two lists
+	 */
+	function extendList($keyConfig, $plugin, $keyUserData, $listExtended, $separator = ';' ){
+		$list = $this->configuration->getValue($keyConfig);
+		if (! empty($listExtended))
+				$list .= $separator . $listExtended;
+		$this->userData->setValue($plugin,  $keyUserData, $list);
 	}
 }
 ?>

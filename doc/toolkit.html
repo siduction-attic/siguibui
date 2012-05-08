@@ -38,6 +38,7 @@
 <li> <a href="#C9_3_">9.3. Adding a Combobox with Fixed Alternatives</a></li>
 <li> <a href="#C9_4_">9.4. Adding a Combobox with Dynamic Alternatives</a></li>
 <li> <a href="#C9_5_">9.5. Field Validation and Error Messages</a></li>
+<li> <a href="#C9_6_">9.6. Conditional GUI Areas</a></li>
 </ul>
 </div>
 <!---===TOC===-->
@@ -194,6 +195,7 @@ known.</p>
 	<li>###txt_y###: Texts which will be replaced by values defined in
 	the configuration. The key is &lt;plugin&gt;.txt_y (&lt;plugin&gt; is
 	the name of the current plugin).</li>
+	<li>###PART_X###: X is the name of the template defined in plugin/y.parts.content.txt. See <a href="#cond_gui_parts">Conditional GUI Areas</a></li>
 </ul>
 </div>
 <h1><a name="C5_">5.</a> Configuration</h1>
@@ -315,6 +317,10 @@ A input field for a <strong>ipaddress</strong> should be added to the page <stro
    <code>$curValue = $this-&gt;session-&gt;userData-&gt;getValue(<strong>'wlan'</strong>, <strong>'ipaddress'</strong>);</code>
 </li>
 </ul>
+
+<p><strong>Note</strong>:<br/>
+If the field value should be empty on a redisplay the makro ###VAL_...### must not be set.
+</p>
 </div>
 
 <h2><a name="C9_3_">9.3.</a> Adding a Combobox with Fixed Alternatives</h2>
@@ -435,6 +441,76 @@ must be checked for a correct syntax. In the case of an error a message must be 
 	method <strong>setErrorMessage()</strong> must be called for displaying.
 </li>
 </ul>
+</div>
+<h2><a name="C9_6_">9.6.</a> Conditional GUI Areas</h2>
+<div class="textblock">
+<p><a name="cond_gui_parts"><strong>Task</strong>:</a><br/>
+A certain screen area should be displayed only under some conditions. The example is a division 
+to show the last command log message. This will be showed only if a command is executed. 
+</p>
+<strong>Solution:</strong>
+<ul>
+<li>Create a file plugin/<strong>wlan</strong>.parts.content.txt. This one file will be used for all
+conditional templates</li>
+<li>Choose a name for the part, e.g. <strong>LAST_LOG</strong>.
+<li>plugin/<strong>wlan</strong>.parts.content.txt:<br/>
+ <code>LAST_LOG:<br/>
+ &lt;h2&gt;###txt_header_last_log&lt;/h2&gt;<br/>
+ &lt;div class="log"&gt;###txt_last_log###<br/>
+ &lt;/div&gt;
+ </code>
+</li>
+<li>plugin/<strong>wlan</strong>.content.txt:<br/> 
+  Put a the makro ###PART_<b>LAST_LOG</b>### to the html code
+  where the log message should be displayed.
+</li>
+<li>plugin/<strong>wlan</strong>page.php:
+ <ul>
+  <li>Load the makros in function build():<br/>
+   <code>$this-&gt;readContentTemplate();<br/>
+		$this-&gt;readHtmlTemplates();
+   </code>
+  </li>
+  <li>Switch the last log part on or off:<br/>
+  <code>if ($hasMessage)<br/>
+  &nbsp;&nbsp;$this-&gt;clearPart('<b>LAST_LOG</b>');<br/>
+  else {<br/>
+  &nbsp;&nbsp;$this-&gt;replacePartWithTemplate('<b>LAST_LOG</b>');<br/>
+  &nbsp;&nbsp;$lastLog = $this-&gt;session-&gt;readFile('last.log');<br/>
+  &nbsp;&nbsp;$this-&gt;content = str_replace('###txt_last_log###', $lastLog, $this-&gt;content);<br/>
+  }
+  </code>
+  </li>
+  <li>You can also replace a given makro with more then one alternative templates.<br/>
+  <code>if (! $hasMessage)<br/>
+  &nbsp;&nbsp;$this-&gt;replacePartWithTemplate('<b>LAST_LOG</b>', 'NO_LOG_MESSAGE');<br/>
+  else <br/>
+  &nbsp;&nbsp;$this-&gt;replacePartWithTemplate('<b>LAST_LOG</b>');<br/>
+  </code>
+  <strong>Note</strong>:<br/>
+  <code>$this-&gt;replacePartWithTemplate('<b>LAST_LOG</b>')</code><br/>
+  is an <b>abbrevation</b> of<br/>
+  <code>$this-&gt;replacePartWithTemplate('<b>LAST_LOG</b>', '<b>LAST_LOG</b>')</code>
+  </li>
+ </ul>
+</li>
+</ul>
+<strong>Syntax</strong> of a template definition file:
+<pre>
+file ::= {&lt;template-definition&gt; }+
+template-definition ::= &lt;header&gt; &lt;body&gt;
+header ::= &lt;name&gt; ':' '\n'
+body ::= { &lt;body-line&gt; }+
+body-line ::= &lt;html-code-or-makros&gt; '\n'
+</pre>
+<strong>Example</strong> of a template definition file:
+<pre>
+file ::= {&lt;template-definition&gt; }+
+template-definition ::= &lt;header&gt; &lt;body&gt;
+header ::= &lt;name&gt; ':' '\n'
+body ::= { &lt;body-line&gt; }+
+body-line ::= &lt;html-code-or-makros&gt; '\n'
+</pre>
 </div>
 
 </body>
