@@ -1,10 +1,14 @@
 siguibui (1.1.0) unstable; urgency=low
 
+  [ J. Hamatoma ]
   * Fix: undefined variable in readHtmlTemplates()
   * toolkit.html extended
   * build.sh: installing subdirectory images
+  
+  [ Alf Gaida ]
+  * rebuild closes #695
 
- -- J. Hamatoma <hama@siduction.net>  Mon, 07 May 2012 21:31:46 +0200
+ -- Alf Gaida <agaida@siduction.org>  Sat, 12 May 2012 13:40:39 +0200
 
 siguibui (1.0.6) unstable; urgency=low
 
