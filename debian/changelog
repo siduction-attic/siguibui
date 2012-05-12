@@ -1,8 +1,12 @@
 siguibui (1.1.1) unstable; urgency=low
 
+  [ J. Hamatoma ]
   * New: getField() gets a field from GET or user data.
+  
+  [ Alf Gaida ]
+  * rebuild refs #695 again
 
- -- J. Hamatoma <hama@siduction.net>  Sat, 12 May 2012 13:09:07 +0200
+ -- Alf Gaida <agaida@siduction.org>  Sat, 12 May 2012 22:10:27 +0200
 
 siguibui (1.1.0) unstable; urgency=low
 
