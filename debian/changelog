@@ -1,3 +1,9 @@
+siguibui (1.1.1) unstable; urgency=low
+
+  * New: getField() gets a field from GET or user data.
+
+ -- J. Hamatoma <hama@siduction.net>  Sat, 12 May 2012 13:09:07 +0200
+
 siguibui (1.1.0) unstable; urgency=low
 
   * Fix: undefined variable in readHtmlTemplates()

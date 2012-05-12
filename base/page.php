@@ -33,6 +33,21 @@ abstract class Page{
 		else
 			$this->setFieldsFromUserData();
 	}
+	/**
+	 * Returns the field value.
+	 * First the GET variables will be inspected.
+	 * If not found the user data will be inspected.
+	 *
+	 * @param $field
+	 * @return 	'': Field not found<br/>
+	 * 			otherwise: the field value
+	 */
+	function getField($field){
+		$rc = $this->session->getField($field);
+		if (empty($rc))
+			$rc = $this->getUserData($field);
+		return $rc;
+	}
 	/** Returns the name of the html template.
 	 *
 	 * Can be overwritten by sub classes.
@@ -86,7 +101,7 @@ abstract class Page{
 	 * @param $encode	true: html characters will be encoded. false: No encoding
 	 */
 	function setReplacement($marker, $value, $encode = false){
-		$this->session->trace(TRACE_FINE, "setReplacement: $marker $value");
+		//$this->session->trace(TRACE_FINE, "setReplacement: $marker $value");
 		if ($encode && strncmp($value, '<xml>', 5) == 0){
 			$encode = false;
 			$value = substr($value, 5);
