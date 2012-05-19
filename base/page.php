@@ -734,6 +734,17 @@ function replacePartWithTemplate($namePart, $nameTemplate = NULL){
 	$template = $this->parts[$nameTemplate];
 	$this->content = str_replace("###PART_${namePart}###", $template, $this->content);
 }
+/**
+ * Initializes the method to switch a html area between 2 states by a button.
+ *
+ * @param $namePart			the name of the part.
+ * @param $defaultPart		the part which will be displayed at first.
+ */
+function initializeButtonSwitchedParts($namePart, $defaultPart){
+	$val = $this->getUserData($namePart);
+	if (empty($val))
+		$this->setUserData($namePart, $defaultPart);
+}
 /** Handles a part of the html page which can switched between 2 states with a button.
  *
  * Conventions:
