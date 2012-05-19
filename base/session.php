@@ -118,7 +118,7 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'partition';
+		$page = 'btrfs';
 		$button = 'button_del_lv';
 		$button = '';
 		if (! empty($button))
@@ -127,8 +127,8 @@ class Session{
 
 		$_SERVER = array();
 
-		$rootDir = '/home/wsl6/php/sidu-installer';
-		$virtualHost = 'sidu-installer';
+		$virtualHost = 'sidu-disk-center';
+		$rootDir = "/home/wsl6/php/$virtualHost";
 
 		$_SERVER['PATH_TRANSLATED'] = $rootDir . '/home';
 		$_SERVER['HTTP_USER_AGENT'] = 'Opera/9.80 (x11; Linux86_64; U; de) Presto/2.9.168 Version/11.51';
@@ -166,7 +166,7 @@ class Session{
 		}
 
 		$_POST['volume_group'] = 'tescht2';
-		$_POST['del_lv_lv'] = 'data';
+		$_POST['del_lv_lv'] = 'work5';
 		$_POST['create_lv_unit'] = 'KiByte';
 		$_POST['root_pass2'] = '123456';
 		$_POST['real_name'] = 'a';
@@ -203,10 +203,6 @@ class Session{
 	 */
 	function parseEnvironment(){
 		global $_SERVER, $_POST, $_GET;
-		if ($this->usePost)
-			$this->fields = $_POST;
-		else
-			$this->fields = $_GET;
 		if (false)
 			$this->traceArray(TRACE_CONFIG, 'Fields:', $this->fields);
 		if (false)
@@ -215,6 +211,12 @@ class Session{
 			$this->traceFlag = $_SERVER['TRACE_FLAGS'];
 		$mode = $_SERVER['REQUEST_METHOD'];
 		$this->usePost = strcasecmp($mode, 'post') == 0;
+
+		if ($this->usePost)
+			$this->fields = $_POST;
+		else
+			$this->fields = $_GET;
+
 		$this->scriptFile = $_SERVER['SCRIPT_FILENAME'];
 		$parts = $this->splitFile($this->scriptFile);
 		$this->homeDir = $parts['dir'];
