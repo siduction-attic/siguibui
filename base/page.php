@@ -116,8 +116,18 @@ abstract class Page{
 	 * @param $value	the value to set
 	 */
 	function setField($field, $value){
+		$this->session->trace(TRACE_RARE, "Page.setField($field, $value)");
 		$marker = '###VAL_' . strtoupper($field) . '###';
 		$this->setReplacement($marker, $value, true);
+	}
+	/** Sets the value of an input field and in the user data.
+	 *
+	 * @param $field	the field name
+	 * @param $value	the value to set
+	 */
+	function setFieldAndUserData($field, $value){
+		$this->setField($field, $value);
+		$this->setUserData($field, $value);
 	}
 	/** Sets the fields from http header and store them in the user data.
 	 */
@@ -452,10 +462,19 @@ abstract class Page{
 	 *
 	 * @param $key	the key of the text in the configuration
 	 */
-	function replaceInContent($key){
-		$text = $this->getConfiguration($key);
+	function replaceInContent($key, $text = null){
+		if ($text == null)
+			$text = $this->getConfiguration($key);
 		$this->content = str_replace("###${key}###", $text, $this->content);
-}
+	}
+	/** Replaces a marker with a text from the user data.
+	 *
+	 * @param $key	the key of the text in the userdata
+	 */
+	function replaceInContentWithUserData($key){
+		$text = $this->getUserData($key);
+		$this->content = str_replace("###${key}###", $text, $this->content);
+	}
 /** Replaces a marker with a given text.
  *
  * @param $marker	the marker to replace (without ###)

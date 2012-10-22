@@ -118,16 +118,16 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'btrfs';
-		$button = 'button_del_lv';
-		$button = '';
+		$page = 'template';
+		$button = 'button_one_disk_prepare';
+		#$button = '';
 		if (! empty($button))
 			$_POST[$button] = 'x';
 		#$_POST[$button] = 'x';
 
 		$_SERVER = array();
 
-		$virtualHost = 'sidu-disk-center';
+		$virtualHost = 'sidu-installer';
 		$rootDir = "/home/wsl6/php/$virtualHost";
 
 		$_SERVER['PATH_TRANSLATED'] = $rootDir . '/home';
@@ -165,6 +165,7 @@ class Session{
 		$_SERVER["REQUEST_METHOD"] = 'get';
 		}
 
+		$_POST['one_disk_disk'] = 'sdc';
 		$_POST['volume_group'] = 'tescht2';
 		$_POST['del_lv_lv'] = 'work5';
 		$_POST['create_lv_unit'] = 'KiByte';
@@ -204,8 +205,6 @@ class Session{
 	function parseEnvironment(){
 		global $_SERVER, $_POST, $_GET;
 		if (false)
-			$this->traceArray(TRACE_CONFIG, 'Fields:', $this->fields);
-		if (false)
 			$this->traceArray(TRACE_CONFIG, '_SERVER', $_SERVER);
 		if (false && ! empty($_SERVER['TRACE_FLAGS']))
 			$this->traceFlag = $_SERVER['TRACE_FLAGS'];
@@ -216,7 +215,10 @@ class Session{
 			$this->fields = $_POST;
 		else
 			$this->fields = $_GET;
-
+		$useTrace = $this->usePost;
+		if (false)
+			$this->traceArray(TRACE_CONFIG, 'Fields:', $this->fields);
+		$this->trace(TRACE_FINE, "usePost: $mode $useTrace");
 		$this->scriptFile = $_SERVER['SCRIPT_FILENAME'];
 		$parts = $this->splitFile($this->scriptFile);
 		$this->homeDir = $parts['dir'];

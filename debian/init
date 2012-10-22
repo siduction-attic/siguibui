@@ -11,8 +11,10 @@
 PATH=$PATH:/bin:/sbin:/usr/sbin
 
 VERBOSE=-v
-BIN=/usr/share/siguibui/backend/shellserver.sh
 CONFIG=/etc/siguibui/siguibui.conf
+source $CONFIG
+test -n "$SHELLSERVER_BASE" || SCRIPT_BASE=/usr/share/siguibui
+BIN=$SHELLSERVER_BASE/backend/shellserver.sh
 
 start() {
   pid=$(getPid)

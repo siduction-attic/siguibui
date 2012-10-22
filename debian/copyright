@@ -3,11 +3,16 @@ Upstream-Name: siguibui
 Source: http://git.siduction.org/
 
 Files: *
-Copyright: 2011 J. Hamatoma <hama@siduction.net>
+Copyright: 2011-2012 J. Hamatoma <hama@siduction.net>
 License: GPL-3.0+
 
 Files: debian/*
-Copyright: 2011 J. Hamatoma <hama@siduction.net>
+Copyright: 2011-2012 J. Hamatoma <hama@siduction.net>
+License: GPL-3.0+
+
+Files: backend/automount-control.sh
+Copyright: 2012 Bsd Conf <bsdconv@siduction.net>
+
 License: GPL-3.0+
 
 License: GPL-3.0+
