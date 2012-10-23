@@ -1,12 +1,15 @@
-siguibui (1.3) UNRELEASED; urgency=low
+siguibui (1.3) unstable; urgency=low
 
+  [ J. Hamatoma ]
   * New: automount-control.sh: En/Disables automount unter gnome
   * New: setFieldAndUserData()
   * 2nd parameter text for replaceInContent()
   * Test helper: configurable base directory for the shellserver
 
+  [ Alf Gaida ]
+  * fixes #930
 
- -- J. Hamatoma <hama@siduction.net>  Mon, 22 Oct 2012 16:08:43 +0200
+ -- Alf Gaida <agaida@siduction.org>  Tue, 23 Oct 2012 19:30:51 +0200
 
 siguibui (1.2) unstable; urgency=low
 
