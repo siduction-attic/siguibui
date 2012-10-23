@@ -12,7 +12,7 @@ PATH=$PATH:/bin:/sbin:/usr/sbin
 
 VERBOSE=-v
 CONFIG=/etc/siguibui/siguibui.conf
-source $CONFIG
+test -f $CONFIG && . $CONFIG
 test -n "$SHELLSERVER_BASE" || SCRIPT_BASE=/usr/share/siguibui
 BIN=$SHELLSERVER_BASE/backend/shellserver.sh
 

@@ -1,4 +1,10 @@
-siguibui (1.3) UNRELEASED; urgency=low
+siguibui (1.3.1) UNRELEASED; urgency=low
+
+  * Fix: /bin/sh is not bash: "source" replaced by "."
+
+ -- J. Hamatoma <hama@siduction.net>  Wed, 24 Oct 2012 00:07:01 +0200
+
+siguibui (1.3) unstable; urgency=low
 
   * New: automount-control.sh: En/Disables automount unter gnome
   * New: setFieldAndUserData()

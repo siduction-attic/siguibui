@@ -118,8 +118,8 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'template';
-		$button = 'button_one_disk_prepare';
+		$page = 'partition';
+		$button = '';
 		#$button = '';
 		if (! empty($button))
 			$_POST[$button] = 'x';
