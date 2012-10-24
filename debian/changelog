@@ -1,25 +1,29 @@
 siguibui (1.3.1) UNRELEASED; urgency=low
 
   * Fix: /bin/sh is not bash: "source" replaced by "."
+  * rebuild closes #933
 
  -- J. Hamatoma <hama@siduction.net>  Wed, 24 Oct 2012 00:07:01 +0200
 
 siguibui (1.3) unstable; urgency=low
 
+  [ J. Hamatoma ]
   * New: automount-control.sh: En/Disables automount unter gnome
   * New: setFieldAndUserData()
   * 2nd parameter text for replaceInContent()
   * Test helper: configurable base directory for the shellserver
 
+  [ Alf Gaida ]
+  * fixes #930
 
- -- J. Hamatoma <hama@siduction.net>  Mon, 22 Oct 2012 16:08:43 +0200
+ -- Alf Gaida <agaida@siduction.org>  Tue, 23 Oct 2012 19:30:51 +0200
 
 siguibui (1.2) unstable; urgency=low
 
   [ J. Hamatoma ]
   * new: Page.initializeButtonSwitchedParts()
   * Fix: timepoint of selection of $_POST or $_GET
-  
+
   [ agaida]
   * rebuild closes #713
 
@@ -29,7 +33,7 @@ siguibui (1.1.1) unstable; urgency=low
 
   [ J. Hamatoma ]
   * New: getField() gets a field from GET or user data.
-  
+
   [ Alf Gaida ]
   * rebuild refs #695 again
 
@@ -41,7 +45,7 @@ siguibui (1.1.0) unstable; urgency=low
   * Fix: undefined variable in readHtmlTemplates()
   * toolkit.html extended
   * build.sh: installing subdirectory images
-  
+
   [ Alf Gaida ]
   * rebuild closes #695
 
@@ -74,7 +78,7 @@ siguibui (1.0.3) unstable; urgency=low
 
   * Application builder improvements
   * Design: like sidu-installer v1.0.0
-  * Fix: html templage: project macro instead of a fix name  
+  * Fix: html templage: project macro instead of a fix name
   * More files in the created .gitignore
   * git commit after generation of the project
   * creation of install, postinst, prerm, $PROJ-control
@@ -94,15 +98,15 @@ siguibui (1.0.3) unstable; urgency=low
 siguibui (1.0.2) unstable; urgency=low
 
   * add a siguibui override fo prevent lintian complaining about
-    siguibui: binary-without-manpage usr/bin/sidu-shellserver-control 
-  * fixes #655 
+    siguibui: binary-without-manpage usr/bin/sidu-shellserver-control
+  * fixes #655
 
  -- Alf Gaida <agaida@siduction.org>  Fri, 23 Mar 2012 10:41:40 +0100
 
 siguibui (1.0.1) unstable; urgency=low
 
   * bump standards to 3.9.3
-  * debhelper (>= 9) 
+  * debhelper (>= 9)
   * bump compat to 9
 
  -- Alf Gaida <agaida@siduction.org>  Wed, 21 Mar 2012 17:26:51 +0100
@@ -119,7 +123,7 @@ siguibui (0.7.12) unstable; urgency=low
   * Fix: Ignores format errors in configuration of translation tables
 
   [ Alf Gaida ]
-  * rebuild fixes #522 # 524 
+  * rebuild fixes #522 # 524
 
  -- Alf Gaida <agaida@siduction.org>  Fri, 30 Dec 2011 00:46:35 +0100
 
@@ -183,7 +187,7 @@ siguibui (0.7.4) unstable; urgency=low
 
 siguibui (0.7.3) unstable; urgency=low
 
-  * Fix Numbering according to Issue #369 
+  * Fix Numbering according to Issue #369
 
  -- Alf Gaida <agaida@siduction.org>  Wed, 07 Dec 2011 11:56:24 +0100
 
@@ -204,7 +208,7 @@ siguibui (0.7.1) unstable; urgency=low
 
   * added myself as uploader
   * change naming conventions (lintian warning dashes in native)
-  * bump version to 0.7.1 
+  * bump version to 0.7.1
 
  -- Alf Gaida <agaida@siduction.org>  Sat, 03 Dec 2011 00:48:27 +0100
 
@@ -226,7 +230,7 @@ siguibui (0.6-1) unstable; urgency=low
 
   * Dependency sux added
   * Automatic selection of the available terminal program (startgui.sh config)
-  * 
+  *
 
  -- J. Hamatoma <hamatoma@gmx.de>  Sat, 26 Nov 2011 09:44:35 +0100
 
@@ -240,7 +244,7 @@ siguibui (0.5-1) unstable; urgency=low
 siguibui (0.4+nmu1) unstable; urgency=low
 
   * Non-maintainer upload.
-  * only a new uoload 
+  * only a new uoload
 
  -- Alf Gaida <info@g-com.eu>  Thu, 24 Nov 2011 01:58:56 +0100
 
@@ -274,13 +278,13 @@ siguibui (0.1+nmu1) unstable; urgency=low
   * create debian/dirs: var/cache/siguibui
   * create debian/init
   * change numbering to non-dash number to prevent lintian
-    warnings 
-  * add .gitignore with generated files 
+    warnings
+  * add .gitignore with generated files
 
  -- Alf Gaida <info@g-com.eu>  Wed, 16 Nov 2011 23:38:01 +0100
 
 siguibui (0.1) unstable; urgency=low
 
-  * Initial release 
+  * Initial release
 
  -- J. Hamatoma <hamatoma@gmx.de>  Tue, 15 Nov 2011 22:28:18 +0100
