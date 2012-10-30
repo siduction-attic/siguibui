@@ -46,12 +46,16 @@ class Session{
 	var $requestUri;
 	/// e.g. help
 	var $page;
+	/// e.g. welcome#credits
+	var $pageAndBookmark;
 	/// e.g. info=1&edit=False
 	var $paramString;
 	/// e.g. [ "info=1", "edit=False" ]
 	var $params;
 	/// Debugging: a string with messages.
 	var $message;
+	/// Error messages (e.g. configuration errors).
+	var $errorMessage;
 	/// the data from all pages (user specific). Instance of UserData
 	var $userData;
 	/// the global configuration data. Instance of Configuration
@@ -118,7 +122,7 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'partition';
+		$page = 'welcome#welcome-gen';
 		$button = '';
 		#$button = '';
 		if (! empty($button))
@@ -127,43 +131,32 @@ class Session{
 
 		$_SERVER = array();
 
-		$virtualHost = 'sidu-installer';
+		$virtualHost = 'sidu-manual';
 		$rootDir = "/home/wsl6/php/$virtualHost";
 
-		$_SERVER['PATH_TRANSLATED'] = $rootDir . '/home';
+		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de-DE,en;q=0.9,fr-CA;q=0.8,ay;q=0.7,de;q=0.6';
+		$_SERVER['PATH_TRANSLATED'] = $rootDir . '/' . $page;
 		$_SERVER['HTTP_USER_AGENT'] = 'Opera/9.80 (x11; Linux86_64; U; de) Presto/2.9.168 Version/11.51';
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de-DE,en;q=0.9,fr-CA;q=0.8,ay;q=0.7,de;q=0.6';
 		$_SERVER['REMOTE_PORT'] = '50262';
 		$_SERVER['SCRIPT_FILENAME'] = $rootDir . '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
-		$_SERVER['REQUEST_METHOD'] = 'GET';
-		$_SERVER['HTTP_HOST'] = $virtualHost . ':8086';
-		$_SERVER['PATH_INFO'] = '';
 		$_SERVER['SERVER_PORT'] = '8086';
 		if (isset($_POST[$button]))
 			$_SERVER['QUERY_STRING'] = $_POST[$button] . '=x';
-		$_SERVER['DOCUMENT_ROOT'] =$rootDir;
-		$_SERVER['SERVER_ADDR'] = '127.0.0.1';
-		$_SERVER['REQUEST_URI'] = '/index.php/home?button_next=Weiter';
-
-		if (True){
-		$_SERVER['HTTP_HOST'] = $virtualHost;
 		$_SERVER['DOCUMENT_ROOT'] = $rootDir;
-		$_SERVER['SCRIPT_FILENAME'] = $rootDir . '/index.php';
+		$_SERVER['SERVER_ADDR'] = '127.0.0.1';
+
+		$_SERVER['HTTP_HOST'] = $virtualHost;
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
-		$_SERVER['REQUEST_URI'] = "/index.php/$page?param2=abc";
+		$uri = empty($page) ? '/index.php' : "/index.php/$page?param2=abc";
+		$_SERVER['REQUEST_URI'] = $uri;
 		$_SERVER['PATH_INFO'] = "";
 		if (! empty($page))
 			$_SERVER['PATH_INFO'] = "";
 		$_SERVER['PHP_SELF'] = "/index.php";
 		$_SERVER['HTTP_HOST'] = $virtualHost;
-		#$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'en-US,de-DE,de;q=0.9,en;q=0.8';
-		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de-DE,de;q=0.9,en;q=0.8';
-		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-		$_SERVER['HTTP_USER_AGENT'] = 'Opera/9.80 (X11; Linux x86_64; U; de) Presto/2.9.168 Version/11.50';
 		$_SERVER["REQUEST_METHOD"] = 'get';
-		}
 
 		$_POST['one_disk_disk'] = 'sdc';
 		$_POST['volume_group'] = 'tescht2';
@@ -181,6 +174,7 @@ class Session{
 		$_POST['add_mount2'] = '';
 		$_POST['disk'] = 'all';
 		$_POST['partman'] = 'gparted';
+		$_POST['page'] = '';
 		foreach ($_POST as $key => $value)
 			$_GET[$key] = $value;
 	}
@@ -234,16 +228,16 @@ class Session{
 				$_SERVER['PATH_INFO'] = $pathInfo;
 			}
 		}
-
+		$page = null;
 		if (isset($_SERVER['PATH_INFO']) && ! empty($_SERVER['PATH_INFO']))
-			$this->page = substr($_SERVER['PATH_INFO'], 1);
+			$page = substr($_SERVER['PATH_INFO'], 1);
 		elseif (isset($_GET['page']) && ! empty($_GET['page']))
-			$this->page = $_GET["page"];
+			$page = $_GET["page"];
 		else {
 			$uri = $this->requestUri;
 			$ix = strpos($uri, 'page=');
 			if ($ix === False)
-				$this->page = 'home';
+				$page = 'home';
 			else
 			{
 				$ix += 5;
@@ -251,9 +245,14 @@ class Session{
 				$ixEnd = strpos($uri, '&', $ix);
 				if ($ixEnd === False)
 					$ixEnd = $length;
-				$this->page = substr($uri, $ix, $ixEnd - $ix);
+				$page = substr($uri, $ix, $ixEnd - $ix);
 			}
 		}
+		$this->pageAndBookmark = $page;
+		if ( ($ix = strpos($page, '#')) > 0){
+			$page = substr($page, 0, $ix);
+		}
+		$this->page = $page;
 		$this->domain = $_SERVER['HTTP_HOST'];
 		$ix = strpos($this->domain, ':');
 		if ($ix > 0)
@@ -433,6 +432,19 @@ class Session{
 		$rc = file_exists($filename);
 		return $rc;
 	}
+	/**
+	 * Tests whether a page is a static page.
+	 *
+	 * @param $page name of the page, without language part
+	 * @return 	true: the page is a static page.<br>
+	 * 			false: otherwise
+	 */
+	function isStaticPage($page){
+		$name = $this->homeDir . 'static/en/' . $page . '-en.htm';
+		$rc = file_exists($name);
+		$this->trace(TRACE_RARE, "isStatic($page): $name: $rc");
+		return $rc;
+	}
 	/** Builds an absolute filename with a given language code.
 	 *
 	 * @param $name 	the filename with path
@@ -524,6 +536,20 @@ class Session{
 		$this->trace(TRACE_RARE, "gotoPage($from): $url -> $header");
 		header($header);
 		exit;
+	}
+	/** Assembles debugging output.
+	 *
+	 * @param $msg	a debugging message
+	 */
+	function logError($msg){
+		$this->errorMessage .= '<p class="error">' . $msg . "</p>\n";
+	}
+	/** Returns the assembled debugging messages.
+	 *
+	 * @return the debugging messages
+	 */
+	function getErrorMessage(){
+		return $this->errorMessage;
 	}
 	/** Assembles debugging output.
 	 *
