@@ -114,6 +114,12 @@ class Session{
 		$this->tempDir = $this->configuration->getValue('.tempdir');
 		$this->publicDir = $this->tempDir . 'public/';
 		$this->userData = new UserData($this);
+		if (strpos($this->requestUri, 'index.php') === false){
+			$home = $this->configuration->getValue('static.home');
+			if (empty($home))
+				$home = 'home';
+			$this->gotoPage($home, 'session->__construct()');
+		}
 	}
 	/** Simulates a webserver: for development only.
 	 *
@@ -294,7 +300,7 @@ class Session{
 			$lang = substr($lang, 0, $ix);
 		if (strlen($lang) == 2)
 			$this->language = $lang;
-		$this->trace(TRACE_RARE, 'Origin page: ' . $this->page);
+		$this->trace(TRACE_RARE, 'Origin page: ' . $this->page . ' RequestUri: ' . $this->requestUri);
 	}
 	/** Translate a text.
 	 *

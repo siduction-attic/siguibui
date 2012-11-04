@@ -1,3 +1,10 @@
+siguibui (2.1) UNRELEASED; urgency=low
+
+  * Fix: Better behaviour on wrong URLs
+  * If index.php is missed the URL will set to the static.home
+
+ -- J. Hamatoma <hama@siduction.net>  Sun, 04 Nov 2012 21:56:20 +0100
+
 siguibui (2.0) unstable; urgency=low
 
   * Handling of static pages
