@@ -11,49 +11,58 @@
 <!---===TOC===-->
 <div class="toc">
 <ul>
-<li> <a href="#C1_">1. Introduction</a></li>
-<li> <a href="#C1_1_">1.1. Purpose</a></li>
-<li> <a href="#C1_2_">1.2. Architecture</a></li>
-<li> <a href="#C1_3_">1.3. Navigation</a></li>
-<li> <a href="#C2_">2. Plugins</a></li>
-<li> <a href="#C2_1_">2.1. Tasks of a Plugin</a></li>
-<li> <a href="#C2_2_">2.2. Methods to Overwrite (always)</a></li>
-<li> <a href="#C2_3_">2.3. Methods to Overwrite (optional)</a></li>
-<li> <a href="#C2_4_">2.4. Plugin services</a></li>
-<li> <a href="#C3_">3. Page Template</a></li>
-<li> <a href="#C3_1_">3.1. Markers</a></li>
-<li> <a href="#C4_">4. Content Template</a></li>
-<li> <a href="#C4_1_">4.1. Markers</a></li>
-<li> <a href="#C5_">5. Configuration</a></li>
-<li> <a href="#C5_1_">5.1. Global Configuration Data</a></li>
-<li> <a href="#C5_2_">5.2. User Data</a></li>
-<li> <a href="#C6_">6. Data flow</a></li>
-<li> <a href="#C6_1_">6.1. Setting the Input Fields</a></li>
-<li> <a href="#C6_2_">6.2. Field Validation</a></li>
-<li> <a href="#C7_">7. I18n</a></li>
-<li> <a href="#C8_">8. Conventions</a></li>
-<li> <a href="#C9_">9. Cookbook</a></li>
-<li> <a href="#C9_1_">9.1. Building a Debian Package</a></li>
-<li> <a href="#C9_2_">9.2. Adding a Text Input Field</a></li>
-<li> <a href="#C9_3_">9.3. Adding a Combobox with Fixed Alternatives</a></li>
-<li> <a href="#C9_4_">9.4. Adding a Combobox with Dynamic Alternatives</a></li>
-<li> <a href="#C9_5_">9.5. Field Validation and Error Messages</a></li>
-<li> <a href="#C9_6_">9.6. Conditional GUI Areas</a></li>
+<li> <a href="#C1_">1.  Introduction</a></li>
+<li> <a href="#C1_1_">1.1.  Purpose</a></li>
+<li> <a href="#C1_2_">1.2.  Architecture</a></li>
+<li> <a href="#C1_3_">1.3.  Navigation</a></li>
+<li> <a href="#C2_">2.  Plugins</a></li>
+<li> <a href="#C2_1_">2.1.  Tasks of a Plugin</a></li>
+<li> <a href="#C2_2_">2.2.  Methods to Overwrite (always)</a></li>
+<li> <a href="#C2_3_">2.3.  Methods to Overwrite (optional)</a></li>
+<li> <a href="#C2_4_">2.4.  Plugin services</a></li>
+<li> <a href="#C3_">3.  Page Template</a></li>
+<li> <a href="#C3_1_">3.1.  Markers</a></li>
+<li> <a href="#C4_">4.  Content Template</a></li>
+<li> <a href="#C4_1_">4.1.  Markers</a></li>
+<li> <a href="#C5_">5.  Configuration</a></li>
+<li> <a href="#C5_1_">5.1.  Global Configuration Data</a></li>
+<li> <a href="#C5_2_">5.2.  User Data</a></li>
+<li> <a href="#C6_">6.  Data flow</a></li>
+<li> <a href="#C6_1_">6.1.  Setting the Input Fields</a></li>
+<li> <a href="#C6_2_">6.2.  Field Validation</a></li>
+<li> <a href="#C7_">7. Menus</a></li>
+<li> <a href="#C7_1_">7.1. Content and Structure Definition</a></li>
+<li> <a href="#C7_1_1_">7.1.1. Example config/menu_en.conf</a></li>
+<li> <a href="#C7_2_">7.2. XML Definition</a></li>
+<li> <a href="#C7_2_1_">7.2.1. Example config/menu_en.conf</a></li>
+<li> <a href="#C8_">8.  Static Pages</a></li>
+<li> <a href="#C8_1_">8.1. Directory Structure and Name Conventions</a></li>
+<li> <a href="#C8_2_">8.2. Example of a Directory of the Static Pages</a></li>
+<li> <a href="#C8_3_">8.3. Content File</a></li>
+<li> <a href="#C9_">9.  I18n</a></li>
+<li> <a href="#C10_">10.  Conventions</a></li>
+<li> <a href="#C11_">11.  Cookbook</a></li>
+<li> <a href="#C11_1_">11.1.  Building a Debian Package</a></li>
+<li> <a href="#C11_2_">11.2.  Adding a Text Input Field</a></li>
+<li> <a href="#C11_3_">11.3.  Adding a Combobox with Fixed Alternatives</a></li>
+<li> <a href="#C11_4_">11.4.  Adding a Combobox with Dynamic Alternatives</a></li>
+<li> <a href="#C11_5_">11.5.  Field Validation and Error Messages</a></li>
+<li> <a href="#C11_6_">11.6.  Conditional GUI Areas</a></li>
 </ul>
 </div>
 <!---===TOC===-->
-<h1><a name="C1_">1.</a> Introduction</h1>
+<h1><a name="C1_">1.</a>  Introduction</h1>
 <div class="textblock">
 <p>This document describes the project inosid for developers.</p>
 </div>
 
-<h2><a name="C1_1_">1.1.</a> Purpose</h2>
+<h2><a name="C1_1_">1.1.</a>  Purpose</h2>
 <div class="textblock">
 <p>sigui provides a toolkit for developing graphical interfaces for browser 
 based applications.</p>
 </div>
 
-<h2><a name="C1_2_">1.2.</a> Architecture</h2>
+<h2><a name="C1_2_">1.2.</a>  Architecture</h2>
 <div class="textblock">
 <p>This is a <strong>template and plugin</strong> driven approach
 which can be extended and modified easily.</p>
@@ -65,7 +74,7 @@ by a class derived from Page to administrate this page.</p>
 the page will be created from the plugin.<br />
 This allows using one template for all pages (equal design).</p>
 </div>
-<h2><a name="C1_3_">1.3.</a> Navigation</h2>
+<h2><a name="C1_3_">1.3.</a>  Navigation</h2>
 <div class="textblock">
 <p>The standard http process only allows access to the input field
 values if a button inside the form has been pushed. Therefore the
@@ -76,9 +85,9 @@ the data will be lost if he does not (very uncomfortable).</p>
 values and then it changes the page.</p>
 </div>
 
-<h1><a name="C2_">2.</a> Plugins</h1>
+<h1><a name="C2_">2.</a>  Plugins</h1>
 
-<h2><a name="C2_1_">2.1.</a> Tasks of a Plugin</h2>
+<h2><a name="C2_1_">2.1.</a>  Tasks of a Plugin</h2>
 <div class="textblock">
 <ul>
 	<li>Builds the content area of the page.</li>
@@ -88,13 +97,13 @@ values and then it changes the page.</p>
 </ul>
 </div>
 
-<h2><a name="C2_2_">2.2.</a> Methods to Overwrite (always)</h2>
+<h2><a name="C2_2_">2.2.</a>  Methods to Overwrite (always)</h2>
 <div class="textblock">
 <p>The plugin class must overwrite the abstract methods of the class
 Page. See page.php.</p>
 </div>
 
-<h2><a name="C2_3_">2.3.</a> Methods to Overwrite (optional)</h2>
+<h2><a name="C2_3_">2.3.</a>  Methods to Overwrite (optional)</h2>
 <div class="textblock">
 <p>The following methods are predefined but can be overwritten.</p>
 <ul>
@@ -105,7 +114,7 @@ Page. See page.php.</p>
 </ul>
 </div>
 
-<h2><a name="C2_4_">2.4.</a> Plugin services</h2>
+<h2><a name="C2_4_">2.4.</a>  Plugin services</h2>
 <div class="textblock">
 <p>There are helper functions in the base class Page...</p>
 <ul>
@@ -145,12 +154,12 @@ Page. See page.php.</p>
 	configuration.</li>
 </ul>
 </div>
-<h1><a name="C3_">3.</a> Page Template</h1>
+<h1><a name="C3_">3.</a>  Page Template</h1>
 <div class="textblock">
 <p>The template contains markers which will be replaced by the core
 modules or the plugin.</p>
 </div>
-<h2><a name="C3_1_">3.1.</a> Markers</h2>
+<h2><a name="C3_1_">3.1.</a>  Markers</h2>
 <div class="textblock">
 <ul>
 	<li>###CONTENT### (needed): Content area. This will be replaced by
@@ -175,7 +184,7 @@ modules or the plugin.</p>
 	plugin) or default.txt_x (for all plugins).</li>
 </ul>
 </div>
-<h1><a name="C4_">4.</a> Content Template</h1>
+<h1><a name="C4_">4.</a>  Content Template</h1>
 <div class="textblock">
 <p>The content area will be filled by a plugin. It should use a
 template to divide design and code. The plugin should use markers to
@@ -184,7 +193,7 @@ communicate with the template.</p>
 be done by the core modules. Therefore the names of the fields must be
 known.</p>
 </div>
-<h2><a name="C4_1_">4.1.</a> Markers</h2>
+<h2><a name="C4_1_">4.1.</a>  Markers</h2>
 <div class="textblock">
 <p>Note: X stands for an uppercase field name.</p>
 <ul>
@@ -198,8 +207,8 @@ known.</p>
 	<li>###PART_X###: X is the name of the template defined in plugin/y.parts.content.txt. See <a href="#cond_gui_parts">Conditional GUI Areas</a></li>
 </ul>
 </div>
-<h1><a name="C5_">5.</a> Configuration</h1>
-<h2><a name="C5_1_">5.1.</a> Global Configuration Data</h2>
+<h1><a name="C5_">5.</a>  Configuration</h1>
+<h2><a name="C5_1_">5.1.</a>  Global Configuration Data</h2>
 <div class="textblock">
 <p>The file inosid.conf contains configuration data which are used
 for all clients.</p>
@@ -214,7 +223,7 @@ definitions starts with '.'. The other parts are plugin dependent. The
 definitions in these parts start with the plugin name.</p>
 </div>
 
-<h2><a name="C5_2_">5.2.</a> User Data</h2>
+<h2><a name="C5_2_">5.2.</a>  User Data</h2>
 <div class="textblock">
 <p>When the user changes the pages (using the back or the next
 button) the field values will be stored in a file. The filename is
@@ -227,9 +236,9 @@ user.pass2=123
 </pre>
 </div>
 
-<h1><a name="C6_">6.</a> Data flow</h1>
+<h1><a name="C6_">6.</a>  Data flow</h1>
 
-<h2><a name="C6_1_">6.1.</a> Setting the Input Fields</h2>
+<h2><a name="C6_1_">6.1.</a>  Setting the Input Fields</h2>
 <div class="textblock">
 <p>If the http header ($_GET or $_POST) contains a button the input
 field will be set from the http header. Otherwise the fields will be set
@@ -237,7 +246,7 @@ from the user data. Therefore the field values in the content template
 must contain markers: ###VAL_X### (X is the uppercase fieldname).</p>
 </div>
 
-<h2><a name="C6_2_">6.2.</a> Field Validation</h2>
+<h2><a name="C6_2_">6.2.</a>  Field Validation</h2>
 <div class="textblock">
 <p>The field validation should be done inside the plugin method
 onButtonClick().</p>
@@ -248,7 +257,173 @@ fieldName, fieldValue)</code></p>
 errorMessage)</code></p>
 </div>
 
-<h1><a name="C7_">7.</a> I18n</h1>
+<h1><a name="C7_">7.</a> Menus</h1>
+<div class="textblock">
+<p><strong>siguibui</strong> projects can maintance menus.</p>
+<p>At this moment only projects with static pages handle 
+automatically menus.
+</p>
+</div>
+<h2><a name="C7_1_">7.1.</a> Content and Structure Definition</h2>
+<div class="textblock">
+<p>The content and the structure of a menu depends on the language
+and will be defined in the file <code>config/menu_&lt;language&gt;.conf.</code>
+</p>
+</div>
+
+<h3><a name="C7_1_1_">7.1.1.</a> Example config/menu_en.conf</h3>
+<div class="textblock">
+<pre>
+# Format: &lt;indent-level&gt;  &lt;id&gt; &lt;link&gt; &lt;text&gt;
+*	sm1	welcome	siduction OS Manual
+**	sm1a	welcome#welcome-gen	siduction OS Manual &#8658;
+***	-	credits#cred-team	Credits
+**	sm1b	welcome#how-to	How to use this manual &#8658;
+***	-	welcome#how-to	How to use this manual
+***	-	welcome#table-contents	Table of Contents
+**	sm1c	help#help-gen	Getting Help &#8658;
+***	-	help#help-gen	Where and how to get help
+***	-	help#paste	IRC !paste
+**	-	wel-quickstart#welcome-quick	siduction Quick Start Guide
+*	sm2	cd-dl-burning	ISO Content, Releases, Download Mirrors and Burning
+**	sm2a	cd-content#cd-content	ISO Content and system requirements &#8658;
+***	-	sys-admin-release#rolling	Release Notes
+**	sm2b	cd-dl-burning#download-siduction	siduction Mirrors, Downloading and Burning &#8658;
+***	-	cd-dl-burning#md5	md5 Checksum
+***	-	cd-dl-burning#burn-nero	Burning in Windows
+***	-	cd-dl-burning#burn-linux	Burning in Linux
+***	-	cd-no-gui-burn#burning-no-gui	burniso script
+***	-	cd-no-gui-burn#burn-no-gui-gen	Burning without a GUI
+***	-	cd-dl-burning#download-siduction	siduction Download Mirrors
+</pre>
+<ul><li>The <strong>indent-level</strong> defines the hierarchy of the menu.</li>
+	<li>The <strong>id</strong> is a value which can be used in the XML to mark uniquly a tag.</li>
+	<li>The <strong>link</strong> defines the page which will displayed after this menu item has been clicked.</li>
+	<li>The <strong>text</strong> will be displayed in the menu. It is the language dependent part.</li>
+</ul>
+</div>
+
+<h2><a name="C7_2_">7.2.</a> XML Definition</h2>
+<div class="textblock">
+<p>The design of the menu can be defined in <code>config/menu.parts.txt</code>.
+It contains a definition for each hierarchical level. 
+</p>
+<p>Only in very special cases the following example must be changed.
+</p>
+</div>
+
+<h3><a name="C7_2_1_">7.2.1.</a> Example config/menu_en.conf</h3>
+<div class="textblock">
+<pre>
+LEVEL_0:
+ &lt;ul&gt;
+###ENTRIES###
+ &lt;/ul&gt;
+
+ENTRY_0:
+  &lt;li###class_current###&gt;
+   &lt;a href="###link###"&gt;###title###&lt;/a&gt;
+###SUBMENUS###
+  &lt;/li&gt;
+
+LEVEL_1:
+   &lt;ul ###id###&gt;
+###ENTRIES###
+   &lt;/ul&gt;
+
+ENTRY_1:
+    &lt;li###class_current###&gt;
+     &lt;a href="###link###"&gt;###title###&lt;/a&gt;
+###SUBMENUS###
+    &lt;/li&gt;
+
+LEVEL_2:
+     &lt;ul class="sub2-menu"###id###&gt;
+###ENTRIES###
+     &lt;/ul&gt;
+
+ENTRY_2:
+      &lt;li###class_current###&gt;&lt;a href="###link###"&gt;###title###&lt;/a&gt;&lt;/li&gt;
+
+CLASS_CURRENT:
+ class="current-item"
+
+ID:
+ id="###id###"
+
+END:
+</pre>
+<ul><li><code>LEVEL_&lt;level&gt;</code> defines the body of a menu list with the same level.</li>
+	<li><code>ENTRY_&lt;level&gt;</code> defines the body of a menu item at this level.</li>
+	<li><code>###ENTRIES###</code> will be replaced by all bodies of the menu list.</li>
+	<li><code>###SUBMENUS###</code> will be replaced by the submenus of the menu item (if there are any).</li>
+	<li><code>###CLASS_CURRENT###</code> will be replaced by the template <code>CLASS_CURRENT</code>
+		if the menu item belongs to the tree of the current displayed menu item.</li>
+	<li><code>###link###</code>, <code>###text###</code> are the properties
+		of the menu item.</li>
+	<li><code>###id###</code> will be replaced by the template <code>ID</code> if the menu item has an id not equal to '-'.</li>
+</ul>
+<p>If there are more than one menu the part names must be completed by a prefix, 
+e.g. TOP_MENU_LEVEL_0, TOP_MENU_ENTRY_0 and so on.
+</p>
+</div>
+
+<h1><a name="C8_">8.</a>  Static Pages</h1>
+<div class="textblock">
+<p>A good example for a project with static pages is the siduction manual.
+There are more than 50 pages. Realized with true static pages the work for maintance
+is too large: If there is a change in the html-structure of the menu, each of the 
+pages must be changed too.
+</p>
+<p>The solution is a project derived from <strong>siguibui</strong>.
+The common design of all pages will be defined only once.
+</p>
+</div>
+
+<h2><a name="C8_1_">8.1.</a> Directory Structure and Name Conventions</h2>
+<div class="textblock">
+<p>Every static page should exist in each language. This forms the directory tree.
+</p>
+</div>
+
+<h2><a name="C8_2_">8.2.</a> Example of a Directory of the Static Pages</h2>
+<div class="textblock">
+<pre>
+static
+	en
+		welcome-en.htm
+		content-en.htm
+	de
+		welcome-de.htm
+		content-de.htm
+	pt-br
+		welcome-pt-br.htm
+		content-pt-br.htm
+</pre>
+</div>
+
+<h2><a name="C8_3_">8.3.</a> Content File</h2>
+<div class="textblock">
+<p>Because of data migration and easy development the content file of the static page
+	can be a valid HTML or XML file. The system extracts the pure content (without header,
+	menu...) and puts this content into the template <code>config/&lt;project&gt;.html</code>.
+</p>
+<p>The extraction is driven by pattern matching:</p>
+<p>There are 2 parameters in <code>config/&lt;project&gt;_&lt;language&gt;.conf</code>
+to control this extraction:
+<pre>
+static.content.start=id="main-page"
+static.content.end.ignoreddivs=1
+</pre>
+<ul><li><code>static.content.start</code>: This defines a text pattern where 
+		the interesting content starts. A good choice is the class or id of the spanning div.</li>
+	<li><code>static.content.end.ignoreddivs</code> is a count. So much &lt;div&gt; in 
+		top of &lt;body&gt; will be ignored.</li>
+</ul>
+</div>
+
+
+<h1><a name="C9_">9.</a>  I18n</h1>
 <div class="textblock">
 <p>All texts are stored in the configuration files, none in the
 program code and none in the templates.</p>
@@ -263,7 +438,7 @@ value will be substituted. If not, the plugin independent variant will
 be used.</p>
 </div>
 
-<h1><a name="C8_">8.</a> Conventions</h1>
+<h1><a name="C10_">10.</a>  Conventions</h1>
 <div class="textblock">
 <p>Rules are needed to integrate the plugins. For a simple
 explanation, an example: user (a page asking for username and password)</p>
@@ -276,18 +451,18 @@ explanation, an example: user (a page asking for username and password)</p>
 </ul>
 </div>
 
-<h1><a name="C9_">9.</a> Cookbook</h1>
+<h1><a name="C11_">11.</a>  Cookbook</h1>
 <div class="textblock">
 <p>This chapter offers solutions for tasks belonging to development with the toolkit.</p>
 <p>The example project is named <strong>net-center</strong>.
 </div>
-<h2><a name="C9_1_">9.1.</a> Building a Debian Package</h2>
+<h2><a name="C11_1_">11.1.</a>  Building a Debian Package</h2>
 <div class="textblock">
 There is a script build/build.sh which creates an installable Debian package. 
 This is a good base for starting a new project.
 </div>
 
-<h2><a name="C9_2_">9.2.</a> Adding a Text Input Field</h2>
+<h2><a name="C11_2_">11.2.</a>  Adding a Text Input Field</h2>
 <div class="textblock">
 <p><strong>Task</strong>:<br/>
 A input field for a <strong>ipaddress</strong> should be added to the page <strong>wlan</strong>.</p>
@@ -323,7 +498,7 @@ If the field value should be empty on a redisplay the makro ###VAL_...### must n
 </p>
 </div>
 
-<h2><a name="C9_3_">9.3.</a> Adding a Combobox with Fixed Alternatives</h2>
+<h2><a name="C11_3_">11.3.</a>  Adding a Combobox with Fixed Alternatives</h2>
 <div class="textblock">
 <p><strong>Task</strong>:<br/>
 A combobox for a <strong>mode</strong> should be added to the page <strong>wlan</strong>.
@@ -358,7 +533,7 @@ Therefore they must be stored in the configuration file.
 </ul>
 </div>
 
-<h2><a name="C9_4_">9.4.</a> Adding a Combobox with Dynamic Alternatives</h2>
+<h2><a name="C11_4_">11.4.</a>  Adding a Combobox with Dynamic Alternatives</h2>
 <div class="textblock">
 <p><strong>Task</strong>:<br/>
 A combobox for a <strong>device</strong> should be added to the page <strong>wlan</strong>.
@@ -398,7 +573,7 @@ The values (e.g. wlan0 and wlan1) are dynamic: they must be calculated by the pr
 </ul>
 </div>
 
-<h2><a name="C9_5_">9.5.</a> Field Validation and Error Messages</h2>
+<h2><a name="C11_5_">11.5.</a>  Field Validation and Error Messages</h2>
 <div class="textblock">
 <p><strong>Task</strong>:<br/>
 The value of the field <strong>ipaddress</strong> on the page <strong>wlan</strong> 
@@ -442,7 +617,7 @@ must be checked for a correct syntax. In the case of an error a message must be 
 </li>
 </ul>
 </div>
-<h2><a name="C9_6_">9.6.</a> Conditional GUI Areas</h2>
+<h2><a name="C11_6_">11.6.</a>  Conditional GUI Areas</h2>
 <div class="textblock">
 <p><a name="cond_gui_parts"><strong>Task</strong>:</a><br/>
 A certain screen area should be displayed only under some conditions. The example is a division 
@@ -505,13 +680,24 @@ body-line ::= &lt;html-code-or-makros&gt; '\n'
 </pre>
 <strong>Example</strong> of a template definition file:
 <pre>
-file ::= {&lt;template-definition&gt; }+
-template-definition ::= &lt;header&gt; &lt;body&gt;
-header ::= &lt;name&gt; ':' '\n'
-body ::= { &lt;body-line&gt; }+
-body-line ::= &lt;html-code-or-makros&gt; '\n'
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="###LANGUAGE###"&gt;
+&lt;head&gt;
+	&lt;title&gt;###txt_title###&lt;/title&gt;
+	&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
+	&lt;style type="text/css" media="all"&gt;@import url("../config/content.css");&lt;/style&gt;
+###META_DYNAMIC###
+&lt;/head&gt;
+&lt;body class="body-main"&gt;
+&lt;div&gt;&lt;img class="header-img" alt="header logo siduction" src="../images/siduction-logo-web.png" /&gt;
+&lt;/div&gt;
+&lt;div id="content"&gt;
+###CONTENT###
+&lt;/div&gt; &lt;!--content --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
 </pre>
 </div>
-
 </body>
 </html>

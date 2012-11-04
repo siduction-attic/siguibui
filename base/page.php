@@ -712,21 +712,29 @@ function indexOfList($page, $keyOfCurrent, $keyOfListUserData, $keyOfListConfig)
  *    <select name="mountonboot" size="1">###OPT_MOUNTONBOOT###</select>
  * </pre>
  */
-function readHtmlTemplates(){
-	$fn = $this->session->pageDir . $this->name . '.parts.content.txt';
-	$this->session->trace(TRACE_RARE, "readHtmlTemplate: $fn");
-	$all = $this->session->readFile($fn);
+function readHtmlTemplates($filename = null){
+	if ($filename == null)
+		$filename = $this->session->pageDir . $this->name . '.parts.content.txt';
+	$this->session->trace(TRACE_RARE, "readHtmlTemplate: $filename");
+	$all = $this->session->readFile($filename);
 	if (strpos($all, "\r") > 0)
 		$all = str_replace("\r", "", $all);
 	$this->parts = array();
 	$start = 0;
 	$lastName = "";
 	$pos = 0;
-	while(preg_match('/^([-A-Z_]+):$/m', $all, $hit, 0, $start)){
+	while(preg_match('/^([-A-Z_0-9]+):$/m', $all, $hit, 0, $start)){
 		$name = $hit[1];
 		$pos = strpos($all, $name . ':', $start);
 		if ($start > 0){
-			$this->parts[$lastName] = substr($all, $start, $pos - 1 - $start);
+			$len = $pos - 1 - $start;
+			// Skip last empty line:
+			$tail = substr($all, $pos - 2, 2);
+			if (strcmp($tail, "\n\n") == 0)
+				$len -= 1;
+			elseif (strcmp($tail, "\r\n") && strcmp(substr($all, $pos - 3, 1), "\n") == 0)
+				$len -= 2;
+			$this->parts[$lastName] = substr($all, $start, $len);
 		}
 		$start = $pos + strlen($name) + 2;
 		$lastName = $name;

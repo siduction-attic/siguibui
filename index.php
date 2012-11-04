@@ -17,14 +17,29 @@ if (! empty ($wait) && file_exists($wait)){
 }
 $pagename = $session->page;
 if (empty($pagename)){
-	$pagename = 'home';
-	$session->trace(TRACE_RARE, 'No page found');
+	$home = $session->configuration->getValue('static.home');
+	if (! empty($home))
+		$session->gotoPage($home, 'install.no_page_def');
+	else {
+		$home = 'home';
+		$session->trace(TRACE_RARE, 'No page found');
+	}
 }
-$subdir = strcmp($pagename, 'wait') == 0 ? 'base/' : 'plugins/';
+$isStatic = $session->isStaticPage($pagename);
+$subdir = $isStatic || strcmp($pagename, 'wait') == 0 ? 'base/' : 'plugins/';
 $session->pageDir = $session->homeDir . $subdir;
-$pageDefinition = $session->pageDir . $pagename . 'page.php';
+if ($isStatic){
+	$pageDefinition = $session->pageDir . 'staticpage.php';
+	$pagename = 'static';
+} else {
+	$pageDefinition = $session->pageDir . $pagename . 'page.php';
+}
+
 if (! file_exists($pageDefinition)){
 	$session->trace(TRACE_RARE, "Not found: $pageDefinition");
+	$home = $session->configuration->getValue('static.home');
+	if (empty($home))
+		$home = 'home';
 	$session->gotoPage('home', 'install.no_page_def');
 } else {
 	include_once $pageDefinition;
@@ -51,7 +66,15 @@ if (! file_exists($pageDefinition)){
 		$page->replaceTextMarkers();
 		$page->replaceMarkers();
 		$core = $page->getContent();
+		$errors = $session->getErrorMessage();
+		if (! empty($errors))
+			$core .= $errors;
 		$pageText = str_replace('###CONTENT###', $core, $pageText);
+		if ($isStatic){
+			include "base/menu.php";
+			$text = $page->buildMenu();
+			$pageText = str_replace('###MENU###', $text, $pageText);
+		}
 
 		$pageText = replaceGlobalMarkers($session, $pageText);
 		echo $pageText;
@@ -97,6 +120,7 @@ function replaceGlobalMarkers(&$session, $pageText){
 	$pageText = str_replace('###URL_DYNAMIC###', $session->absScriptUrl, $pageText);
 	$pageText = str_replace('###URL_FORM###', $session->urlForm, $pageText);
 	$pageText = str_replace('###META_DYNAMIC###', $session->metaDynamic, $pageText);
+	$pageText = str_replace('###LANGUAGE###', $session->language, $pageText);
 
 	return $pageText;
 }

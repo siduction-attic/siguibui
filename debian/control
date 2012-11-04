@@ -6,15 +6,15 @@ Uploaders: Alf Gaida <agaida@siduction.org>
 Build-Depends: debhelper (>= 9)
 Standards-Version: 3.9.3
 Homepage: http://siduction.org
-Vcs-git: git://git.siduction.org:packages/siduction-repository/siguibui
-Vcs-Browser: http://git.siduction.org/?p=packages/siduction-repository/siguibui.git
+Vcs-git: git://git.siduction.org:code/siguibui
+Vcs-Browser: http://git.siduction.org/?p=code/siguibui.git
 
 Package: siguibui
 Architecture: all
 Depends: ${misc:Depends}, 
 	sudo (>=1.0),
-	sux (>=0.1),
-	php5-cgi (>=5.0)
+	php5-cgi (>=5.0),
+	sux (>=0.1)
 Description: SIduction Graphical User Interface BUIilder
  The package contains two parts: a toolkit and a shellserver.
  The toolkit is a set of php modules for building applications with a
