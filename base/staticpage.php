@@ -44,7 +44,8 @@ class StaticPage extends Page{
 	 * @return the line with translated links
 	 */
 	function translateInternalRefs($line){
-		$line = preg_replace('/href="([\w-.]*?)-[a-z]{2}[.]htm/', 'href="$1', $line);
+		$line = preg_replace('/href="([\w-.]*?)-[a-z]{2}[.]htm/',
+				'href="$1', $line);
 		return $line;
 	}
 	/**
@@ -56,8 +57,16 @@ class StaticPage extends Page{
 	 * @return the pure content of a HTML file
 	 */
 	function readContent(){
-		$fn = $this->buildPageNameWithLanguage($this->session->language, $this->page);
-		if (! file_exists($fn))
+		$fn = $this->buildPageNameWithLanguage($this->session->language,
+				$this->page);
+		$found = file_exists($fn);
+		if (! $found && strcmp($this->session->language,
+				$this->session->languagePure) != 0){
+			$fn = $this->buildPageNameWithLanguage(
+					$this->session->languagePure, $this->page);
+			$found = file_exists($fn);
+		}
+		if (! $found)
 			$fn = $this->buildPageNameWithLanguage('en', $this->page);
 		$this->session->trace(TRACE_RARE, "readContent($fn)");
 		$file = file($fn);

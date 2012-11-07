@@ -24,8 +24,10 @@ define('SVOPT_DEFAULT', 'std');
 class Session{
 	/// Document root: The directory containing the script file, e.g. /home/www/abc/
 	var $homeDir;
-	/// The iso name of the language, e.g. de
+	/// The iso name of the language, e.g. pt-br or de
 	var $language;
+	/// the first part of $language, e.g. pt
+	var $languagePure;
 	/// Debugging: define the trace level.
 	var $traceFlag;
 	/// Debugging: the name of the trace file
@@ -128,7 +130,7 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'welcome#welcome-gen';
+		$page = 'partition';
 		$button = '';
 		#$button = '';
 		if (! empty($button))
@@ -137,7 +139,7 @@ class Session{
 
 		$_SERVER = array();
 
-		$virtualHost = 'sidu-manual';
+		$virtualHost = 'sidu-installer';
 		$rootDir = "/home/wsl6/php/$virtualHost";
 
 		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de-DE,en;q=0.9,fr-CA;q=0.8,ay;q=0.7,de;q=0.6';
@@ -295,12 +297,15 @@ class Session{
 		$ix = strpos($lang, ",");
 		if ($ix > 0)
 			$lang = substr($lang, 0, $ix);
+		if (strlen($lang) != 2 && strlen($lang) != 5)
+			$lang = 'en';
+		$lang = strtolower($lang);
+		$this->language = $lang;
 		$ix = strpos($lang, "-");
-		if ($ix > 0)
-			$lang = substr($lang, 0, $ix);
-		if (strlen($lang) == 2)
-			$this->language = $lang;
-		$this->trace(TRACE_RARE, 'Origin page: ' . $this->page . ' RequestUri: ' . $this->requestUri);
+		$this->languagePure = $ix === false ? $lang : substr($lang, 0, $ix);
+		$this->trace(TRACE_RARE, 'Origin page: ' . $this->page . ' RequestUri: '
+				. $this->requestUri . ' lang: ' . $this->language . ' ('
+				. $this->languagePure . ')');
 	}
 	/** Translate a text.
 	 *
@@ -405,10 +410,15 @@ class Session{
 	 * Each line contains a definition key=value
 	 *
 	 * @param $filename		the name of the file
-	 * @param $ignoredChar	This character will be ignored if it is found before the '='
+	 * @param $ignoredChar	This character will be ignored
+	 * 						if it is found before the '='
+	 * @param $array		null or the result array
 	 */
-	function readJavaConfig($filename, $ignoredChar = NULL){
-		$rc = array();
+	function readJavaConfig($filename, $ignoredChar = null, &$array = null){
+		if ($array == null)
+			$rc = array();
+		else
+			$rc = $array;
 		if (file_exists($filename)){
 			$file = file($filename);
 			while (list($key, $line) = each($file)) {
@@ -453,35 +463,59 @@ class Session{
 	}
 	/** Builds an absolute filename with a given language code.
 	 *
-	 * @param $name 	the filename with path
-	 * @param $subDir	the subdirectory of the file
-	 * @param $lang		the language code
+	 * @param $name 		the prefix of the filename, e.g 'css/common'
+	 * @param $ext			the file extension '.conf'
+	 * @param $subDir		the subdirectory of the file, e.g. 'config/'
+	 * @param $lang			the language code
+	 * @param $separator	the char between name and language, '_' or '-'
 	 * @return the filename completed with the language code
 	 */
-	function buildNameWithLanguage($name, $subDir, $lang){
-		$parts = $this->splitFile($name);
-		$dir = $parts['dir'];
-		$filename = $this->homeDir . $subDir . $parts['dir']
-			. $parts['name'] . "_" . $lang
-			. $parts['ext'];
+	function buildNameWithLanguage($name, $ext, $subDir, $lang, $separator = '_'){
+		if ($ext == null){
+			$parts = $this->splitFile($name);
+			$dir = $parts['dir'];
+			$name = $dir . $parts['name'];
+			$ext = $parts['ext'];
+		}
+		$filename = $this->homeDir . $subDir . $name . $separator . $lang
+			. $ext;
 		$this->trace(TRACE_FINE, 'buildNameWithLanguage: ' . $filename);
 		return $filename;
 	}
 	/** Returns a filename for the given language.
 	 *
-	 * @param $name 	the filename without language part
-	 * @param $subDir	the subdirectory of the file
-	 * @return the filename with language code (if exists)
+	 * @param $name 		the prefix of the filename, e.g 'css/common'
+	 * @param $subDir		the subdirectory of the file, e.g. 'config/'
+	 * @param $ext			the file extension '.conf'. If null $name will be splitted
+	 * @param $separator	the char between name and language, '_' or '-'
+	 * @return	null: no file found<br>
+	 * 			otherwise: the filename with language code (if any exists)
 	 */
-	function findFileByLanguage($name, $subDir){
+	function findFileByLanguage($name, $subDir, $ext = null, $separator = '_'){
+		if ($ext == null){
+			$parts = $this->splitFile($name);
+			$name = $parts['dir'] . $parts['name'];
+			$ext = $parts['ext'];
+		}
 		// We look for a filename containing the language code:
-		$filename = $this->buildNameWithLanguage($name, $subDir, $this->language);
-		if (! file_exists($filename))
-			$filename = $this->buildNameWithLanguage($name, $subDir, 'en');
-		if (! file_exists($filename))
-			$filename = $this->homeDir . $subDir . $name;
-		return $filename;
-
+		$filename = $this->buildNameWithLanguage($name, $ext, $subDir,
+				$this->language, $separator);
+		$found = file_exists($filename);
+		if (! $found && strcmp($this->language, $this->languagePure) != 0){
+			$filename = $this->buildNameWithLanguage($name, $ext, $subDir,
+					$this->languagePure);
+			$found = file_exists($filename);
+		}
+		if (! $found){
+			$filename = $this->buildNameWithLanguage($name, $ext, $subDir, 'en');
+			$found = file_exists($filename);
+		}
+		if (! $found){
+			$filename = $this->homeDir . $subDir . $name . $ext;
+			$found = file_exists($filename);
+		}
+		$this->trace(TRACE_FINE, "findFileByLanguage: $filename ($found)");
+		return $found ? $filename : null;
 	}
 	/** Reads a file laying in the base directory.
 	 *

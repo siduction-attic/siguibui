@@ -1,9 +1,19 @@
-siguibui (2.1) UNRELEASED; urgency=low
+siguibui (2.1) unstable; urgency=low
 
   * Fix: Better behaviour on wrong URLs
   * If index.php is missed the URL will set to the static.home
+  * usage of the language independent configuration file
+    config/common.conf (possible, not necessary)
+  * multiple virtual host addresses are possible
+    (.packet.name in common.conf)
+  * configuration can be assembled from more than one file
+    common.conf + <vhost>_<lang>.conf
+  * better support for xx-yy languages, e.g. pt-br
+    (file name search)
+  * closes #962
 
- -- J. Hamatoma <hama@siduction.net>  Sun, 04 Nov 2012 21:56:20 +0100
+
+ -- J. Hamatoma <hama@siduction.net>  Wed, 07 Nov 2012 23:40:32 +0100
 
 siguibui (2.0) unstable; urgency=low
 
