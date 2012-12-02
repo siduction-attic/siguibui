@@ -1,3 +1,10 @@
+siguibui (2.3) unstable; urgency=low
+
+  * closes #1004
+  * language list in the browser may have one member only
+
+ -- J. Hamatoma <hama@siduction.net>  Sun, 02 Dec 2012 22:28:12 +0100
+
 siguibui (2.2) unstable; urgency=low
 
   * Page maintains itself the parts of the menu

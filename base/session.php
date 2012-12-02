@@ -278,7 +278,10 @@ class Session{
 		if (isset($_SERVER["HTTP_ACCEPT_LANGUAGE"]))
 			$lang = $_SERVER["HTTP_ACCEPT_LANGUAGE"];
 		// de-DE,de;q=0.9,en;q=0.8
-		$ix = strpos($lang, ",");
+		$ix = strpos($lang, ',');
+		if ($ix > 0)
+			$lang = substr($lang, 0, $ix);
+		$ix = strpos($lang, ';');
 		if ($ix > 0)
 			$lang = substr($lang, 0, $ix);
 		if (strlen($lang) != 2 && strlen($lang) != 5)
