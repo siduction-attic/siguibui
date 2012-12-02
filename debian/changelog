@@ -1,11 +1,12 @@
 siguibui (2.2) unstable; urgency=low
 
+  [ J. Hamatoma ]
   * Page maintains itself the parts of the menu
   * parts can be handled without Page::parts
   * a menu can be displayed in plugins, not only in static pages
   * rebuild closes #1002
 
- -- J. Hamatoma <hama@siduction.net>  Sun, 02 Dec 2012 18:50:07 +0100
+ -- Alf Gaida <agaida@siduction.org>  Sun, 02 Dec 2012 20:05:37 +0100
 
 siguibui (2.1) unstable; urgency=low
 
