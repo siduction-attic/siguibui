@@ -28,6 +28,7 @@ abstract class Page{
 		$this->session = $session;
 		$this->content = "";
 		$this->replacements = array();
+		$this->parts = array();
 		if ($session->hasButton())
 			$this->setFieldsFromHeader();
 		else
@@ -62,7 +63,23 @@ abstract class Page{
 	 * This method must be overwritten by the derived classes.
 	 */
 	abstract function build();
-	/** Returns an array containing the input field names.
+	/**
+	 * Builds the main menu of the page.
+	 *
+	 * @return the HTML code of the menu
+	 */
+	function buildMenu(){
+		$expanded = $this->getConfiguration('menu.expanded');
+		$menu = new Menu($this->session, 'main', 'menu', '',
+				strcmp($expanded, 'true'));
+		$menu->read();
+		$parts = array();
+		$filename = $this->session->homeDir . 'config/menu.parts.txt';
+		$this->readParts($filename, $parts);
+		$rc = $menu->buildHtml($parts);
+		return $rc;
+	}
+		/** Returns an array containing the input field names.
 	 *
 	 * Must be overwritten if keys exist.
 	 *
@@ -703,6 +720,8 @@ function indexOfList($page, $keyOfCurrent, $keyOfListUserData, $keyOfListConfig)
 }
 /** Reads the template file and puts the templates into an array.
  *
+ * @param $filename		name of the definition
+ * @param $parts		array for the result
  * Format: Sequence of templates. Template: template name (uppercase) ':' template body
  * Example:
  * <pre>
@@ -712,14 +731,11 @@ function indexOfList($page, $keyOfCurrent, $keyOfListUserData, $keyOfListConfig)
  *    <select name="mountonboot" size="1">###OPT_MOUNTONBOOT###</select>
  * </pre>
  */
-function readHtmlTemplates($filename = null){
-	if ($filename == null)
-		$filename = $this->session->pageDir . $this->name . '.parts.content.txt';
-	$this->session->trace(TRACE_RARE, "readHtmlTemplate: $filename");
+function readParts($filename = null, &$parts){
+	$this->session->trace(TRACE_RARE, "readParts: $filename");
 	$all = $this->session->readFile($filename);
 	if (strpos($all, "\r") > 0)
 		$all = str_replace("\r", "", $all);
-	$this->parts = array();
 	$start = 0;
 	$lastName = "";
 	$pos = 0;
@@ -734,12 +750,21 @@ function readHtmlTemplates($filename = null){
 				$len -= 1;
 			elseif (strcmp($tail, "\r\n") && strcmp(substr($all, $pos - 3, 1), "\n") == 0)
 				$len -= 2;
-			$this->parts[$lastName] = substr($all, $start, $len);
+			$parts[$lastName] = substr($all, $start, $len);
 		}
 		$start = $pos + strlen($name) + 2;
 		$lastName = $name;
 	}
-	$this->parts[$lastName] = substr($all, $start, $pos - 1 - $start);
+	$parts[$lastName] = substr($all, $start, $pos - 1 - $start);
+}
+/** Reads the template file and puts the templates into an array.
+ *
+ * @param $filename		name of the definition
+ */
+function readHtmlTemplates($filename = null){
+	if ($filename == null)
+		$filename = $this->session->pageDir . $this->name . '.parts.content.txt';
+	$this->readParts($filename, $this->parts);
 }
 /** Removes a given marker.
  *
@@ -760,6 +785,16 @@ function replacePartWithTemplate($namePart, $nameTemplate = NULL){
 		$nameTemplate = $namePart;
 	$template = $this->parts[$nameTemplate];
 	$this->content = str_replace("###PART_${namePart}###", $template, $this->content);
+}
+/**
+ * Replaces a given merker by a given content.
+ *
+ * @param $namePart	the name part to replace
+ * @param $content	the content as a string
+ */
+function replacePartWithContent($namePart, $content){
+	$template = $this->parts[$nameTemplate];
+	$this->content = str_replace("###PART_${namePart}###", $content, $this->content);
 }
 /**
  * Initializes the method to switch a html area between 2 states by a button.

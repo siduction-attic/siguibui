@@ -130,16 +130,16 @@ class Session{
 	function simulateServer(){
 		global $_SERVER, $_POST, $_GET;
 		$this->trace(TRACE_FINE, 'simulateServer()');
-		$page = 'partition';
+		$page = 'search';
 		$button = '';
-		#$button = '';
+		$button = 'button_search';
 		if (! empty($button))
 			$_POST[$button] = 'x';
 		#$_POST[$button] = 'x';
 
 		$_SERVER = array();
 
-		$virtualHost = 'sidu-installer';
+		$virtualHost = 'sidu-manual';
 		$rootDir = "/home/wsl6/php/$virtualHost";
 
 		$_SERVER['HTTP_ACCEPT_LANGUAGE'] = 'de-DE,en;q=0.9,fr-CA;q=0.8,ay;q=0.7,de;q=0.6';
@@ -166,23 +166,7 @@ class Session{
 		$_SERVER['HTTP_HOST'] = $virtualHost;
 		$_SERVER["REQUEST_METHOD"] = 'get';
 
-		$_POST['one_disk_disk'] = 'sdc';
-		$_POST['volume_group'] = 'tescht2';
-		$_POST['del_lv_lv'] = 'work5';
-		$_POST['create_lv_unit'] = 'KiByte';
-		$_POST['root_pass2'] = '123456';
-		$_POST['real_name'] = 'a';
-		$_POST['name'] = 'b';
-		$_POST['pass'] = '123456';
-		$_POST['pass2'] = '123456';
-		$_POST['host'] = 'ant';
-		$_POST['add_dev'] = '-';
-		$_POST['add_mount'] = '';
-		$_POST['add_label'] = 'sweden';
-		$_POST['add_mount2'] = '';
-		$_POST['disk'] = 'all';
-		$_POST['partman'] = 'gparted';
-		$_POST['page'] = '';
+		$_POST['search'] = 'burn CD';
 		foreach ($_POST as $key => $value)
 			$_GET[$key] = $value;
 	}
@@ -211,15 +195,15 @@ class Session{
 		if (false && ! empty($_SERVER['TRACE_FLAGS']))
 			$this->traceFlag = $_SERVER['TRACE_FLAGS'];
 		$mode = $_SERVER['REQUEST_METHOD'];
-		$this->usePost = strcasecmp($mode, 'post') == 0;
+		$usePost = $this->usePost = strcasecmp($mode, 'post') == 0;
 
-		if ($this->usePost)
+		if ($usePost)
 			$this->fields = $_POST;
 		else
 			$this->fields = $_GET;
-		$useTrace = $this->usePost;
-		if (false)
-			$this->traceArray(TRACE_CONFIG, 'Fields:', $this->fields);
+		$useTrace = $usePost;
+		if (true)
+			$this->traceArray(TRACE_CONFIG, "Fields ($usePost): " , $this->fields);
 		$this->trace(TRACE_FINE, "usePost: $mode $useTrace");
 		$this->scriptFile = $_SERVER['SCRIPT_FILENAME'];
 		$parts = $this->splitFile($this->scriptFile);
@@ -305,7 +289,7 @@ class Session{
 		$this->languagePure = $ix === false ? $lang : substr($lang, 0, $ix);
 		$this->trace(TRACE_RARE, 'Origin page: ' . $this->page . ' RequestUri: '
 				. $this->requestUri . ' lang: ' . $this->language . ' ('
-				. $this->languagePure . ')');
+				. $this->languagePure . ') urlForm: ' . $this->urlForm);
 	}
 	/** Translate a text.
 	 *

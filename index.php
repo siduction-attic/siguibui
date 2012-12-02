@@ -70,7 +70,8 @@ if (! file_exists($pageDefinition)){
 		if (! empty($errors))
 			$core .= $errors;
 		$pageText = str_replace('###CONTENT###', $core, $pageText);
-		if ($isStatic){
+		$menu = $session->configuration->getValue('.menu_always');
+		if ($isStatic || ! empty($menu)){
 			include "base/menu.php";
 			$text = $page->buildMenu();
 			$pageText = str_replace('###MENU###', $text, $pageText);
@@ -140,7 +141,7 @@ function replaceTextMarkers(&$session, $pageText, $plugin){
 		$value = $session->i18n($plugin, $key, '?%!');
 		if (strcmp($value, '?%!') == 0)
 			$value = $session->i18n('', $key, $key);
-		$session->trace(TRACE_FINE, "Makro $key=$value");
+		#$session->trace(TRACE_FINE, "Makro $key=$value");
 		if (strncmp($value, '<xml>', 5) == 0)
 			$rc .= substr($value, 5);
 		else

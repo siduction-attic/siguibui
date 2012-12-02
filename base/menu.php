@@ -53,7 +53,7 @@ class Menu{
 	var $prefixPartMenu;
 	var $menu;
 	var $expanded;
-	/// a copy of Page.parts:
+	/// the HTML definitions of the menu items
 	var $parts;
 
 	/** Constructor.
