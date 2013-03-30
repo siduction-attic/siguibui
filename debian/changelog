@@ -1,3 +1,15 @@
+siguibui (2.4) unstable; urgency=low
+
+  * merged .gitignores
+  * Standards-Version: 3.9.4  
+  * change to current copyright format
+  * removed Homepage
+  * set sourc in copyright
+  * fix convbsd in copyright
+  * refs #1103
+
+ -- Alf Gaida <agaida@siduction.org>  Sat, 30 Mar 2013 14:51:17 +0100
+
 siguibui (2.3) unstable; urgency=low
 
   [ J. Hamatoma ]

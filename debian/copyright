@@ -1,18 +1,18 @@
-Format: http://dep.debian.net/deps/dep5
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: siguibui
-Source: http://git.siduction.org/
+Source: http://git.siduction.org/code/sigubui
 
 Files: *
 Copyright: 2011-2012 J. Hamatoma <hama@siduction.net>
 License: GPL-3.0+
 
 Files: debian/*
-Copyright: 2011-2012 J. Hamatoma <hama@siduction.net>
+Copyright: 2012-2013 Alf Gaida <agaida@siduction.org>
+           2011-2012 J. Hamatoma <hama@siduction.net>
 License: GPL-3.0+
 
 Files: backend/automount-control.sh
-Copyright: 2012 Bsd Conf <bsdconv@siduction.net>
-
+Copyright: 2012 Angelescu Ovidiu <bsdconv@siduction.net>
 License: GPL-3.0+
 
 License: GPL-3.0+

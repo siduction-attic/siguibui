@@ -11,3 +11,12 @@ debian/siguibui/
 .buildpath
 .settings
 
+## don't track these backend files
+backend/firmware.pl
+backend/firmware.sh
+backend/install.sh
+backend/nonfree.sh
+backend/partinfo.pl
+backend/partinfo.sh
+backend/timezoneinfo.sh
+
