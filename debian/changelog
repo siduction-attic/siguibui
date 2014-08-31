@@ -1,3 +1,9 @@
+siguibui (2.5) UNRELEASED; urgency=low
+
+  * changed automount-control.sh for gnome, mate and cinnamon
+
+ -- Angelescu Ovidiu <convbsd@siduction.org>  Sun, 31 Aug 2014 20:02:17 +0300
+
 siguibui (2.4) unstable; urgency=low
 
   * merged .gitignores
