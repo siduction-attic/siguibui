@@ -34,8 +34,8 @@ case "$FLL_FLAVOUR" in
         ;;
     cinnamon)
         get_dbus_session
-        su ${FLL_LIVE_USER} -c "gsettings set org.cinnamon.desktop automount $SET_AUTOMOUNT"
-        su ${FLL_LIVE_USER} -c "gsettings set org.cinnamon.desktop automount-open $SET_AUTOMOUNT"
+        su ${FLL_LIVE_USER} -c "gsettings set org.cinnamon.desktop.media-handling automount $SET_AUTOMOUNT"
+        su ${FLL_LIVE_USER} -c "gsettings set org.cinnamon.desktop.media-handling automount-open $SET_AUTOMOUNT"
         ;;
     mate)
         get_dbus_session
