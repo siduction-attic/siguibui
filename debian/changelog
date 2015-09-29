@@ -1,3 +1,9 @@
+siguibui (2.6) unstable; urgency=medium
+
+  * use current standards 3.9.6
+
+ -- Alf Gaida <agaida@siduction.org>  Tue, 29 Sep 2015 02:26:29 +0200
+
 siguibui (2.5) unstable; urgency=low
 
   * changed automount-control.sh for gnome, mate and cinnamon
